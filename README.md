@@ -16,9 +16,9 @@ I haven't regression tested this extension for all situations—it works well fo
 - Collapsed lists are maintained between sessions
 
 ### Tags in card titles
-- Use @ in card titles to e.g. @Mention (displayed as <strong>)
-- Use # in card titles to e.g. #Tag (displayed as <em>)
-- Use ! in card titles to e.g. denote !09:45 time (displayed as <code>)
+- Use @ in card titles to e.g. @Mention (displayed as '<strong>')
+- Use # in card titles to e.g. #Tag (displayed as '<em>')
+- Use ! in card titles to e.g. denote !09:45 time (displayed as '<code>')
 
 ### Line breaks in card titles
 - Use /n in a card title to add a line-break. Add as many as you like :)
