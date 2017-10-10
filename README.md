@@ -38,7 +38,9 @@ I haven't regression tested this extension for all situations—it works well fo
 ! Optimised code
 
 ## Known issues
-- Regex for card titles uses too much CPU
+- tags.user.js uses too much CPU
 - New side labels don't update
 - Haven't thought of an elegant way to show multiple labels on side
-- Need to combine several scripts and optimise code
+- Merge scripts and optimise code
+- Check original licenses, credit original authors
+- Sign and upload to Chrome store
