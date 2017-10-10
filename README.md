@@ -41,3 +41,4 @@ I haven't regression tested this extension for all situations—it works well fo
 - Regex for card titles uses too much CPU
 - New side labels don't update
 - Haven't thought of an elegant way to show multiple labels on side
+- Need to combine several scripts and optimise code
