@@ -21,7 +21,7 @@ function colorizeCards($cards) {
       var $cardDetails = $card.find('.list-card-details');
 
       // If the card isn't already flagged as processed
-      if (!$cardDetails.data('trelloUXUpdate.initStyles')) {
+      if (!$cardDetails.data('TrelloX.initStyles')) {
 
         // Set card's left border to the label colour
         $cardDetails.css('border-left-width', '6px');
@@ -30,37 +30,37 @@ function colorizeCards($cards) {
         
         // Remove left over padding after removing the label
         //$labelContainer.css('margin', '0px');
-        //$labelContainer.data('trelloUXUpdate.initStyles', true);
+        //$labelContainer.data('TrelloX.initStyles', true);
 
         //Flag the card as processed
-        $cardDetails.data('trelloUXUpdate.initStyles', true);
+        $cardDetails.data('TrelloX.initStyles', true);
       } else {
-      if ($card.data('trelloUXUpdate.bgColor')) {
-      alert($card.data('trelloUXUpdate.bgColor'));
+      if ($card.data('TrelloX.bgColor')) {
+      alert($card.data('TrelloX.bgColor'));
         $cardDetails.css('border-left-color', 'rgb(0,0,0)');
         
-        $cardDetails.data('trelloUXUpdate.initStyles', true);
+        $cardDetails.data('TrelloX.initStyles', true);
         }
       }
       
-      //if (!$labelContainer.data('trelloUXUpdate.initStyles')) {
+      //if (!$labelContainer.data('TrelloX.initStyles')) {
       //}
 
       if (showLabels()) {
-        if (!$labels.data('trelloUXUpdate.hidden')) {
+        if (!$labels.data('TrelloX.hidden')) {
           $labels.hide();
           $cardDetails.css('border-left-color', colorArray);
           
-          $cardDetails.data('trelloUXUpdate.initStyles', true);
-          $labels.data('trelloUXUpdate.hidden', true);
+          $cardDetails.data('TrelloX.initStyles', true);
+          $labels.data('TrelloX.hidden', true);
         }
       } else {
-        if ($labels.data('trelloUXUpdate.hidden')) {
+        if ($labels.data('TrelloX.hidden')) {
           $labels.show();
           $cardDetails.css('border-left-color', 'rgb(255,255,255)');
           
-          $cardDetails.data('trelloUXUpdate.initStyles', true);
-          $labels.data('trelloUXUpdate.hidden', false);
+          $cardDetails.data('TrelloX.initStyles', true);
+          $labels.data('TrelloX.hidden', false);
         }
       }
     }
@@ -83,17 +83,17 @@ function colorize() {
 };
 
 function showLabels() {
-    return (localStorage.getItem('trelloUXLabels') || 'true') === 'true';
+    return (localStorage.getItem('trelloXLabels') || 'true') === 'true';
 }
 
 function setLabelsStatus(state) {
-  var $button = $('.trelloux-labels-toggle-btn > .board-header-btn-text');
+  var $button = $('.trelloX-labels-toggle-btn > .board-header-btn-text');
 
   if (state) {
-    localStorage.setItem('trelloUXLabels', "true");
+    localStorage.setItem('trelloXLabels', "true");
     $button.text('Labels: Simple');
   } else {
-    localStorage.setItem('trelloUXLabels', "false");
+    localStorage.setItem('trelloXLabels', "false");
     $button.text('Labels: All');
   }
 }
@@ -104,7 +104,7 @@ function createLabelsToggleButton() {
     setTimeout(createLabelsToggleButton, 1000);
     return;
   }
-  var $toggleButton = $('<a class="board-header-btn trelloux-labels-toggle-btn" href="#">' +
+  var $toggleButton = $('<a class="board-header-btn trelloX-labels-toggle-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
     '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: Simple</span>' +
     '</a>');
