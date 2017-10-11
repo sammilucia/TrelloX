@@ -36,15 +36,3 @@ I haven't regression tested this extension for all situations—it works well fo
 + Added support for new lines in card titles
 + Added support for separator cards
 ! Optimised code
-
-## Known issues
-- tags.user.js uses too much CPU
-- New side labels don't update without page refresh when labels are added or removed
-- Haven't thought of an elegant way to show multiple labels on side
-
-## To do
-- Add collapse all lists / expand lists all button
-- Add toggle button to show/hide card numbers (remove "hide" class on card-short-id)
-- Merge scripts and optimise code
-- Check original licenses, credit original authors
-- Sign and upload to Chrome store
