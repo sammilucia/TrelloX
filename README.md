@@ -41,6 +41,9 @@ I haven't regression tested this extension for all situations—it works well fo
 - tags.user.js uses too much CPU
 - New side labels don't update without page refresh when labels are added or removed
 - Haven't thought of an elegant way to show multiple labels on side
+
+## To do
+- add collapse all / expand all button
 - Merge scripts and optimise code
 - Check original licenses, credit original authors
 - Sign and upload to Chrome store
