@@ -7,7 +7,7 @@ I haven't regression tested this extension for all situations—it works well fo
 ## Features and usage:
 
 ### Simplified label colours
-- If you use mainly one label per card, TrelloUX now shows the label as a stripe down the left of each card
+- If you use mainly one label per card, TrelloX now shows the label as a stripe down the left of each card
 - This greatly reduces screen clutter especially with lots of cards
 - Toggle showing all labels again by clicking "Labels: Hide/Show"
 
