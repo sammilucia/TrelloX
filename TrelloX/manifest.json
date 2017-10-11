@@ -6,7 +6,7 @@
 
   "manifest_version": 2,
   "name": "TrelloX",
-  "version": "1.0.27",
+  "version": "1.0.28",
 
   "description": "Gives Trello a more up-to-date user experience reducing clutter and increasing scanability, especially for power users.",
   "icons": { "128": "img/icon.png" }
