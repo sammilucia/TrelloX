@@ -1,16 +1,13 @@
-﻿{
-   "content_scripts": [ {
-      "js": [ "js/jquery-1.9.1.min.js", "js/content.js" ],
-      "matches": [ "https://trello.com/*" ]
-   } ],
-   "description": "Gives Trello a more up-to-date user experience reducing clutter and increasing scanability, especially for power users.",
-   "icons": {
-      "128": ""
-   },
-   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3+JjUk7xAsXYdv0ruzs8ysXTrzAjipAx7amA8zU1zASNo+qlWKh5/b+J5H8H65HxdLalv3HJYuJx0RFv6jbtrBl9y9UePJqoGPyPiB9O9lLdfBw+NbW1KKTae6dHz/qvNnG9trrTFFD5EqQneJDAjZ3ucWTG1KXo0o+Xo/wVzpRoiHUGj1wfJi8ehyGJQgqhxhgjU2NEZ200dubk/BBDKhaMAspu97ofzpaW70nihtPfjmg0sywh+CfLueDOnUdqVEpTjTAmni/nQo7Fe/7C7LKMDkHIDBrOTBQkbRNoabTJNMwuP55mFIcB5qS+zNdqGvU0RlUuaBnGb1sQvB4cvQIDAQAB",
-   "manifest_version": 2,
-   "name": "TrelloUX Update",
-   "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.0.26",
-   "web_accessible_resources": [ "js/jquery.min.map" ]
+{
+  "content_scripts": [ {
+    "js": [ "js/jquery-1.9.1.min.js", "js/content.js" ],
+    "matches": [ "https://trello.com/*" ]
+  } ],
+
+  "manifest_version": 2,
+  "name": "TrelloX",
+  "version": "1.0.27",
+
+  "description": "Gives Trello a more up-to-date user experience reducing clutter and increasing scanability, especially for power users.",
+  "icons": { "128": "img/icon.png" }
 }
