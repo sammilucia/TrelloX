@@ -14,8 +14,11 @@ function colorizeCards($cards) {
     var $card = $(card);
     var $labels = $card.find('span.card-label');
     var $labelContainer = $card.find('.list-card-labels');
-    
     var $cardDetails = $card.find('.list-card-details');
+    
+    $cardDetails.css('border-left-width', '6px');
+    $cardDetails.css('border-left-style', 'outset');
+    $labelContainer.addClass('hide');
 
     // If there are label(s) make the side bar colour of the first label (0)
     if ($labels.size()) {
@@ -26,12 +29,7 @@ function colorizeCards($cards) {
       if (!$cardDetails.data('TrelloX.initStyles')) {
 
         // Set card's left border to the label colour
-        $cardDetails.css('border-left-width', '6px');
-        $cardDetails.css('border-left-style', 'outset');
         $cardDetails.css('border-left-color', colorArray);
-        
-        // When Labels: Simple, hide the legacy labels
-        $labelContainer.addClass('hide');
 
         // Flag card as processed
         $cardDetails.data('TrelloX.initStyles', true);
@@ -42,13 +40,12 @@ function colorizeCards($cards) {
         $cardDetails.css('border-left-color', colorArray);
       } else {
         $labelContainer.removeClass('hide');
-        $cardDetails.css('border-left-color', 'transparent');
+        $cardDetails.css('border-left-width', '0px');
       }
     
     // Else if there is no label make side bar transparent
     } else {
-      $cardDetails.css('border-left-width', '6px');
-      $cardDetails.css('border-left-style', 'outset');
+      // When Labels: Simple, hide the legacy labels
       $cardDetails.css('border-left-color', 'transparent');
     }
   });
@@ -107,7 +104,7 @@ function setNumbersStatus(state) {
 function createButtons() {
   // Wait until at least one card has been rendered
   if (!$('.list-card').length) {
-    setTimeout(createButtons, 300);
+    requestAnimationFrame(createButtons);
     return;
   }
 
