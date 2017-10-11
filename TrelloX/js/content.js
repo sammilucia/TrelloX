@@ -1,4 +1,4 @@
-// Looking up background-colours is expensive, so we cache them
+// Looking up background-colour is expensive, so cache it
 var colorCache = {};
 function getLabelColor(label) {
   var classes = label.className;
@@ -14,13 +14,15 @@ function colorizeCards($cards) {
     var $card = $(card);
     var $labels = $card.find('span.card-label');
     var $labelContainer = $card.find('.list-card-labels');
+    
+    var $cardDetails = $card.find('.list-card-details');
 
+    // If there are label(s) make the side bar colour of the first label (0)
     if ($labels.size()) {
 
       var colorArray = getLabelColor($labels[0]);
-      var $cardDetails = $card.find('.list-card-details');
-
-      // If the card isn't already flagged as processed
+      
+      // If the card is not already processed
       if (!$cardDetails.data('TrelloX.initStyles')) {
 
         // Set card's left border to the label colour
@@ -28,41 +30,26 @@ function colorizeCards($cards) {
         $cardDetails.css('border-left-style', 'outset');
         $cardDetails.css('border-left-color', colorArray);
         
-        // Remove left over padding after removing the label
-        //$labelContainer.css('margin', '0px');
-        //$labelContainer.data('TrelloX.initStyles', true);
+        // When Labels: Simple, hide the legacy labels
+        $labelContainer.addClass('hide');
 
-        //Flag the card as processed
+        // Flag card as processed
         $cardDetails.data('TrelloX.initStyles', true);
-      } else {
-      if ($card.data('TrelloX.bgColor')) {
-      alert($card.data('TrelloX.bgColor'));
-        $cardDetails.css('border-left-color', 'rgb(0,0,0)');
-        
-        $cardDetails.data('TrelloX.initStyles', true);
-        }
-      }
-      
-      //if (!$labelContainer.data('TrelloX.initStyles')) {
-      //}
+      } 
 
       if (showLabels()) {
-        if (!$labels.data('TrelloX.hidden')) {
-          $labels.hide();
-          $cardDetails.css('border-left-color', colorArray);
-          
-          $cardDetails.data('TrelloX.initStyles', true);
-          $labels.data('TrelloX.hidden', true);
-        }
+        $labelContainer.addClass('hide');
+        $cardDetails.css('border-left-color', colorArray);
       } else {
-        if ($labels.data('TrelloX.hidden')) {
-          $labels.show();
-          $cardDetails.css('border-left-color', 'rgb(255,255,255)');
-          
-          $cardDetails.data('TrelloX.initStyles', true);
-          $labels.data('TrelloX.hidden', false);
-        }
+        $labelContainer.removeClass('hide');
+        $cardDetails.css('border-left-color', 'transparent');
       }
+    
+    // Else if there is no label make side bar transparent
+    } else {
+      $cardDetails.css('border-left-width', '6px');
+      $cardDetails.css('border-left-style', 'outset');
+      $cardDetails.css('border-left-color', 'transparent');
     }
   });
 }
@@ -79,6 +66,9 @@ function colorize() {
   
   iteration++;
   
+  // Update cards every half a second (this is biggest impact on CPU)
+  // A kinder way to do it would be requestAnimationFrame(), but Trello seems to redraw all the time??
+  // Perhaps run on an iteration of requestAnimationFrame()s?
   setTimeout(colorize, 500);
 };
 
@@ -86,8 +76,12 @@ function showLabels() {
     return (localStorage.getItem('trelloXLabels') || 'true') === 'true';
 }
 
+function showNumbers() {
+    return (localStorage.getItem('trelloXNumbers') || 'true') === 'true';
+}
+
 function setLabelsStatus(state) {
-  var $button = $('.trelloX-labels-toggle-btn > .board-header-btn-text');
+  var $button = $('.trellox-labels-btn > .board-header-btn-text');
 
   if (state) {
     localStorage.setItem('trelloXLabels', "true");
@@ -98,27 +92,50 @@ function setLabelsStatus(state) {
   }
 }
 
-function createLabelsToggleButton() {
-  // Wait until at least one list card has been rendered
+function setNumbersStatus(state) {
+  var $button = $('.trellox-numbers-btn > .board-header-btn-text');
+
+  if (state) {
+    localStorage.setItem('trelloXNumbers', "true");
+    $button.text('Numbers: On');
+  } else {
+    localStorage.setItem('trelloXNumbers', "false");
+    $button.text('Numbers: Off');
+  }
+}
+
+function createButtons() {
+  // Wait until at least one card has been rendered
   if (!$('.list-card').length) {
-    setTimeout(createLabelsToggleButton, 1000);
+    setTimeout(createButtons, 300);
     return;
   }
-  var $toggleButton = $('<a class="board-header-btn trelloX-labels-toggle-btn" href="#">' +
+
+  // Set up Labels button
+  var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
     '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: Simple</span>' +
     '</a>');
-
-  $toggleButton.on('click', function() {
+  $buttonLabels.on('click', function() {
     setLabelsStatus(!showLabels());
   });
+  
+  var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
+  '<span class="board-header-btn-icon icon-sm icon-number"></span>' +
+  '<span class="board-header-btn-text" title="Show or hide card numbers.">Numbers: On</span>' +
+  '</a>');
+  $buttonNumbers.on('click', function() {
+    setNumbersStatus(!showNumbers());
+  });
 
-  $('.board-header-btns.mod-left').append($toggleButton);
-
+  $('.board-header-btns.mod-left').append($buttonLabels);
+  $('.board-header-btns.mod-left').append($buttonNumbers);
+  
   setLabelsStatus(showLabels());
+  setNumbersStatus(showNumbers());
 };
 
 $(document).ready(function() {
-  createLabelsToggleButton();
+  createButtons();
   colorize();
 });
