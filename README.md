@@ -1,4 +1,4 @@
-# TrelloUX Update
+# TrelloX
 
 A Chrome extension to give Trello a more up-to-date user experience – reducing clutter and increasing scanability – especially for power users.
 
