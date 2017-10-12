@@ -32,6 +32,12 @@ I haven't regression tested this extension for all situations—it works well fo
 
 ## History
 
+### 2017-10-12
++ Added display of card numbers (can be toggled on and off)
+! Fixed new card labels respond properly to being added or removed
+! Tidied up labels appearing when they shouldn't
+! Optimised code to keep CPU low
+
 ### 2017-10-10
 + Added support for new lines in card titles
 + Added support for separator cards
