@@ -1,3 +1,13 @@
+// Set up battery event listener
+var onPower = false;
+navigator.getBattery().then(function(battery) {
+  onPower = battery.charging;
+  
+  battery.addEventListener('chargingchange', function() {
+    onPower = battery.charging;
+  });
+});
+
 // Looking up background-colour is expensive, so cache it
 var colorCache = {};
 function getLabelColor(label) {
@@ -15,7 +25,8 @@ function setCSS() {
     '</style>');
 }
 
-function colorizeCards($cards) {
+// ****** Need to add - check for folded lists & refresh only 1/10th the speed? ****
+function replaceLabels($cards) {
   $cards.each(function (i, card) {
   
     var $card = $(card);
@@ -23,6 +34,14 @@ function colorizeCards($cards) {
     var $labelContainer = $card.find('.list-card-labels');
     var $cardDetails = $card.find('.list-card-details');
     var $cardNumber = $card.find('.card-short-id');
+    var $cardTitle = $card.find('span.list-card-title');
+    
+    // ***** Stuff not related to labels needs to go into its own function
+    
+    // Tag cards    
+    //alert($('.list-card-title')innerHTML); //.text(function () {
+    //  return this.innerHTML.replace(/@(\w*)/g, '<strong>@</strong><strong>$1</strong>');
+    //});
 
     // Pre-set CSS to make TrelloX appear as seamless as possible
     $cardDetails.css('border-left-width', '6px');
@@ -68,22 +87,22 @@ function colorizeCards($cards) {
 }
 
 var iteration = 0;
-function colorize() {
+var loopTime = 500;
+function functionLoop() {
   if (iteration % 10 === 0) {
-    colorizeCards($('a.list-card'));
+    replaceLabels($('a.list-card'));
 
-  // Only process "pirate-aged" cards every 10th iteration
-  // ****** Probably not worth the CPU saving for extra code complexity need to test ****
+  // Only process aged cards every 10th iteration
+  // ****** need to add cards hidden in folded lists
   } else {
-    colorizeCards($('a.list-card:not(.aging-pirate), a.list-card.aging-level-0'));
+    replaceLabels($('a.list-card:not(.aging-pirate), a.list-card.aging-level-0'));
   }
   
   iteration++;
   
-  // ****** Update cards every half a second (this is biggest impact on CPU) *****
-  // A kinder way to do it would be requestAnimationFrame(), but Trello seems to redraw all the time??
-  // Perhaps run on an iteration of requestAnimationFrame()s?
-  setTimeout(colorize, 500);
+  // If we're on battery slow the refreshes down to save CPU
+  if (onPower) { loopTime = 50; } else { loopTime = 500; }
+  setTimeout(functionLoop, loopTime);
 };
 
 function showLabels() {
@@ -152,5 +171,5 @@ function createButtons() {
 $(document).ready(function() {
   createButtons();
   setCSS();
-  colorize();
+  functionLoop();
 });
