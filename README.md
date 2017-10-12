@@ -15,7 +15,7 @@ I haven't regression tested this extension for all situations—it works well fo
 - Toggle showing card numbers on and off by clicking "Numbers: On/Off"
 
 ### Battery optimisation
-- Switches to low-power on battery at the expense of some responsiveness
+- Switches to power-saving mode on battery (at the expense of some responsiveness)
 
 ## Planned features
 
@@ -41,7 +41,7 @@ I haven't regression tested this extension for all situations—it works well fo
 ## History
 
 ### 2017-10-12
-+ Added battery saving function
++ Added power-saving mode when on battery
 + Added display of card numbers (can be toggled on and off)
 ! Fixed new card labels respond properly to being added or removed
 ! Tidied up labels appearing when they shouldn't
