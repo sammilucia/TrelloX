@@ -9,7 +9,7 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Simplified label colours
 - If you use mainly one label per card, TrelloX now shows the label as a stripe down the left of each card
 - This greatly reduces screen clutter especially with lots of cards
-- Toggle showing all labels again by clicking "Labels: Hide/Show"
+- Toggle showing all labels again by clicking "Labels: New/All"
 
 ### Collapsible lists
 - Collapse lists using the arrow at the top of each list
@@ -22,6 +22,9 @@ I haven't regression tested this extension for all situations—it works well fo
 
 ### Line breaks in card titles
 - Use /n in a card title to add a line-break. Add as many as you like :)
+
+### Show card numbers (optional)
+- Toggle showing card numbers on and off by clicking "Numbers: On/Off"
 
 ### Separator cards
 - Use --- in a card title to create a separator card
