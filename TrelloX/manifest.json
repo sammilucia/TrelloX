@@ -1,12 +1,12 @@
 {
   "content_scripts": [ {
-    "js": [ "js/jquery-1.9.1.min.js", "js/content.js" ],
+    "js": [ "js/jquery-1.9.1.min.js", "js/mutation-summary.js", "js/content.js" ],
     "matches": [ "https://trello.com/*" ]
   } ],
 
   "manifest_version": 2,
   "name": "TrelloX",
-  "version": "1.0.31",
+  "version": "1.0.32",
 
   "description": "Gives Trello a more up-to-date user experience, reducing clutter and increasing readability.",
   "icons": { "128": "img/icon.png" }
