@@ -8,6 +8,13 @@ function getLabelColor(label) {
   return colorCache[classes];
 }
 
+function setCSS() {
+  $('head').append(
+    '<style>' +
+      '.card-short-id{ margin-right: 4px; color: #838c91; font-size: 12px; float: right; }' +
+    '</style>');
+}
+
 function colorizeCards($cards) {
   $cards.each(function (i, card) {
   
@@ -15,10 +22,19 @@ function colorizeCards($cards) {
     var $labels = $card.find('span.card-label');
     var $labelContainer = $card.find('.list-card-labels');
     var $cardDetails = $card.find('.list-card-details');
-    
+    var $cardNumber = $card.find('.card-short-id');
+
+    // Pre-set CSS to make TrelloX appear as seamless as possible
     $cardDetails.css('border-left-width', '6px');
     $cardDetails.css('border-left-style', 'outset');
     $labelContainer.addClass('hide');
+    
+    // If Numbers: On show card numbers
+    if (showNumbers()) {
+      $cardNumber.removeClass('hide');
+    } else {
+      $cardNumber.addClass('hide');
+    }
 
     // If there are label(s) make the side bar colour of the first label (0)
     if ($labels.size()) {
@@ -43,9 +59,9 @@ function colorizeCards($cards) {
         $cardDetails.css('border-left-width', '0px');
       }
     
-    // Else if there is no label make side bar transparent
+    // Or if there was no label make side bar transparent
     } else {
-      // When Labels: Simple, hide the legacy labels
+      // When Labels: New, hide the legacy labels
       $cardDetails.css('border-left-color', 'transparent');
     }
   });
@@ -53,17 +69,18 @@ function colorizeCards($cards) {
 
 var iteration = 0;
 function colorize() {
-  // Only process "pirate-aged" cards every 10th iteration
-  // When a label is applied, the card should become de-pirated anyway and get processed immediately
   if (iteration % 10 === 0) {
     colorizeCards($('a.list-card'));
+
+  // Only process "pirate-aged" cards every 10th iteration
+  // ****** Probably not worth the CPU saving for extra code complexity need to test ****
   } else {
     colorizeCards($('a.list-card:not(.aging-pirate), a.list-card.aging-level-0'));
   }
   
   iteration++;
   
-  // Update cards every half a second (this is biggest impact on CPU)
+  // ****** Update cards every half a second (this is biggest impact on CPU) *****
   // A kinder way to do it would be requestAnimationFrame(), but Trello seems to redraw all the time??
   // Perhaps run on an iteration of requestAnimationFrame()s?
   setTimeout(colorize, 500);
@@ -82,7 +99,7 @@ function setLabelsStatus(state) {
 
   if (state) {
     localStorage.setItem('trelloXLabels', "true");
-    $button.text('Labels: Simple');
+    $button.text('Labels: New');
   } else {
     localStorage.setItem('trelloXLabels', "false");
     $button.text('Labels: All');
@@ -104,14 +121,14 @@ function setNumbersStatus(state) {
 function createButtons() {
   // Wait until at least one card has been rendered
   if (!$('.list-card').length) {
-    requestAnimationFrame(createButtons);
+    setTimeout(createButtons, 500);
     return;
   }
 
   // Set up Labels button
   var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
-    '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: Simple</span>' +
+    '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: New</span>' +
     '</a>');
   $buttonLabels.on('click', function() {
     setLabelsStatus(!showLabels());
@@ -134,5 +151,6 @@ function createButtons() {
 
 $(document).ready(function() {
   createButtons();
+  setCSS();
   colorize();
 });
