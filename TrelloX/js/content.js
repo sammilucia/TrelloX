@@ -1,14 +1,22 @@
-// Set up battery event listener
-var onPower = false;
-navigator.getBattery().then(function(battery) {
-  onPower = battery.charging;
-  
-  battery.addEventListener('chargingchange', function() {
-    onPower = battery.charging;
-  });
+// Set up listener to call doMutate() on any page content change
+// *********** could just call only replaceLabels when labels change ...
+// only addTags when title changes **********
+var observer = new MutationSummary({
+  callback: doMutate,
+  queries: [{
+    element: '*'
+  }]
 });
 
-// Looking up background-colour is expensive, so cache it
+// Overwrite <head> CSS to improve UX
+function setCSS() {
+  $('head').append(
+    '<style>' +
+      '.card-short-id{ margin-right: 4px; margin-left:3px; color: #838c91; font-size: 12px; float: right; }' +
+    '</style>');
+}
+
+// Cache background colors to reduce overhead of replaceLabels()
 var colorCache = {};
 function getLabelColor(label) {
   var classes = label.className;
@@ -18,31 +26,26 @@ function getLabelColor(label) {
   return colorCache[classes];
 }
 
-function setCSS() {
-  $('head').append(
-    '<style>' +
-      '.card-short-id{ margin-right: 4px; color: #838c91; font-size: 12px; float: right; }' +
-    '</style>');
+// Main function that calls all mutations
+function doMutate() {
+  replaceLabels($('a.list-card'));
+  addTags($('a.list-card'));
 }
 
-// ****** Need to add - check for folded lists & refresh only 1/10th the speed? ****
+// Replace old labels with color side bar on all cards
 function replaceLabels($cards) {
   $cards.each(function (i, card) {
   
+    // card is URL of card
+    // $card is an object
     var $card = $(card);
     var $labels = $card.find('span.card-label');
     var $labelContainer = $card.find('.list-card-labels');
     var $cardDetails = $card.find('.list-card-details');
     var $cardNumber = $card.find('.card-short-id');
-    var $cardTitle = $card.find('span.list-card-title');
-    
-    // ***** Stuff not related to labels needs to go into its own function
-    
-    // Tag cards    
-    //alert($('.list-card-title')innerHTML); //.text(function () {
-    //  return this.innerHTML.replace(/@(\w*)/g, '<strong>@</strong><strong>$1</strong>');
-    //});
 
+    // ***** Stuff not related to this loop needs to go into its own function
+    
     // Pre-set CSS to make TrelloX appear as seamless as possible
     $cardDetails.css('border-left-width', '6px');
     $cardDetails.css('border-left-style', 'outset');
@@ -55,7 +58,7 @@ function replaceLabels($cards) {
       $cardNumber.addClass('hide');
     }
 
-    // If there are label(s) make the side bar colour of the first label (0)
+    // If there are label(s) make the side bar color of the first label (0)
     if ($labels.size()) {
 
       var colorArray = getLabelColor($labels[0]);
@@ -63,7 +66,7 @@ function replaceLabels($cards) {
       // If the card is not already processed
       if (!$cardDetails.data('TrelloX.initStyles')) {
 
-        // Set card's left border to the label colour
+        // Set card's left border to the label color
         $cardDetails.css('border-left-color', colorArray);
 
         // Flag card as processed
@@ -86,24 +89,18 @@ function replaceLabels($cards) {
   });
 }
 
-var iteration = 0;
-var loopTime = 500;
-function functionLoop() {
-  if (iteration % 10 === 0) {
-    replaceLabels($('a.list-card'));
-
-  // Only process aged cards every 10th iteration
-  // ****** need to add cards hidden in folded lists
-  } else {
-    replaceLabels($('a.list-card:not(.aging-pirate), a.list-card.aging-level-0'));
-  }
-  
-  iteration++;
-  
-  // If we're on battery slow the refreshes down to save CPU
-  if (onPower) { loopTime = 50; } else { loopTime = 500; }
-  setTimeout(functionLoop, loopTime);
-};
+// Add tag formatting to all cards  
+function addTags($cards) {
+  var cards = document.getElementsByClassName('list-card-title');
+  $cards.each(function (i, card) {
+    cards[i].innerHTML = cards[i].innerHTML
+    .replace(/@(\S+)/g, '<strong>@﻿$1</strong>')
+    .replace(/#([a-zA-Z]+)/g, '<span class="card-short-id">#﻿$1</span>')
+    .replace(/!(\S+)/g, '<code>$1</code>')
+    .replace(/\-{3}/g, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•••')
+    .replace(/\/n/g, '</br>')
+  });
+}
 
 function showLabels() {
     return (localStorage.getItem('trelloXLabels') || 'true') === 'true';
@@ -119,9 +116,11 @@ function setLabelsStatus(state) {
   if (state) {
     localStorage.setItem('trelloXLabels', "true");
     $button.text('Labels: New');
+    doMutate();
   } else {
     localStorage.setItem('trelloXLabels', "false");
     $button.text('Labels: All');
+    doMutate();
   }
 }
 
@@ -131,9 +130,11 @@ function setNumbersStatus(state) {
   if (state) {
     localStorage.setItem('trelloXNumbers', "true");
     $button.text('Numbers: On');
+    doMutate();
   } else {
     localStorage.setItem('trelloXNumbers', "false");
     $button.text('Numbers: Off');
+    doMutate();
   }
 }
 
@@ -166,10 +167,15 @@ function createButtons() {
   
   setLabelsStatus(showLabels());
   setNumbersStatus(showNumbers());
-};
+}
+
+function doNothing() {
+  setTimeout(doNothing, 10000);
+}
 
 $(document).ready(function() {
   createButtons();
   setCSS();
-  functionLoop();
+  doMutate();
+  doNothing();
 });
