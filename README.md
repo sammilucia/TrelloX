@@ -14,6 +14,9 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Show card numbers (optional)
 - Toggle showing card numbers on and off by clicking "Numbers: On/Off"
 
+### Battery optimisation
+- Switches to low-power on battery at the expense of some responsiveness
+
 ## Planned features
 
 ### Collapsible lists
@@ -30,10 +33,6 @@ I haven't regression tested this extension for all situations—it works well fo
 
 ### Separator cards
 - Use --- in a card title to create a separator card
-
-### Battery optimisation
-- Highly responsive when plugged-in at some CPU expense
-- Automatically switches to low-power when on battery at the expense of some responsiveness
 
 ## Goals of this project
 1. Only elegant solutions
