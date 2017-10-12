@@ -11,6 +11,11 @@ I haven't regression tested this extension for all situations—it works well fo
 - This greatly reduces screen clutter especially with lots of cards
 - Toggle showing all labels again by clicking "Labels: New/All"
 
+### Show card numbers (optional)
+- Toggle showing card numbers on and off by clicking "Numbers: On/Off"
+
+## Planned features
+
 ### Collapsible lists
 - Collapse lists using the arrow at the top of each list
 - Collapsed lists are maintained between sessions
@@ -23,11 +28,12 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Line breaks in card titles
 - Use /n in a card title to add a line-break. Add as many as you like :)
 
-### Show card numbers (optional)
-- Toggle showing card numbers on and off by clicking "Numbers: On/Off"
-
 ### Separator cards
 - Use --- in a card title to create a separator card
+
+### Battery optimisation
+- Highly responsive when plugged-in at some CPU expense
+- Automatically switches to low-power when on battery at the expense of some responsiveness
 
 ## Goals of this project
 1. Only elegant solutions
