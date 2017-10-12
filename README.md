@@ -14,14 +14,8 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Show card numbers (optional)
 - Toggle showing card numbers on and off by clicking "Numbers: On/Off"
 
-### Battery optimisation
-- Switches to power-saving mode on battery (at the expense of some responsiveness)
-
-## Planned features
-
-### Collapsible lists
-- Collapse lists using the arrow at the top of each list
-- Collapsed lists are maintained between sessions
+### CPU/Battery friendly
+- Doesn't use any CPU or battery when you're not using Trello extensions :)
 
 ### Tags in card titles
 - Use @ in card titles to e.g. @Mention (displayed as &lt;strong&rt;)
@@ -34,11 +28,26 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Separator cards
 - Use --- in a card title to create a separator card
 
+## Planned features
+
+### Collapsible lists
+- Collapse lists using the arrow at the top of each list
+- Collapsed lists are maintained between sessions
+
 ## Goals of this project
 1. Only elegant solutions
 2. Fast
 
 ## History
+
+### 2017-10-13
++ Merged tagging code
++ Merged line breaking code
++ Merged separator card code
++ Page now only redraws when something changes
++ Minor cosmetic tweaks
+- ...So removed power-saving, no longer required!
+! Fixed regressions from new code
 
 ### 2017-10-12
 + Added power-saving mode when on battery
