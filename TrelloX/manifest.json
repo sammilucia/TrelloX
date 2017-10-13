@@ -7,7 +7,7 @@
   }, 
   "content_scripts": [ {
     "css": [ "css/styles.css" ],
-    "js": [ "js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/content.js" ],
+    "js": [ "js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js" ],
     "matches": [ "https://trello.com/b/*" ]
   } ],
   "manifest_version": 2,
