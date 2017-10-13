@@ -3,7 +3,7 @@
     "scripts": [ "js/background.js" ]
   },
   "browser_action": {
-    "default_icon": "img/icon.png"
+    "default_icon": "img/16icon.png"
   }, 
   "content_scripts": [ {
     "css": [ "css/styles.css" ],
@@ -15,7 +15,10 @@
   "version": "1.0.33",
   "description": "Gives Trello an up-to-date user experience, reducing clutter and increasing readability.",
   "icons": {
-    "128": "img/icon.png"
+    "16": "img/icon16.png"
+    "32": "img/icon32.png"
+    "64": "img/icon64.png"
+    "128": "img/icon128.png"
   },
   "permissions": [ "storage", "webNavigation", "*://trello.com/*" ],
   "update_url": "https://clients2.google.com/service/update2/crx"
