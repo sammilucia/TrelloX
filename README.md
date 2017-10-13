@@ -28,11 +28,14 @@ I haven't regression tested this extension for all situations—it works well fo
 ### Separator cards
 - Use --- in a card title to create a separator card
 
-## Planned features
-
 ### Collapsible lists
 - Collapse lists using the arrow at the top of each list
 - Collapsed lists are maintained between sessions
+
+## Planned features
+
+### Show multiple labels in new style
+- When I work out an elegent way to show this
 
 ## Goals of this project
 1. Only elegant solutions
@@ -40,14 +43,18 @@ I haven't regression tested this extension for all situations—it works well fo
 
 ## History
 
-### 2017-10-13
+### 2017-10-13 version 1.0.33
+? Initial release. Freezing features, bugfixed only now
 + Merged tagging code
++ Merged list collapsing code
 + Merged line breaking code
 + Merged separator card code
-+ Page now only redraws when something changes
-+ Minor cosmetic tweaks
++ Page now only redraws when something changes, uses only 5-10% CPU (and battery)
++ Cosmetic clarifications
 - ...So removed power-saving, no longer required!
 ! Fixed regressions from new code
+! Fixed duplication of collapse arrows
+! Fixed TrelloX icon was greyed out in Chrome bar
 
 ### 2017-10-12
 + Added power-saving mode when on battery
