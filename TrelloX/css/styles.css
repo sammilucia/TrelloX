@@ -1,0 +1,76 @@
+/* # @ ! Tag formatting */
+code { font-size: 12px; color: #4d4d4d; }
+.card-short-id { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
+.card-tag { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
+.badge { color: #a3acb1; }
+.badge-icon { color: #b3bcc1; }
+
+/* Closed list */
+.js-list.-closed {
+    width: 39px;
+}
+
+/* Hide everything in a closed list... */
+.js-list.-closed .list * {
+    display: none !important;
+}
+
+/* ...except for the title and the collapse toggle */
+.js-list.-closed .list .list-header, .js-list.-closed .list .collapse-toggle {
+    display: block !important;
+}
+
+/* We need to reduce the width of the title to fit the collapse toggle in */
+.js-list .list .list-header-name {
+    width: calc(100% - 22px);
+}
+
+/* Collapsed list header - rotated + some css hackery to make it look right */
+.js-list.-closed .list .list-header-name {
+    height: 39px !important;
+    width: auto;
+    line-height: 31px;
+    display: block !important;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    text-shadow: rgba(0,0,0,.1) 0 0 1px;
+    -webkit-text-shadow: rgba(0,0,0,.1) 0 0 1px;
+    top: 29px;
+    left: 9px;
+    position: relative;
+    background: #E2E4E6;
+}
+
+/* Collapse button */
+.collapse-toggle {
+    float: left;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Collapse button - down triangle */
+.collapse-toggle:after {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #999;;
+    position: absolute;
+    top: 8px;
+    left: 5px;
+}
+
+/* Collapse button - right triangle */
+.js-list.-closed .collapse-toggle:after {
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #999;;
+    border-right: none;
+    left: 8px;
+    top: 5px;
+}
