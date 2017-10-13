@@ -16,7 +16,7 @@
   "description": "Gives Trello an up-to-date user experience, reducing clutter and increasing readability.",
   "icons": {
     "16": "img/icon16.png",
-    "48": "img/icon32.png",
+    "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
   "permissions": [ "storage", "webNavigation", "*://trello.com/*" ],
