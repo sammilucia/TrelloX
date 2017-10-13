@@ -50,11 +50,12 @@ I haven't regression tested this extension for all situations—it works well fo
 + Merged line breaking code
 + Merged separator card code
 + Page now only redraws when something changes, uses only 5-10% CPU (and battery)
-+ Cosmetic clarifications
 - ...So removed power-saving, no longer required!
+- Cosmetic tweaks
+- Optimised icons
+! Fixed TrelloX icon was greyed out in Chrome bar
 ! Fixed regressions from new code
 ! Fixed duplication of collapse arrows
-! Fixed TrelloX icon was greyed out in Chrome bar
 
 ### 2017-10-12
 + Added power-saving mode when on battery
