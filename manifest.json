@@ -1,6 +1,6 @@
 {
   "browser_action": {
-    "default_icon": "img/16icon.png"
+    "default_icon": "img/icon16.png"
   }, 
   "content_scripts": [ {
     "css": [ "css/styles.css" ],
@@ -9,7 +9,7 @@
   } ],
   "manifest_version": 2,
   "name": "TrelloX",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "Gives Trello an up-to-date user experience, reducing clutter and increasing readability.",
   "icons": {
     "16": "img/icon16.png",
