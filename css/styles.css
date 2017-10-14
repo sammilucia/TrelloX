@@ -7,12 +7,18 @@ code { font-size: 12px; color: #4d4d4d; }
 
 /* Closed list */
 .js-list.-closed {
-    width: 39px;
+    width: 40px;
 }
 
 /* Hide everything in a closed list... */
 .js-list.-closed .list * {
     display: none !important;
+    min-height: 230px;
+}
+
+/* Hide everything in a closed list... */
+textarea.js-list.-closed .list .list-header * {
+    min-height: 29px;
 }
 
 /* ...except for the title and the collapse toggle */
@@ -27,18 +33,17 @@ code { font-size: 12px; color: #4d4d4d; }
 
 /* Collapsed list header - rotated + some css hackery to make it look right */
 .js-list.-closed .list .list-header-name {
-    height: 39px !important;
+    height: 18px !important;
     width: auto;
     line-height: 31px;
     display: block !important;
     transform: rotate(90deg);
     transform-origin: top left;
-    text-shadow: rgba(0,0,0,.1) 0 0 1px;
-    -webkit-text-shadow: rgba(0,0,0,.1) 0 0 1px;
     top: 29px;
     left: 9px;
     position: relative;
-    background: #E2E4E6;
+    -webkit-text-stroke:.025em rgba(51,51,51,0.7);
+    /*background: #E2E4E6;*/
 }
 
 /* Collapse button */
