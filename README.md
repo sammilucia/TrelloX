@@ -32,6 +32,9 @@ I haven't regression tested this extension for all situations—it works well fo
 - Collapse lists using the arrow at the top of each list
 - Collapsed lists are maintained between sessions
 
+### Header cards
+- Prefix a card title with h. to make it a header
+
 ## Planned features
 
 ### Show multiple labels in new style
@@ -42,6 +45,11 @@ I haven't regression tested this extension for all situations—it works well fo
 2. Fast
 
 ## History
+
+### 2017-10-14 version 1.0.34
++ Added header cards
+! Fixed anti-aliasing on collapsed cards
+! Fixed extension not loading without refresh
 
 ### 2017-10-13 version 1.0.33
 ? Initial release. Freezing features, bugfixed only now
