@@ -1,8 +1,9 @@
 # TrelloX
+## Trello with focus.
+
+https://trellox.io
 
 A Chrome extension to give Trello a more up-to-date user experience – reducing clutter and increasing scanability – especially for power users.
-
-I haven't regression tested this extension for all situations—it works well for my use cases, if you need something fixed feel free to contribue. :) 
 
 ## Features and usage:
 
