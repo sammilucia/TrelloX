@@ -1,52 +1,54 @@
-# TrelloX
-## Trello with focus.
+# TrelloX - Trello with focus.
 
 https://trellox.io
 
-A Chrome extension to give Trello a more up-to-date user experience – reducing clutter and increasing scanability – especially for power users.
+A Chrome extension to give Trello a more up-to-date user experience, reducing clutter and increasing focus.
 
-## Features and usage:
-
-### Simplified label colours
+## Features and use
+### Clearer cards
 - If you use mainly one label per card, TrelloX now shows the label as a stripe down the left of each card
 - This greatly reduces screen clutter especially with lots of cards
 - Toggle showing all labels again by clicking "Labels: New/All"
 
-### Show card numbers (optional)
+### Show card numbers
 - Toggle showing card numbers on and off by clicking "Numbers: On/Off"
 
 ### CPU/Battery friendly
-- Doesn't use any CPU or battery when you're not using Trello extensions :)
+- As fast as Trello and doesn't drain CPU or battery
 
 ### Tags in card titles
-- Use @ in card titles to e.g. @Mention (displayed as &lt;strong&rt;)
-- Use # in card titles to e.g. #Tag (displayed as &lt;em&rt;)
+- Use @ in card titles to e.g. @mention (displayed as &lt;strong&rt;)
+- Use # in card titles to e.g. #tag (displayed as &lt;em&rt;)
 - Use ! in card titles to e.g. denote !09:45 time (displayed as &lt;code&rt;)
 
 ### Line breaks in card titles
-- Use /n in a card title to add a line-break. Add as many as you like :)
+- Use '/n' in a card title to add a line-break to the title. Use several per card if you like!
 
 ### Separator cards
-- Use --- in a card title to create a separator card
+- Use '---' in a card title to create a separator card
 
 ### Collapsible lists
 - Collapse lists using the arrow at the top of each list
 - Collapsed lists are maintained between sessions
 
 ### Header cards
-- Prefix a card title with h. to make it a header
+- Prefix a card title with 'h.' to make it a header
+
+### Mobile friendly
+- Gracefully degrades on mobile Trello
 
 ## Planned features
+- Show multiple labels in new style (maybe)
+- Undo for archiving/deleting cards
+- Undo for moving cards
+- Global keyboard shortcut for adding cards
+- Collapse/expand all lists button
 
-### Show multiple labels in new style
-- When I work out an elegent way to show this
-
-## Goals of this project
-1. Only elegant solutions
-2. Fast
+## Project goals
+1. Add focus
+2. Elegant and fast
 
 ## History
-
 ### 2017-10-14 version 1.0.34
 + Added header cards
 ! Fixed anti-aliasing on collapsed cards
