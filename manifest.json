@@ -12,7 +12,6 @@
   },
   "browser_action": {
     "default_icon": "img/icon16.png",
-    "default_popup": "https://trello.com"
   }, 
   "content_scripts": [{
     "matches": ["https://trello.com/b/*"],
