@@ -49,21 +49,38 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2017-10-14 version 1.0.36
+Major bug-fix release, preparing for launch
++ swapped position of Labels and Numbers buttons because Labels grows/shrinks in size moving Numbers button
++ changed load order to be more visually pleasing
+! TrelloX now auto-reloads on Board change
+! now correctly waits for page to finish loading before installing
+! removed 0.5s pause when creating buttons
+! renove refreshing of #tags when using Numbers or Labels buttons
+! removed unnecessary reloads of TrelloX
+! separated replaceLabels into setLabels and setNumbers because it's expensive
+? removed dependence on mutation-summary.js
+? cleaned up code
+? added basic status logging to console
+
+### 2017-10-14 version 1.0.35
+! Updated manifest.json now Google has a clearly defined standard
+
 ### 2017-10-14 version 1.0.34
 + Added header cards
 ! Fixed anti-aliasing on collapsed cards
 ! Fixed extension not loading without refresh
 
 ### 2017-10-13 version 1.0.33
-? Initial release. Freezing features, bugfixed only now
+Initial release. Freezing features, bugfixes only now
 + Merged tagging code
 + Merged list collapsing code
 + Merged line breaking code
 + Merged separator card code
-+ Page now only redraws when something changes, uses only 5-10% CPU (and battery)
-- ...So removed power-saving, no longer required!
-- Cosmetic tweaks
-- Optimised icons
+! Page now only redraws when something changes, uses only 5-10% CPU (and battery)
+! ...So removed power-saving code (no longer required)
+! Cosmetic fixes
+! Optimised icons
 ! Fixed TrelloX icon was greyed out in Chrome bar
 ! Fixed regressions from new code
 ! Fixed duplication of collapse arrows
