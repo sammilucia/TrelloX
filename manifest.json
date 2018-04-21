@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TrelloX",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "Trello with focus.",
   "homepage_url": "https://trellox.io",
 
@@ -17,7 +17,7 @@
   "content_scripts": [{
     "matches": ["https://trello.com/b/*"],
     "css": ["css/styles.css"],
-    "js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
+    "js": ["js/jquery.js", "js/jquery-ui.js", "js/main.js"]
   }],
   "permissions": ["storage", "webNavigation", "*://trello.com/*"]
   //"update_url": "https://clients2.google.com/service/update2/crx"
