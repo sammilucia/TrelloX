@@ -51,48 +51,48 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 ## History
 ### 2017-10-14 version 1.0.36
 Major bug-fix release, preparing for launch
-! Swapped position of Labels and Numbers buttons because Labels grows/shrinks in size moving Numbers button
-! Changed load order to be more visually pleasing
-! TrelloX now auto-reloads on Board change
-! Now correctly waits for page to finish loading before installing
-! Removed 0.5s pause when creating buttons
-! Renove refreshing of #tags when using Numbers or Labels buttons
-! Removed unnecessary reloads of TrelloX
-! Separated replaceLabels into setLabels and setNumbers because it's expensive
-? Removed dependence on mutation-summary.js
-? Cleaned up code
-? Added basic status logging to console
+- Swapped position of Labels and Numbers buttons because Labels grows/shrinks in size moving Numbers button
+- Changed load order to be more visually pleasing
+- TrelloX now auto-reloads on Board change
+- Now correctly waits for page to finish loading before installing
+- Removed 0.5s pause when creating buttons
+- Renove refreshing of #tags when using Numbers or Labels buttons
+- Removed unnecessary reloads of TrelloX
+- Separated replaceLabels into setLabels and setNumbers because it's expensive
+- Removed dependence on mutation-summary.js
+- Cleaned up code
+- Added basic status logging to console
 
 ### 2017-10-14 version 1.0.35
-! Updated manifest.json now Google has a clearly defined standard
+- Updated manifest.json now Google has a clearly defined standard
 
 ### 2017-10-14 version 1.0.34
-? Added header cards
-! Fixed anti-aliasing on collapsed cards
-! Fixed extension not loading without refresh
+- Added header cards
+- Fixed anti-aliasing on collapsed cards
+- Fixed extension not loading without refresh
 
 ### 2017-10-13 version 1.0.33
 Initial release. Freezing features, bugfixes only now
-! Page now only redraws when something changes, uses only 5-10% CPU (and battery)
-! ...So removed power-saving code (no longer required)
-! Cosmetic fixes
-! Optimised icons
-! Fixed TrelloX icon was greyed out in Chrome bar
-! Fixed regressions from new code
-! Fixed duplication of collapse arrows
-? Merged tagging code
-? Merged list collapsing code
-? Merged line breaking code
-? Merged separator card code
+- Page now only redraws when something changes, uses only 5-10% CPU (and battery)
+- ...So removed power-saving code (no longer required)
+- Cosmetic fixes
+- Optimised icons
+- Fixed TrelloX icon was greyed out in Chrome bar
+- Fixed regressions from new code
+- Fixed duplication of collapse arrows
+- Merged tagging code
+- Merged list collapsing code
+- Merged line breaking code
+- Merged separator card code
 
 ### 2017-10-12 version 1.0.32
-? Added power-saving mode when on battery
-? Added display of card numbers (can be toggled on and off)
-! Fixed new card labels respond properly to being added or removed
-! Tidied up labels appearing when they shouldn't
-! Optimised code to keep CPU low
+- Added power-saving mode when on battery
+- Added display of card numbers (can be toggled on and off)
+- Fixed new card labels respond properly to being added or removed
+- Tidied up labels appearing when they shouldn't
+- Optimised code to keep CPU low
 
 ### 2017-10-10 version 1.0.31
-? Added support for new lines in card titles
-? Added support for separator cards
-! Optimised code
+- Added support for new lines in card titles
+- Added support for separator cards
+- Optimised code
