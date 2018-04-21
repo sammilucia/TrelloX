@@ -67,7 +67,7 @@ Major bug-fix release, preparing for launch
 ! Updated manifest.json now Google has a clearly defined standard
 
 ### 2017-10-14 version 1.0.34
-> Added header cards
+? Added header cards
 ! Fixed anti-aliasing on collapsed cards
 ! Fixed extension not loading without refresh
 
@@ -86,13 +86,13 @@ Initial release. Freezing features, bugfixes only now
 ? Merged separator card code
 
 ### 2017-10-12 version 1.0.32
-> Added power-saving mode when on battery
-> Added display of card numbers (can be toggled on and off)
+? Added power-saving mode when on battery
+? Added display of card numbers (can be toggled on and off)
 ! Fixed new card labels respond properly to being added or removed
 ! Tidied up labels appearing when they shouldn't
 ! Optimised code to keep CPU low
 
 ### 2017-10-10 version 1.0.31
-> Added support for new lines in card titles
-> Added support for separator cards
+? Added support for new lines in card titles
+? Added support for separator cards
 ! Optimised code
