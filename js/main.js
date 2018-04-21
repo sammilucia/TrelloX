@@ -1,14 +1,26 @@
-// Set up listener to call doMutate() on any page content change
-// *********** could just call only replaceLabels when labels change ...
-// only addTags when title changes **********
-var observer = new MutationSummary({
-  callback: doMutate,
-  queries: [{
-    element: '*'
-  }]
-});
+// Watch for Board changes
+var targetNode = document.getElementById('content');
+var config = { childList: true };
+// Set counter to workaround duplicate mutation event
+var duplicateCount = 0;
+// Reinstall TrelloX when Board change detected
+var callback = function(mutationsList) {
+  for(var mutation of mutationsList) {
+    if (mutation.type == 'childList') {
+    duplicateCount++;
+      if ( duplicateCount == 2 ) {
+        duplicateCount = 0;
+        console.log('TrelloX: Detected Board change');
+        setTimeout(installTrelloX, 50);
+      }
+    }
+  }
+};
+// Create the observer instance and start observing
+var observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
 
-// Cache background colors to reduce overhead of replaceLabels()
+// Cache background colors to reduce refreshLabels() overhead
 var colorCache = {};
 function getLabelColor(label) {
   var classes = label.className;
@@ -18,17 +30,22 @@ function getLabelColor(label) {
   return colorCache[classes];
 }
 
-// Main function that calls all mutations
-function doMutate() {
-  replaceLabels($('a.list-card'));
+function installTrelloX() {
+  console.log('TrelloX: Installing TrelloX');
+  createButtons();
+  collapseLists();
   addTags($('a.list-card'));
+  console.log('TrelloX: Ready');
 }
 
+function refreshLabels($cards) {
 // Replace old labels with color side bar on all cards
-function replaceLabels($cards) {
+
+  console.log('TrelloX: Refreshing Card Labels');
+
   $cards.each(function (i, card) {
   
-    // card is URL of card
+    // Card is URL of card
     // $card is an object
     var $card = $(card);
     var $labels = $card.find('span.card-label');
@@ -77,6 +94,30 @@ function replaceLabels($cards) {
     } else {
       // When Labels: New, hide the legacy labels
       $cardDetails.css('border-left-color', 'transparent');
+    }
+  });
+}
+
+function refreshNumbers($cards) {
+// Replace old labels with color side bar on all cards
+
+  console.log('TrelloX: Refreshing Card Numbers');
+
+  $cards.each(function (i, card) {
+  
+    // Card is URL of card
+    // $card is an object
+    var $card = $(card);
+    //var $labels = $card.find('span.card-label');
+    //var $labelContainer = $card.find('.list-card-labels');
+    //var $cardDetails = $card.find('.list-card-details');
+    var $cardNumber = $card.find('.card-short-id');
+
+    // If Numbers: On show card numbers
+    if (showNumbers()) {
+      $cardNumber.removeClass('hide');
+    } else {
+      $cardNumber.addClass('hide');
     }
   });
 }
@@ -151,12 +192,16 @@ function collapseLists() {
   }
 }
 
-// Add tag formatting to all cards  
 function addTags($cards) {
+// Add #tag formatting to all cards
+
+  console.log('TrelloX: Formatting Card #tags');
+
   var cards = document.getElementsByClassName('list-card-title');
   $cards.each(function (i, card) {
     cards[i].innerHTML = cards[i].innerHTML
     // Needed to use invisible space between $1 to prevent regex iterating endlessly...???
+    // Need a more elegant solution
     .replace(/@(\S+)/, '<strong>@﻿$1</strong>')
     .replace(/#([a-zA-Z]+)/, '<span class="card-tag">#﻿$1</span>')
     .replace(/!(\S+)/, '<code>﻿$1</code>')
@@ -174,48 +219,40 @@ function showNumbers() {
     return (localStorage.getItem('trelloXNumbers') || 'true') === 'true';
 }
 
-function setLabelsStatus(state) {
+function setLabelsState(state) {
   var $button = $('.trellox-labels-btn > .board-header-btn-text');
 
   if (state) {
     localStorage.setItem('trelloXLabels', "true");
     $button.text('Labels: New');
-    doMutate();
   } else {
     localStorage.setItem('trelloXLabels', "false");
     $button.text('Labels: All');
-    doMutate();
   }
+  refreshLabels($('a.list-card'));
 }
 
-function setNumbersStatus(state) {
+function setNumbersState(state) {
   var $button = $('.trellox-numbers-btn > .board-header-btn-text');
 
   if (state) {
     localStorage.setItem('trelloXNumbers', "true");
     $button.text('Numbers: On');
-    doMutate();
   } else {
     localStorage.setItem('trelloXNumbers', "false");
     $button.text('Numbers: Off');
-    doMutate();
   }
+  refreshNumbers($('a.list-card'));
 }
 
 function createButtons() {
-  // Wait until at least one card has been rendered
-  if (!$('.list-card').length) {
-    setTimeout(createButtons, 500);
-    return;
-  }
-
   // Set up Labels button
   var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
     '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: New</span>' +
     '</a>');
   $buttonLabels.on('click', function() {
-    setLabelsStatus(!showLabels());
+    setLabelsState(!showLabels());
   });
   
   var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
@@ -223,23 +260,16 @@ function createButtons() {
   '<span class="board-header-btn-text" title="Show or hide card numbers.">Numbers: On</span>' +
   '</a>');
   $buttonNumbers.on('click', function() {
-    setNumbersStatus(!showNumbers());
+    setNumbersState(!showNumbers());
   });
 
-  $('.board-header-btns.mod-left').append($buttonLabels);
   $('.board-header-btns.mod-left').append($buttonNumbers);
+  $('.board-header-btns.mod-left').append($buttonLabels);
   
-  setLabelsStatus(showLabels());
-  setNumbersStatus(showNumbers());
+  setNumbersState(showNumbers());
+  setLabelsState(showLabels());
 }
 
-function doNothing() {
-  setTimeout(doNothing, 10000);
-}
-
-$(document).ready(function() {
-  createButtons();
-  doMutate();
-  doNothing();
-  collapseLists();
+$(window).bind("load", function() {
+  installTrelloX();
 });
