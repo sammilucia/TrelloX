@@ -1,21 +1,24 @@
 {
-  "browser_action": {
-    "default_icon": "img/icon16.png"
-  }, 
-  "content_scripts": [ {
-    "css": [ "css/styles.css" ],
-    "js": [ "js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js" ],
-    "matches": [ "https://trello.com/b/*" ]
-  } ],
   "manifest_version": 2,
   "name": "TrelloX",
-  "version": "1.0.34",
-  "description": "Gives Trello an up-to-date user experience, reducing clutter and increasing readability.",
+  "version": "1.0.35",
+  "description": "Trello with focus.",
+  "homepage_url": "https://trellox.io",
+
   "icons": {
     "16": "img/icon16.png",
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
-  "permissions": [ "storage", "webNavigation", "*://trello.com/*" ],
-  "update_url": "https://clients2.google.com/service/update2/crx"
+  "browser_action": {
+    "default_icon": "img/icon16.png",
+    "default_popup": "https://trello.com"
+  }, 
+  "content_scripts": [{
+    "matches": ["https://trello.com/b/*"],
+    "css": ["css/styles.css"],
+    "js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
+  }],
+  "permissions": ["storage", "webNavigation", "*://trello.com/*"]
+  //"update_url": "https://clients2.google.com/service/update2/crx"
 }
