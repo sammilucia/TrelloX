@@ -1,9 +1,9 @@
-// Watch for Board changes
-var targetNode = document.getElementById('content');
-var config = { childList: true };
-// Set counter to workaround duplicate mutation event
-var duplicateCount = 2;
-// Reinstall TrelloX when Board change detected
+// Set up variables
+var colorCache = {};
+var targetNode = document.getElementById('content'); // Watch for Board changes
+var config = { childList: true }; // Set counter to workaround duplicate mutation event
+var duplicateCount = 2; // Reinstall TrelloX when Board change detected
+
 var callback = function(mutationsList) {
   for(var mutation of mutationsList) {
     if (mutation.type == 'childList') {
@@ -16,22 +16,16 @@ var callback = function(mutationsList) {
     }
   }
 };
-// Create the observer instance and start observing
+
+// Create observer instance, start observing
 var observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
 
-// Watch for Card changes
-//$('.list-card-labels', '#board').on("DOMSubtreeModified",function() {
-//  console.log('TrelloX: Detected Card Label change');
-//  refreshLabels();
-//});
-
-// Cache background colors to reduce refreshLabels() overhead
-var colorCache = {};
 function getLabelColor(label) {
+  // Cache background colors to reduce refreshLabels() overhead
   var classes = label.className;
   if (!colorCache[classes]) {
-    colorCache[classes] = $(label).css("background-color");
+    colorCache[classes] = $(label).css('background-color');
   }
   return colorCache[classes];
 }
@@ -46,34 +40,28 @@ function installTrelloX() {
   console.log('TrelloX: Ready');
 }
 
-function refreshLabels($cards) {
-// Replace old labels with color side bar on all cards
-
+/*function refreshLabels($cards) {
+  // Replace old labels with color side bar on all cards
   console.log('TrelloX: Refreshing Card Labels');
 
-  $cards.each(function (i, card) {
+  for (var card of $cards) {
   
-    // card is URL of card
-    // $card is an object
+  // 1. Need to add '.new' to CSS, and toggle between adding and removing '.new'
+  // 2. Need to check for how many labels on card, and shrink .list-card-details width dynamically
+  
+    // card is the URL of each Card
+    // $card is the Card properties
     var $card = $(card);
+
     var $labels = $card.find('span.card-label');
     var $labelContainer = $card.find('.list-card-labels');
     var $cardDetails = $card.find('.list-card-details');
     var $cardNumber = $card.find('.card-short-id');
-
-    // ***** Stuff not related to this loop needs to go into its own function
     
     // Pre-set CSS to make TrelloX appear as seamless as possible
     $cardDetails.css('border-left-width', '6px');
     $cardDetails.css('border-left-style', 'outset');
     $labelContainer.addClass('hide');
-    
-    // If Numbers: On show card numbers
-    if (showNumbers()) {
-      $cardNumber.removeClass('hide');
-    } else {
-      $cardNumber.addClass('hide');
-    }
 
     // If there are label(s) make the side bar color of the first label (0)
     if ($labels.length) {
@@ -103,15 +91,15 @@ function refreshLabels($cards) {
       // When Labels: New, hide the legacy labels
       $cardDetails.css('border-left-color', 'transparent');
     }
-  });
-}
+  //}; 
+} */
 
 function refreshNumbers($cards) {
 // Replace old labels with color side bar on all cards
 
   console.log('TrelloX: Refreshing Card Numbers');
 
-  $cards.each(function (i, card) {
+  for (var card of $cards) {
   
     // card is URL of card
     // $card is an object
@@ -127,7 +115,7 @@ function refreshNumbers($cards) {
     } else {
       $cardNumber.addClass('hide');
     }
-  });
+  };
 }
 
 function collapseLists() {
@@ -145,7 +133,7 @@ function collapseLists() {
           if (isClosed[boardID+':'+columnName])
             e.parentNode.parentNode.parentNode.classList.add('collapsed');
           // Create collapse icon
-          var toggle = document.createElement("div");
+          var toggle = document.createElement('div');
           toggle.className = 'collapse-toggle';
           // Click handler for collapse icon
           toggle.addEventListener('click', evt => {
@@ -208,7 +196,9 @@ function addTags($cards) {
   console.log('TrelloX: Formatting Card #tags');
 
   var cards = document.getElementsByClassName('list-card-title');
+  
   $cards.each(function (i, card) {
+  
     cards[i].innerHTML = cards[i].innerHTML
     // Needed to use invisible space between $1 to prevent regex iterating endlessly...???
     // Need a more elegant solution
@@ -233,13 +223,14 @@ function setLabelsState(state) {
   var $button = $('.trellox-labels-btn > .board-header-btn-text');
 
   if (state) {
-    localStorage.setItem('trelloXLabels', "true");
+    localStorage.setItem('trelloXLabels', 'true');
     $button.text('Labels: New');
   } else {
-    localStorage.setItem('trelloXLabels', "false");
+    localStorage.setItem('trelloXLabels', 'false');
     $button.text('Labels: Old');
   }
-  refreshLabels($('a.list-card'));
+  // Put back when able to toggle between old labels and '.new'
+  //refreshLabels($('a.list-card'));
 }
 
 function setNumbersState(state) {
@@ -257,13 +248,14 @@ function setNumbersState(state) {
 
 function createButtons() {
   // Set up Labels button
-  var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
+  // Add back when Labels New/Old toggling is working again using css '.new'
+  /*var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
     '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: New</span>' +
     '</a>');
   $buttonLabels.on('click', function() {
     setLabelsState(!showLabels());
-  });
+  });*/
   
   var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
   '<span class="board-header-btn-icon icon-sm icon-number"></span>' +
@@ -274,10 +266,10 @@ function createButtons() {
   });
 
   $('.board-header-btns.mod-left').append($buttonNumbers);
-  $('.board-header-btns.mod-left').append($buttonLabels);
+  //$('.board-header-btns.mod-left').append($buttonLabels);
 }
 
-// As soon as the page is ready, install TrelloX
-$(window).on("load", function() {
+$(window).on('load', function() {
+  // As soon as the page is loaded, install TrelloX. Can't use on ready because of race condition
   installTrelloX();
 });
