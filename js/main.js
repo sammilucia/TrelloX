@@ -271,5 +271,5 @@ function createButtons() {
 
 $(window).on('load', function() {
   // As soon as the page is loaded, install TrelloX. Can't use on ready because of race condition
-  installTrelloX();
+  setTimeout(installTrelloX(),10);
 });
