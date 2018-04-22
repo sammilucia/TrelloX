@@ -2,14 +2,14 @@
 var targetNode = document.getElementById('content');
 var config = { childList: true };
 // Set counter to workaround duplicate mutation event
-var duplicateCount = 0;
+var duplicateCount = 2;
 // Reinstall TrelloX when Board change detected
 var callback = function(mutationsList) {
   for(var mutation of mutationsList) {
     if (mutation.type == 'childList') {
-    duplicateCount++;
-      if ( duplicateCount == 2 ) {
-        duplicateCount = 0;
+    duplicateCount--;
+      if (!duplicateCount) {
+        duplicateCount = 2;
         console.log('TrelloX: Detected Board change');
         setTimeout(installTrelloX, 50);
       }
@@ -19,6 +19,12 @@ var callback = function(mutationsList) {
 // Create the observer instance and start observing
 var observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
+
+// Watch for Card changes
+//$('.list-card-labels', '#board').on("DOMSubtreeModified",function() {
+//  console.log('TrelloX: Detected Card Label change');
+//  refreshLabels();
+//});
 
 // Cache background colors to reduce refreshLabels() overhead
 var colorCache = {};
@@ -34,6 +40,8 @@ function installTrelloX() {
   console.log('TrelloX: Installing TrelloX');
   createButtons();
   collapseLists();
+  setNumbersState(showNumbers());
+  setLabelsState(showLabels());
   addTags($('a.list-card'));
   console.log('TrelloX: Ready');
 }
@@ -45,7 +53,7 @@ function refreshLabels($cards) {
 
   $cards.each(function (i, card) {
   
-    // Card is URL of card
+    // card is URL of card
     // $card is an object
     var $card = $(card);
     var $labels = $card.find('span.card-label');
@@ -68,7 +76,7 @@ function refreshLabels($cards) {
     }
 
     // If there are label(s) make the side bar color of the first label (0)
-    if ($labels.size()) {
+    if ($labels.length) {
 
       var colorArray = getLabelColor($labels[0]);
       
@@ -105,7 +113,7 @@ function refreshNumbers($cards) {
 
   $cards.each(function (i, card) {
   
-    // Card is URL of card
+    // card is URL of card
     // $card is an object
     var $card = $(card);
     //var $labels = $card.find('span.card-label');
@@ -124,72 +132,74 @@ function refreshNumbers($cards) {
 
 function collapseLists() {
   if (!document.querySelector('.collapse-toggle')) {
-      // get boardid
-      var boardid = window.location.href.substring(window.location.href.indexOf('/b/') + 3, window.location.href.indexOf('/b/') + 11);
-      // get all lists
+      // Which Board are we on?
+      var boardID = window.location.href.substring(window.location.href.indexOf('/b/') + 3, window.location.href.indexOf('/b/') + 11);
+      console.log('TrelloX: Board is \x27' + boardID + '\x27');
+      // Get all Lists
       document.querySelectorAll('.list-header-name').forEach( e => {
-        // encoded list title for unique id
+        // Encode List title for unique ID
         var columnName = encodeURI(e.textContent);
-        // get isClosed value from chrome extension storage
-        chrome.storage.local.get(boardid+':'+columnName, isClosed => {
-          // if this list is closed, add the -closed class
-          if (isClosed[boardid+':'+columnName])
-            e.parentNode.parentNode.parentNode.classList.add('-closed');
-          // create toggle button
+        // Get isClosed value from chrome extension storage
+        chrome.storage.local.get(boardID+':'+columnName, isClosed => {
+          // If this list is closed, add the 'collapsed' class
+          if (isClosed[boardID+':'+columnName])
+            e.parentNode.parentNode.parentNode.classList.add('collapsed');
+          // Create collapse icon
           var toggle = document.createElement("div");
           toggle.className = 'collapse-toggle';
-          // toggle click handler
+          // Click handler for collapse icon
           toggle.addEventListener('click', evt => {
-            // get column name from event target
+            // Get column name from event target
             var thisColumn = encodeURI(evt.target.nextSibling.textContent);
-            // set isClosed value in chrome storage to inverse value
-            chrome.storage.local.set({[boardid+':'+thisColumn]: isClosed[boardid+':'+columnName] ? null : true}, res => {
-              // toggle the -closed class on successful save
-              evt.target.parentNode.parentNode.parentNode.classList.toggle('-closed');
+            // Set isClosed value in chrome storage to inverse value
+            chrome.storage.local.set({[boardID+':'+thisColumn]: isClosed[boardID+':'+columnName] ? null : true}, res => {
+              // Toggle the collapsed class on successful save
+              evt.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
             });
           })
           e.parentNode.parentNode.parentNode.setAttribute('draggable', true);
-          // insert toggle button
+          // Insert collapse icon
           e.parentNode.insertBefore(toggle, e);
         });
       });
-      // we want to open lists after a short delay if a user is dragging a card on top of one
-      // trello already uses jQuery draggable, but we have to create new events since content scripts
-      // cant access JS on the parent page.
+      // Open List after a short delay if a Card is dragged over it. Trello uses jQuery draggable,
+      // but we have to create new events since a Content Script can't access JS on the parent page.
       var isClosed, openList;
-      // make all cards draggable - revert to their former location if they werent moved, and don't wait to revert after drop
+      // Make all Cards draggable. Put Cards back immediately on unsuccessful drop
       $('.list-card').draggable({revert: true, revertDuration: 0});
-      // make all lists droppable
+      // Make all Lists droppable
       $('.js-list').droppable({
-        // we only want to look at the area below the pointer
+        // Watching the area below the pointer
         tolerance: 'pointer',
-        // when we move over a column, if it's closed, open it after a short period.
-        // we use isClosed to keep track of the list's initial state so we know if we need to close it after.
+        // When dragging over a closed List, open it after a short period
         over: (evt, ui) => {
-          if (evt.target.classList.contains('-closed')) {
+          if (evt.target.classList.contains('collapsed')) {
             openList = setTimeout(() => {
-              evt.target.classList.remove('-closed');
+              evt.target.classList.remove('collapsed');
               isClosed = true;
             }, 250);
           } else {
             isClosed = false;
           }
         },
-        // when we leave a list or drop an item on it, clear the timeout and close it if it was originally closed.
+        // When we leave a previously closed List, clear the timeout and re-close it
+        // When we drop a Card on it, clear the timeout and re-close it
         out: (evt, ui) => {
           clearTimeout(openList);
           if (isClosed) {
-            evt.target.classList.add('-closed');
+            evt.target.classList.add('collapsed');
           }
         },
         drop: (evt, ui) => {
           clearTimeout(openList);
           if (isClosed) {
-            evt.target.classList.add('-closed');
+            evt.target.classList.add('collapsed');
           }
         }
       });
   }
+  // Fade in once Lists are collapsed
+  $('#board').delay(50).animate({ opacity: 1 }, 80);
 }
 
 function addTags($cards) {
@@ -227,7 +237,7 @@ function setLabelsState(state) {
     $button.text('Labels: New');
   } else {
     localStorage.setItem('trelloXLabels', "false");
-    $button.text('Labels: All');
+    $button.text('Labels: Old');
   }
   refreshLabels($('a.list-card'));
 }
@@ -265,11 +275,9 @@ function createButtons() {
 
   $('.board-header-btns.mod-left').append($buttonNumbers);
   $('.board-header-btns.mod-left').append($buttonLabels);
-  
-  setNumbersState(showNumbers());
-  setLabelsState(showLabels());
 }
 
-$(window).bind("load", function() {
+// As soon as the page is ready, install TrelloX
+$(window).on("load", function() {
   installTrelloX();
 });
