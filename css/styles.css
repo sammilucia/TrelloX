@@ -6,21 +6,48 @@ code { font-size: 12px; color: #4d4d4d; }
 .badge-icon { color: #b3bcc1; }
 
 /* Hide all lists until TrelloX is installed */
-#board {
+#board { 
   opacity: 0;
 }
 
-/* Collapsed List width */
-.js-list.collapsed {
-  width: 38px;
+/* Need to add '.new' to the below three and toggle between them */
+/* Move Card details right to accommodate new Labels */
+.list-card-details {
+  width: calc( 100% - 20px );
+  padding-left: 16px !important;
+}
+/* Fix Labels to the left of Cards */
+.list-card-labels {
+  margin: 0 !important;
+  position: absolute !important;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+/* Reshape Labels */
+.card-label.mod-card-front {
+  margin: 0 !important;
+  min-width: 0 !important;
+  font-size: 0 !important;
+  height: 100% !important;
+  width: 6px !important;
+  border-radius: 0 !important;
 }
 
-/* Hide collapsed Lists */
+/* Fix resize of Numbers button on toggle */
+.trellox-numbers-btn {
+  min-width: 96px;
+}
+
+/* Define width of collapsed Lists */
+.js-list.collapsed {
+  width: 39px;
+}
+/* Hide all collapsed Lists */
 .js-list.collapsed .list * {
   display: none;
 }
-
-/* But show the title bars */
+/* Now show just the title bars */
 .js-list.collapsed .list-header, .js-list.collapsed .collapse-toggle {
   display: block;
   min-height: 230px;
@@ -52,7 +79,6 @@ code { font-size: 12px; color: #4d4d4d; }
   text-align: center;
   position: relative;
 }
-
 /* Down collapse icon formatting */
 .collapse-toggle:after {
   display: block;
@@ -64,7 +90,6 @@ code { font-size: 12px; color: #4d4d4d; }
   top: 8px;
   left: 5px;
 }
-
 /* Right collapse icon formatting */
 .js-list.collapsed .collapse-toggle:after {
   border-top: 5px solid transparent;
@@ -72,4 +97,9 @@ code { font-size: 12px; color: #4d4d4d; }
   border-left: 5px solid #999;
   top: 5px;
   left: 8px;
+}
+
+/* Lighten in-Card icons - (not working yet, appears to refresh dynamically) *//
+.badge-icon .icon-sm {
+  color: #ddd;
 }
