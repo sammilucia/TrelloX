@@ -49,6 +49,14 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-04-23
+- Fixed problems with new labels not updating under various circumstances
+- Performance improvements (about 10x faster)
+- Further code cleanup, omg so cleane
+- Updated jQuery-UI to 1.12.1
+- Known issue: Can no longer toggle between New and Old style Labels
+- Known issue: Adding too many labels overlaps text
+
 ### 2018-04-22 version 1.0.37
 - Fixed visual bug when editing collapsed List titles
 - Fixed a race condition causing TrelloX to be installed too early and not working
