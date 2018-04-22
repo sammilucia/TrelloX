@@ -49,7 +49,15 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
-### 2017-10-14 version 1.0.36
+### 2018-04-22 version 1.0.37
+- Fixed visual bug when editing collapsed List titles
+- Fixed a race condition causing TrelloX to be installed too early and not working
+- Performance improvements
+- Lists now only revealed after TrelloX is installed (looks much nicer)
+- Further code optimisations & cleanups
+- Upgraded to jQuery 3.3.1
+
+### 2018-04-21 version 1.0.36
 Major bug-fix release, preparing for launch
 - Swapped position of Labels and Numbers buttons because Labels grows/shrinks in size moving Numbers button
 - Changed load order to be more visually pleasing
@@ -63,7 +71,7 @@ Major bug-fix release, preparing for launch
 - Cleaned up code
 - Added basic status logging to console
 
-### 2017-10-14 version 1.0.35
+### 2018-04-21 version 1.0.35
 - Updated manifest.json now Google has a clearly defined standard
 
 ### 2017-10-14 version 1.0.34
