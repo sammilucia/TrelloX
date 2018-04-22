@@ -49,6 +49,10 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-04-23 version 1.0.39
+- Added 10ms delay to prevent rare condition preventing install
+- Reverted to jQuery UI 1.9.2 because 1.12.1 introduced bugs while dragging
+
 ### 2018-04-23 version 1.0.38
 - Fixed problems with new labels not updating under various circumstances
 - Performance improvements (about 10x faster)
