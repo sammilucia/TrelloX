@@ -49,6 +49,13 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-04-23 version 1.0.40
+Formal beta release of v1.0 (build 40)
+- Fixed regression - collapsed Lists were not auto-expanded when dropping cards into them
+- Separator Cards now transparent and use a gripper icon to make them feel more tactile
+- Further performance optimisations (approx 10x improvement again)
+- Fixed minor visual bugs & niceties
+
 ### 2018-04-23 version 1.0.39
 - Added 10ms delay to prevent rare condition preventing install
 - Reverted to jQuery UI 1.9.2 because 1.12.1 introduced bugs while dragging
