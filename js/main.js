@@ -1,8 +1,3 @@
-// Changelog 1.0.39
-// Separator Cards are now transparent and us a gripper icon to make them feel more tactile
-// Further performance optimisations (approx 10x improvement again)
-// Fixed minor visual bugs & niceties
-
 // To Do
 // Event monitor (
 //   innerHTML('.card-short-id');
