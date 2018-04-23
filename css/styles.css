@@ -23,6 +23,8 @@ code { font-size: 12px; color: #4d4d4d; }
   left: 0;
   top: 0;
   height: 100%;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 /* Reshape Labels */
 .card-label.mod-card-front {
@@ -32,6 +34,19 @@ code { font-size: 12px; color: #4d4d4d; }
   height: 100% !important;
   width: 6px !important;
   border-radius: 0 !important;
+  z-index: -1;
+}
+
+/* Format Cards transparent */
+.list-card.separator {
+  background: none;
+  border-bottom: 0;
+}
+.list-card-title.separator {
+  color: #bbb;
+  text-shadow: 0 1px #fff;
+  margin-top: -3px;
+  margin-bottom: 1px;
 }
 
 /* Fix resize of Numbers button on toggle */
