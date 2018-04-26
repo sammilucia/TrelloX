@@ -1,8 +1,4 @@
-// Changelog 1.0.41
-// - Updated to jQuery UI 1.12.1 and jQuery 3.3.1 and debugged
-// - Further performance optimisations (approx 10x improvement again)
-
-// To Do
+// To Do ??
 // Event monitor (
 //   innerHTML('.card-short-id');
 //   innerHTML('.list-card-title'|'.js-card-name');
@@ -10,14 +6,6 @@
 //   ifChanged {
 //     do addTags();
 //   });
-//
-// Reload still sometimes doesn't set opacity. Debug or add failsafe after timeout?
-//
-// Try downgrading to jquery 1.9 again to fix dragging issue?
-//
-// failsafe to reveal board?
-//
-// add spacer left of Numbers toggle
 
 // Set up variables
 var colorCache = {};
@@ -289,7 +277,7 @@ function setNumbersState(state) {
 function createButtons() {
   // Set up Labels button
   // Add back when Labels New/Old toggling is working again using css '.new'
-  /*var $buttonLabels = $('<a class="board-header-btn trellox-labels-btn" href="#">' +
+  /*var $buttonLabels = $('<span class="board-header-btn-divider"></span><a class="board-header-btn trellox-labels-btn" href="#">' +
     '<span class="board-header-btn-icon icon-sm icon-card-cover"></span>' +
     '<span class="board-header-btn-text" title="Show all labels, or use the first label as card color">Labels: New</span>' +
     '</a>');
@@ -297,7 +285,7 @@ function createButtons() {
     setLabelsState(!showLabels());
   });*/
   
-  var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
+  var $buttonNumbers = $('<span class="board-header-btn-divider"></span><a class="board-header-btn trellox-numbers-btn" href="#">' +
   '<span class="board-header-btn-icon icon-sm icon-number"></span>' +
   '<span class="board-header-btn-text" title="Show or hide card numbers.">Numbers: On</span>' +
   '</a>');
