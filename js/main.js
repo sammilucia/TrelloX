@@ -1,3 +1,7 @@
+// Changelog 1.0.41
+// - Updated to jQuery UI 1.12.1 and jQuery 3.3.1 and debugged
+// - Further performance optimisations (approx 10x improvement again)
+
 // To Do
 // Event monitor (
 //   innerHTML('.card-short-id');
@@ -11,7 +15,9 @@
 //
 // Try downgrading to jquery 1.9 again to fix dragging issue?
 //
-// Try hide '#board' instad of opacity?
+// failsafe to reveal board?
+//
+// add spacer left of Numbers toggle
 
 // Set up variables
 var colorCache = {};
@@ -23,7 +29,7 @@ var duplicateCount = 2; // Reinstall TrelloX when Board change detected
 // Watch for URL changes? but 'hashchange' doesn't seem to work (because no hash?)
 // Set up mutation event listener to detect board changes
 var callback = function(mutationsList) {
-  for(var mutation of mutationsList) {
+  for (var mutation of mutationsList) {
     if (mutation.type == 'childList') {
     duplicateCount--;
       if (!duplicateCount) {
@@ -48,15 +54,6 @@ observer.observe(targetNode, config);
     element: '*'
   }]
 });*/
- 
-function getLabelColor(label) {
-  // Cache background colors to reduce refreshLabels() overhead
-  var classes = label.className;
-  if (!colorCache[classes]) {
-    colorCache[classes] = $(label).css('background-color');
-  }
-  return colorCache[classes];
-}
 
 function installTrelloX() {
   console.log('TrelloX: Installing TrelloX');
@@ -64,9 +61,19 @@ function installTrelloX() {
   collapseLists();
   setNumbersState(showNumbers());
   setLabelsState(showLabels());
-  addTags($('a.list-card'));
+  addTags($('.list-card-title'));
   console.log('TrelloX: Ready');
 }
+
+/*function getLabelColor(label) {
+  // Cache background colors to reduce refreshLabels() overhead
+  // ############ probably needs to be cached properly before the for () loop within the refreshLabels() function!!
+  var classes = label.className;
+  if (!colorCache[classes]) {
+    colorCache[classes] = $(label).css('background-color');
+  }
+  return colorCache[classes];
+}*/
 
 /*function refreshLabels($cards) {
   // Replace old labels with color side bar on all cards
@@ -124,32 +131,12 @@ function installTrelloX() {
 
 function refreshNumbers($cards) {
   // Replace old labels with color side bar on all cards
+  console.log('TrelloX: Refreshing Card numbers');
 
-  console.log('TrelloX: Refreshing Card Numbers');
-
-//Replace 'for' loops with forEach
-// https://thejsguy.com/2016/07/30/javascript-for-loop-vs-array-foreach.html
-
-//For best performance I'd avoid referencing anything that wasn't passed as an argument or defined inside the function itself if you don't have to. I'm not 100% sure that matters but I could see why it might.
-
-//Getter values that involve any kind of lookup process like array lengths or DOM node properties are probably also still best cached to a variable.
-
-  for (var card of $cards) {
-  
-    // card is URL of card
-    // $card is an object
-    var $card = $(card);
-    //var $labels = $card.find('span.card-label');
-    //var $labelContainer = $card.find('.list-card-labels');
-    //var $cardDetails = $card.find('.list-card-details');
-    var $cardNumber = $card.find('.card-short-id');
-
-    // If Numbers: On show card numbers
-    if (showNumbers()) {
-      $cardNumber.removeClass('hide');
-    } else {
-      $cardNumber.addClass('hide');
-    }
+  if (showNumbers()) {
+    $('.card-short-id').removeClass('hide');
+  } else {
+    $('.card-short-id').addClass('hide');
   };
 }
 
@@ -162,6 +149,7 @@ function collapseLists() {
     // Parse the unique Board ID from the URL
     // ########### or just use '.js-open-board' or right('.js-open-board',4), or substring('.js-open-board',4,12);
     var boardID = window.location.href.substring(window.location.href.indexOf('/b/') + 3, window.location.href.indexOf('/b/') + 11);
+
     console.log('TrelloX: Board is \x27' + boardID + '\x27');
 
     // Get all Lists on this Board
@@ -295,7 +283,7 @@ function setNumbersState(state) {
     localStorage.setItem('trelloXNumbers', "false");
     $button.text('Numbers: Off');
   }
-  refreshNumbers($('a.list-card'));
+  refreshNumbers($('.list-card-title'));
 }
 
 function createButtons() {
