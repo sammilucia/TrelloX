@@ -16,7 +16,7 @@
   "content_scripts": [{
     "matches": ["https://trello.com/b/*"],
     "css": ["css/styles.css"],
-    "js": ["js/jquery.js", "js/jquery-ui.js", "js/main.js"]
+    "js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
   }],
   "permissions": ["storage", "webNavigation", "*://trello.com/*"]
   //"update_url": "https://clients2.google.com/service/update2/crx"
