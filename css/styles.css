@@ -47,6 +47,7 @@ code { font-size: 12px; color: #4d4d4d; }
   text-shadow: 0 1px #fff;
   margin-top: -3px;
   margin-bottom: 1px;
+  text-align:center;
 }
 
 /* Fix resize of Numbers button on toggle */

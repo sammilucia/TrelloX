@@ -49,6 +49,13 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-04-29
+Beta 2 of v1.0
+- TrelloX now properly updates #tags @mentions and !hh:mm times in real-time
+- Re-implemented mutation-summary library
+- Removed redundant code
+- Removed debug code
+
 ### 2018-04-23 version 1.0.40
 Formal beta release of v1.0 (build 40)
 - Fixed regression - collapsed Lists were not auto-expanded when dropping cards into them
