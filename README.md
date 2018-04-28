@@ -49,7 +49,10 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
-### 2018-04-29
+### 2018-04-29 version 1.0.43
+- Added 24 and 32px icons for Chrome on high DPI screens
+
+### 2018-04-29 version 1.0.42
 Beta 2 of v1.0
 - TrelloX now properly updates #tags @mentions and !hh:mm times in real-time
 - Re-implemented mutation-summary library
