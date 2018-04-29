@@ -56,26 +56,26 @@ code { font-size: 12px; color: #4d4d4d; }
 }
 
 /* Define width of collapsed Lists */
-.js-list.collapsed {
+.list-wrapper.collapsed {
   width: 39px;
 }
 /* Hide all collapsed Lists */
-.js-list.collapsed .list * {
+.list-wrapper.collapsed .list * {
   display: none;
 }
 /* Now show just the title bars */
-.js-list.collapsed .list-header, .js-list.collapsed .collapse-toggle {
+.list-wrapper.collapsed .list-header, .list-wrapper.collapsed .collapse-toggle {
   display: block;
   min-height: 230px;
 }
 
 /* Reduce with of title text to accommodate collapse icon */
-.js-list .list-header-name {
+.list-wrapper .list-header-name {
   width: calc(100% - 22px);
 }
 
 /* Collapsed List header formatting */
-.js-list.collapsed .list-header-name {
+.list-wrapper.collapsed .list-header-name {
   width: 204px;
   display: block;
   transform: rotate(90deg);
@@ -107,7 +107,7 @@ code { font-size: 12px; color: #4d4d4d; }
   left: 5px;
 }
 /* Right collapse icon formatting */
-.js-list.collapsed .collapse-toggle:after {
+.list-wrapper.collapsed .collapse-toggle:after {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 5px solid #999;

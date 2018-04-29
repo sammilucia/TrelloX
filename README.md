@@ -51,6 +51,11 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 ## History
 ### 2018-04-29 version 1.0.43
 - Added 24 and 32px icons for Chrome on high DPI screens
+- Performance optimisation (approx 20x lighter)
+- Further code cleanup
+- Prevented #tags, @mentions, !hh:mm, etc. being redrawn unnecessarily
+- // Fixed: Card numbers weren't added to new Cards (if enabled)
+- Added failsafe to reveal Board if CSS animate fails (WebKit bug?)
 
 ### 2018-04-29 version 1.0.42
 Beta 2 of v1.0
