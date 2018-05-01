@@ -49,6 +49,12 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-05-01 version 1.0.44
+Beta 3 of v1.0
+- Fixed: Separator gripper shifted when turning Numbers on and off
+- Tidied up 24 and 32px icons
+- 
+
 ### 2018-04-29 version 1.0.43
 - Added 24 and 32px icons for Chrome on high DPI screens
 - Performance optimisation (approx 20x lighter)

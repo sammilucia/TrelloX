@@ -1,11 +1,6 @@
 // Set up variables
 var lastURL = document.URL;
 
-  /*var trelloChanges = summaries[0];
-  trelloChanges.added.forEach(function(newEl) {
-    console.log(newEl);
-  });*/
-
 function collapseLists() {
   // Handle collapsing/uncollapsing of lists, and dragging cards over collapsed lists  
   if (!document.querySelector('.collapse-toggle', '#board')) {
@@ -14,23 +9,24 @@ function collapseLists() {
     var boardID = document.URL.substring(document.URL.indexOf('/b/') + 3, document.URL.indexOf('/b/') + 11);
 
     // Get all Lists on this Board
-    document.querySelectorAll('.list-header-name', '#board').forEach(function(list) {
+    document.querySelectorAll('.list-header-name', '#board').forEach(function (list) {
     
       // Encode List title for unique ID
-      var listName = boardID+':'+encodeURI(list.textContent);
+      var listName = boardID + ':' + encodeURI(list.textContent);
 
       // Get isClosed value from chrome extension storage
-      chrome.storage.local.get(listName, function(isClosed) {
+      chrome.storage.local.get(listName, function (isClosed) {
         // If this list was closed, add the 'collapsed' class
-        if (isClosed[listName])
+        if (isClosed[listName]) {
           list.parentNode.parentNode.parentNode.classList.add('collapsed');
+        }
         // Create collapse icon
         var toggle = document.createElement('div');
         toggle.className = 'collapse-toggle';
         // Click handler for collapse icon
-        toggle.addEventListener('click', function(event) {
+        toggle.addEventListener('click', function (event) {
           // Get column name from event target
-          var thisList = boardID+':'+encodeURI(event.target.nextSibling.textContent);
+          var thisList = boardID + ':' + encodeURI(event.target.nextSibling.textContent);
           // Set isClosed value in chrome storage to inverse value
           chrome.storage.local.set({[thisList]: isClosed[listName] ? null : true}, function() {
             // Toggle the 'collapsed' class on successful save
@@ -82,8 +78,6 @@ function collapseLists() {
 
 function replaceTags() {
   
-  let t0 = performance.now();
-  
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
     // Used invisible space between $1 to prevent regex iterating endlessly...
@@ -100,9 +94,6 @@ function replaceTags() {
   // Make separator Cards transparent
   $(function(){ $('.list-card:contains(☰)', '#board').addClass('separator'); });
   $(function(){ $('.list-card-title:contains(☰)', '#board').addClass('separator'); });
-  
-  let t1 = performance.now();
-  console.log('DEBUG: replaceTags() called ' + (t1 - t0) + 'ms');  
 }
 
 function showNumbers() {
@@ -110,9 +101,7 @@ function showNumbers() {
 }
 
 function refreshNumbers() {
-  
-  console.log('DEBUG: Called refreshNumbers()');
-  
+    
   // Add Card #numbers
   if (showNumbers()) {
     $('.card-short-id').removeClass('hide');
@@ -157,7 +146,6 @@ function refreshTrelloX() {
 }
 
 function installTrelloX() {
-  console.log('DEBUG: Installing TrelloX');
   createButtons();
   collapseLists();
   // Reveal Lists once they're collapsed
@@ -171,6 +159,7 @@ function installTrelloX() {
 $(window).on('load', function() {
   // As soon as the page is loaded, install TrelloX. Can't use on ready because of race condition
   installTrelloX();
+  
   // Observe changes to Trello HTML
   var observer = new MutationSummary({
     // Send summary of observed changes
