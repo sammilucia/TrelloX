@@ -53,7 +53,8 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 Beta 3 of v1.0
 - Fixed: Separator gripper shifted when turning Numbers on and off
 - Tidied up 24 and 32px icons
-- 
+- Changed !hh:mm so that '!' can now be used with anything (a !word, !h:mm, or just ! by itself). Makes this feature more useful and less limiting
+- Removed workaround ﻿ character for #, !, and @ tag formatting
 
 ### 2018-04-29 version 1.0.43
 - Added 24 and 32px icons for Chrome on high DPI screens

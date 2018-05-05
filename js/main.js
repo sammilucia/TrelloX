@@ -83,9 +83,9 @@ function replaceTags() {
     // Used invisible space between $1 to prevent regex iterating endlessly...
     // Need a more elegant solution
     card.innerHTML = card.innerHTML
-    .replace(/@(\S+)/, '<strong>@﻿$1</strong>')
-    .replace(/#([a-zA-Z]+)/, '<span class="card-tag">#﻿$1</span>')
-    .replace(/!(\S+)/, '<code>﻿$1</code>')
+    .replace(/@(\S+)/, '<strong>@$1</strong>')
+    .replace(/#([a-zA-Z]+)/, '<span class="card-tag">#$1</span>')
+    .replace(/!([^\s]*)/, '<code>!$1</code>')
     .replace(/\-{3}/, '☰')
     .replace(/h\.(.+)/, '<h3 style="margin: 0;">$1</h3>')
     .replace(/{/, '</br>')
