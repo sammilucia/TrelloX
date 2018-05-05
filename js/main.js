@@ -77,21 +77,23 @@ function collapseLists() {
 }
 
 function replaceTags() {
-  
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
-    // Used invisible space between $1 to prevent regex iterating endlessly...
-    // Need a more elegant solution
-    card.innerHTML = card.innerHTML
-    .replace(/@(\S+)/, '<strong>@$1</strong>')
-    .replace(/#([a-zA-Z]+)/, '<span class="card-tag">#$1</span>')
-    .replace(/!([^\s]*)/, '<code>!$1</code>')
-    .replace(/\-{3}/, '☰')
-    .replace(/h\.(.+)/, '<h3 style="margin: 0;">$1</h3>')
-    .replace(/{/, '</br>')
+    if (card.innerHTML.substring(card.innerHTML.indexOf('</span>') + 7, card.innerHTML.length) === '---') {
+      card.innerHTML = card.innerHTML
+        .replace(/\-{3}/, '☰') // Replace exactly three dashes (-)
+    } else {
+      card.innerHTML = card.innerHTML
+        .replace(/{/, '</br>')                                  // Replace new lines first
+        .replace(/h\.(.+)/, '<h3 style="margin: 0;">$1</h3>')   // Then replace headings (only to the first line)
+        .replace(/(#[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
+        .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')               // Replace @ followed by any character until a space
+        .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')                  // Replace ! followed by any character until a space
+    }
   });
   
   // Make separator Cards transparent
+  // ######## Could be wrapped into first if statement for '---'
   $(function(){ $('.list-card:contains(☰)', '#board').addClass('separator'); });
   $(function(){ $('.list-card-title:contains(☰)', '#board').addClass('separator'); });
 }
@@ -136,37 +138,52 @@ function createButtons() {
 }
 
 function refreshTrelloX() {
-  if (document.URL.includes('/b/') && lastURL !== document.URL) {
+  console.log('TrelloX: Change detected');
+  if (document.URL.includes('/b/') && document.URL !== lastURL) {
+    console.log('> Board has changed');
+    // Stop watching for HTML changes while board is redrawn
+    //observer.disconnect();
     lastURL = document.URL;
-    installTrelloX();
+    //$(document).ready(function() {
+      // As soon as the DOM is ready again, install TrelloX
+      // ####################### probably need to wait until all cards are drawn first????????????
+      installTrelloX();
+    //});
   } else {
+    console.log('> Card has changed');
+    console.log('TrelloX: Refreshing tags');
     replaceTags();
     replaceNumbers(showNumbers());
   }
 }
 
 function installTrelloX() {
+  console.log('TrelloX: Installing');
   createButtons();
   collapseLists();
   // Reveal Lists once they're collapsed
   $('#board').delay(10).animate({ opacity: 1 }, 1);
-  replaceNumbers(showNumbers());
-  replaceTags();
-  // Failsafe display Board if animate has failed
+  //replaceNumbers(showNumbers());
+  //replaceTags();
+  // Failsafe to display Board if animate has failed
   $('#board').css({ 'opacity' : '' });
+  // Watch for changes
+  //observer.reconnect(); // Watch for HTML changes
 }
 
-$(window).on('load', function() {
-  // As soon as the page is loaded, install TrelloX. Can't use on ready because of race condition
-  installTrelloX();
-  
-  // Observe changes to Trello HTML
+$(document).ready(function() {
+  // Set up observation of changes to Trello HTML
   var observer = new MutationSummary({
     // Send summary of observed changes
     callback: refreshTrelloX,
     queries: [{
       // Watch Cards only
-      element: '.list-card-title, #board'
+      element: '.list-card-title'
     }]
   });
+  // Stop watching for HTML changes until TrelloX is installed
+  //observer.disconnect();
+  
+  installTrelloX();
+  refreshTrelloX();
 });

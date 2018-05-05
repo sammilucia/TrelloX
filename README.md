@@ -53,8 +53,12 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 Beta 3 of v1.0
 - Fixed: Separator gripper shifted when turning Numbers on and off
 - Tidied up 24 and 32px icons
-- Changed !hh:mm so that '!' can now be used with anything (a !word, !h:mm, or just ! by itself). Makes this feature more useful and less limiting
-- Removed workaround ﻿ character for #, !, and @ tag formatting
+- Removes limitations of !hh:mm tag so that '!' can now be used with a !word, !h:mm, !hh.mm or !! (to put a red '!' by itself)
+- Removed workaround ('﻿' character) used for #, !, and @ logic
+- #tags now work with '-' and '_' symbols so you can use e.g. #my_project
+- !, #, and @ now work for multiple instances in Card titles
+- !, #, and @ logic is now much more robust
+- Now only replaces '---' if it's the _only_ contents in a Card title
 
 ### 2018-04-29 version 1.0.43
 - Added 24 and 32px icons for Chrome on high DPI screens
