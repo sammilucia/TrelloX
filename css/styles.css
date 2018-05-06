@@ -38,11 +38,11 @@ code { font-size: 12px; color: #4d4d4d; }
 }
 
 /* Format Cards transparent */
-.list-card.separator {
+.list-card.clear {
   background: none;
   border-bottom: 0;
 }
-.list-card-title.separator {
+.list-card-title.clear {
   color: #bbb;
   text-shadow: 0 1px #fff;
   margin-top: -3px;

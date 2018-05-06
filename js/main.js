@@ -79,23 +79,24 @@ function collapseLists() {
 function replaceTags() {
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
-    if (card.innerHTML.substring(card.innerHTML.indexOf('</span>') + 7, card.innerHTML.length) === '---') {
-      card.innerHTML = card.innerHTML
-        .replace(/\-{3}/, '☰') // Replace exactly three dashes (-)
+
+    if (card.innerText.substring(0,2) === '##') {                         // If Card title starts with '##'
+      card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
+      card.parentNode.parentNode.classList.add('clear');                  // Make Card background transparent
     } else {
-      card.innerHTML = card.innerHTML
-        .replace(/{/, '</br>')                                  // Replace new lines first
-        .replace(/h\.(.+)/, '<h3 style="margin: 0;">$1</h3>')   // Then replace headings (only to the first line)
-        .replace(/(#[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
-        .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')               // Replace @ followed by any character until a space
-        .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')                  // Replace ! followed by any character until a space
+      if (card.innerText === '---') {                                     // If Card title contains only '---'
+        card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')            // Replace '---' with gripper symbol '☰'
+        card.parentNode.parentNode.classList.add('clear');                // Make Card background transparent
+        card.classList.add('clear');                                      // Make Card text transparent
+      } else {
+        card.innerHTML = card.innerHTML                                   // For all other cards...
+          .replace(/\/{2}/, '</br>')                                      // Replace new lines first
+          .replace(/(#{1}[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
+          .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')              // Replace @ followed by any character until a space
+          .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')            // Replace ! followed by any character until a space
+      }
     }
   });
-  
-  // Make separator Cards transparent
-  // ######## Could be wrapped into first if statement for '---'
-  $(function(){ $('.list-card:contains(☰)', '#board').addClass('separator'); });
-  $(function(){ $('.list-card-title:contains(☰)', '#board').addClass('separator'); });
 }
 
 function showNumbers() {
