@@ -52,10 +52,12 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 ### 2018-05-06 version 1.0.45
 Beta 4 of v1.0
 //- Clicking TrelloX icon now displays your Boards. Click a Board to load in a new tab
+//- Links in Card titles are now clickable (vla linkify?)
 - Use '##' to create a header card instead of 'h.' (feels more natural)
-- Use '//' to create a new line instead of '{' (feels more natural)
+- Use '\' to create a new line instead of '{' (feels more natural)
 - Header cards are now transparent for clarity (like separator cards)
 - Further optimisations to card tagging logic
+//- Now using jquery-mutation-summary library
 
 ### 2018-05-06 version 1.0.44
 Beta 3 of v1.0
