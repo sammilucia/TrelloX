@@ -94,8 +94,44 @@ function replaceTags() {
           .replace(/(#{1}[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
           .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')              // Replace @ followed by any character until a space
           .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')            // Replace ! followed by any character until a space
+          //.replace(/\[(\+?[0-9()-]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
+          //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
       }
     }
+  });
+}
+
+function refreshLinks() { 
+  // Make Card links clickable
+  $(".card-link").on("mouseover", function() {
+    var rect = this.getBoundingClientRect(),
+      top = rect.top,
+      left = rect.left;
+
+    $(this)
+      .clone().appendTo('body')
+      .removeClass('card-link')
+      .addClass('card-link-hover')
+      .css({
+        'position': 'fixed',
+        'top': top + 'px',
+        'left': left + 'px',
+        'display': 'block',
+        'z-index': '1000'
+    });
+  });
+
+  // Remove Card links
+  $(".list-card").scroll(function() {
+    $(".card-link-hover").remove();
+  });
+
+  $(".list-card, #board").mousedown(function() {
+    $(".card-link-hover").remove();
+  });
+
+  $(".list-card, #board").mouseenter(function() {
+    $(".card-link-hover").remove();
   });
 }
 
@@ -141,17 +177,12 @@ function createButtons() {
 function refreshTrelloX() {
   if (document.URL.includes('/b/') && document.URL !== lastURL) {
     console.log('TrelloX: Board changed');
-    // Stop watching for HTML changes while board is redrawn
-    //observer.disconnect();
     lastURL = document.URL;
-    //$(document).ready(function() {
-      // As soon as the DOM is ready again, install TrelloX
-      // ####################### probably need to wait until all cards are drawn first????????????
-      installTrelloX();
-    //});
+    installTrelloX();
   } else {
     console.log('TrelloX: Refreshing');
     replaceTags();
+    //refreshLinks();
     replaceNumbers(showNumbers());
   }
 }
@@ -165,20 +196,21 @@ function installTrelloX() {
   refreshTrelloX();
   // Failsafe to display Board if animate has failed
   $('#board').css({ 'opacity' : '' });
-  // Watch for changes
-  //observer.reconnect(); // Watch for HTML changes
 }
 
 $(window).on('load', function() {
-  // Set up observation of changes to Trello HTML
+  // Set up observation for Board changes
   var observer = new MutationSummary({
-    // Send summary of observed changes
     callback: refreshTrelloX,
-    queries: [{
-      element: '.list-card-title'
-    }]
+    queries: [{ element: '#board' }]
   });
-  // Stop watching for HTML changes until TrelloX is installed
-  //observer.disconnect();
+  
   installTrelloX();
+
+  // Set up observation for Card changes
+  $('body').on('mouseup keyup', function() {
+    setTimeout(function() {
+      refreshTrelloX();
+      }, 50);
+  })
 });
