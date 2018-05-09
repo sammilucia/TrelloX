@@ -49,6 +49,11 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-05-09 version 1.0.47
+Release Candidate 1 of v1.0
+- Cards no longer dropped into wrong position when dragging to same List
+- Fixed regression in v1.0.46
+
 ### 2018-05-08 version 1.0.46
 Beta 5 of v1.0 - Feature freeze
 - !, #, and @ now update correctly as soon as any Card title is edited

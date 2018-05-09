@@ -181,8 +181,10 @@ function refreshTrelloX() {
   } else {
     console.log('TrelloX: Refreshing');
     replaceTags();
-    //refreshLinks();
     replaceNumbers(showNumbers());
+    //refreshLinks();
+    // Failsafe to display Board if animate has failed
+    $('#board').delay(10).animate({ opacity: 1 }, 1);
   }
 }
 
@@ -193,8 +195,6 @@ function installTrelloX() {
   // Reveal Lists once they're collapsed
   $('#board').delay(10).animate({ opacity: 1 }, 1);
   refreshTrelloX();
-  // Failsafe to display Board if animate has failed
-  $('#board').css({ 'opacity' : '' });
 }
 
 $(window).on('load', function() {
@@ -210,6 +210,6 @@ $(window).on('load', function() {
   $('body').on('mouseup keyup', function() {
     setTimeout(function() {
       refreshTrelloX();
-      }, 50);
+    }, 20);
   })
 });
