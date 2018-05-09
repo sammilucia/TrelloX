@@ -101,7 +101,7 @@ function replaceTags() {
   });
 }
 
-function refreshLinks() { 
+/*function refreshLinks() { 
   // Make Card links clickable
   $(".card-link").on("mouseover", function() {
     var rect = this.getBoundingClientRect(),
@@ -133,14 +133,13 @@ function refreshLinks() {
   $(".list-card, #board").mouseenter(function() {
     $(".card-link-hover").remove();
   });
-}
+}*/
 
 function showNumbers() {
     return (localStorage.getItem('trelloXNumbers') || 'true') === 'true';
 }
 
 function refreshNumbers() {
-    
   // Add Card #numbers
   if (showNumbers()) {
     $('.card-short-id').removeClass('hide');
@@ -202,7 +201,7 @@ $(window).on('load', function() {
   // Set up observation for Board changes
   var observer = new MutationSummary({
     callback: refreshTrelloX,
-    queries: [{ element: '#board' }]
+    queries: [{ element: '.list-card-title' }]
   });
   
   installTrelloX();
