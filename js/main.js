@@ -79,6 +79,8 @@ function collapseLists() {
 function replaceTags() {
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
+      card.parentNode.parentNode.classList.remove('clear');                // Make Card background not transparent initially
+      card.classList.remove('clear');                                      // Make Card text not transparent initially
 
     if (card.innerText.substring(0,2) === '##') {                         // If Card title starts with '##'
       card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
