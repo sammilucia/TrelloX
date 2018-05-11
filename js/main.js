@@ -161,6 +161,17 @@ function replaceNumbers(state) {
   refreshNumbers();
 }
 
+function replaceCardDetailsView(){
+    document.querySelectorAll('.js-current-list', '#board').forEach (function(currentListDivElement) {
+      // Use the url to determine what number the card is
+        var urlID = document.URL.substr(document.URL.lastIndexOf('/') + 1);
+        var cardNumber = urlID[0];
+
+        currentListDivElement.innerHTML = "#"+ cardNumber +" " + currentListDivElement.innerHTML;
+    });
+
+}
+
 function createButtons() {
   var $buttonNumbers = $('<span class="board-header-btn-divider"></span><a class="board-header-btn trellox-numbers-btn" href="#">' +
   '<span class="board-header-btn-icon icon-sm icon-number"></span>' +
@@ -182,6 +193,7 @@ function refreshTrelloX() {
     console.log('TrelloX: Refreshing');
     replaceTags();
     replaceNumbers(showNumbers());
+    replaceCardDetailsView();
     //refreshLinks();
     // Failsafe to display Board if animate has failed
     $('#board').delay(10).animate({ opacity: 1 }, 1);
