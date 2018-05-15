@@ -93,8 +93,8 @@ function replaceTags() {
       } else {
         card.innerHTML = card.innerHTML                                   // For all other cards...
           .replace(/\\{1}/, '</br>')                                      // Replace new lines first
-          .replace(/(#{1}[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
-          .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')              // Replace @ followed by any character until a space
+          .replace(/#{1}([a-zA-Z-_]+)/g, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space
+          .replace(/@([a-zA-Z-_]+)/g, '<strong>@﻿$1</strong>')              // Replace @ followed by any character until a space
           .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')            // Replace ! followed by any character until a space
           //.replace(/\[(\+?[0-9()-]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
           //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
