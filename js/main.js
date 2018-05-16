@@ -175,19 +175,21 @@ function createButtons() {
   $('.board-header-btns.mod-left').append($buttonNumbers);
 }
 
-function refreshTrelloX() {
+function boardChange() {
   if (document.URL.includes('/b/') && document.URL !== lastURL) {
     console.log('TrelloX: Board changed');
     lastURL = document.URL;
     installTrelloX();
-  } else {
-    console.log('TrelloX: Refreshing');
-    replaceTags();
-    replaceNumbers(showNumbers());
-    //refreshLinks();
-    // Failsafe to display Board if animate has failed
-    $('#board').delay(10).animate({ opacity: 1 }, 1);
   }
+}
+
+function refreshTrelloX() {
+  console.log('TrelloX: Refreshing');
+  replaceTags();
+  replaceNumbers(showNumbers());
+  //refreshLinks();
+  // Failsafe to display Board if animate has failed
+  $('#board').delay(10).animate({ opacity: 1 }, 1);
 }
 
 function installTrelloX() {
@@ -202,7 +204,7 @@ function installTrelloX() {
 $(window).on('load', function() {
   // Set up observation for Board changes
   var observer = new MutationSummary({
-    callback: refreshTrelloX,
+    callback: boardChange,
     queries: [{ element: '.list-card-title' }]
   });
   
