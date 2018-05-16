@@ -165,14 +165,14 @@ function replaceNumbers(state) {
 }
 
 function replaceCardDetailsView(){
-    document.querySelectorAll('.js-current-list', '#board').forEach (function(currentListDivElement) {
+  document.querySelectorAll('.js-current-list', '#board').forEach (function(currentListDivElement) {
+    if (!currentListDivElement.querySelector('.card-short-id', '#board')) {
       // Use the url to determine what number the card is
-        var urlID = document.URL.substr(document.URL.lastIndexOf('/') + 1);
-        var cardNumber = urlID[0];
+      var cardNumber = document.URL.substr(document.URL.lastIndexOf('/') + 1, document.URL.indexOf('-') - document.URL.lastIndexOf('/') - 1);
 
-        currentListDivElement.innerHTML = "#"+ cardNumber +" " + currentListDivElement.innerHTML;
-    });
-
+      currentListDivElement.innerHTML = "#" + cardNumber + " " + currentListDivElement.innerHTML;
+    }
+  });
 }
 
 function createButtons() {
