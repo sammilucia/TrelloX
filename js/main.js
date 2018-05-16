@@ -80,18 +80,20 @@ function collapseLists() {
 function replaceTags() {
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
-      //card.parentNode.parentNode.classList.remove('clear');                // Make Card background not transparent initially
-      //card.classList.remove('clear');                                      // Make Card text not transparent initially
 
-    if (card.innerText.substring(0,2) === '##') {                         // If Card title starts with '##'
+    if (card.innerText.substring(0,2) === '##') {                         // If Card is a header Card
       card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
       card.parentNode.parentNode.classList.add('clear');                  // Make Card background transparent
     } else {
-      if (card.innerText === '---') {                                     // If Card title contains only '---'
+      if (card.innerText === '---') {                                     // If Card is a separator Card
         card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')            // Replace '---' with gripper symbol '☰'
         card.parentNode.parentNode.classList.add('clear');                // Make Card background transparent
         card.classList.add('clear');                                      // Make Card text transparent
       } else {
+        if (!card.innerHTML.includes('</h3>') && !card.innerText.includes('☰')) { // If Card isn't header or separator Card
+          card.parentNode.parentNode.classList.remove('clear');           // Remove background transparency
+          card.classList.remove('clear');                                 // Remove text transparency
+        }
         card.innerHTML = card.innerHTML                                   // For all other cards...
           .replace(/\\{1}/, '</br>')                                      // Replace new lines first
           .replace(/#{1}([a-zA-Z-_]+)/g, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space

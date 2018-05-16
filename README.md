@@ -52,7 +52,8 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 ### 2018-05-16 version 1.0.48
 - Fixed # and @ tags were redrawing repeatedly
 - Card number is now displayed on Card Detail View
-- Card numbers in Card Details now respects Numbers: button status 
+- Card numbers in Card Details now respects Numbers: button state
+- Transparency is now removed when a Card is edited to no longer be a header or separator Card
 
 ### 2018-05-09 version 1.0.47
 Release Candidate 1 of v1.0
