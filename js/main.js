@@ -1,5 +1,6 @@
 // Set up variables
 var lastURL = document.URL;
+var chrome;
 
 function collapseLists() {
   // Handle collapsing/uncollapsing of lists, and dragging cards over collapsed lists  
@@ -198,6 +199,7 @@ function refreshTrelloX() {
   console.log('TrelloX: Refreshing');
   replaceTags();
   replaceNumbers(showNumbers());
+  replaceCardDetailsView();
   //refreshLinks();
   // Failsafe to display Board if animate has failed
   $('#board').delay(10).animate({ opacity: 1 }, 1);
