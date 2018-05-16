@@ -79,8 +79,8 @@ function collapseLists() {
 function replaceTags() {
   // Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
   document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
-      card.parentNode.parentNode.classList.remove('clear');                // Make Card background not transparent initially
-      card.classList.remove('clear');                                      // Make Card text not transparent initially
+      //card.parentNode.parentNode.classList.remove('clear');                // Make Card background not transparent initially
+      //card.classList.remove('clear');                                      // Make Card text not transparent initially
 
     if (card.innerText.substring(0,2) === '##') {                         // If Card title starts with '##'
       card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
@@ -93,8 +93,8 @@ function replaceTags() {
       } else {
         card.innerHTML = card.innerHTML                                   // For all other cards...
           .replace(/\\{1}/, '</br>')                                      // Replace new lines first
-          .replace(/(#{1}[a-zA-Z-_]+)/g, '<span class="card-tag">$1</span>') // Replace # followed by any character until a space
-          .replace(/(@[a-zA-Z-_]+)/g, '<strong>$1</strong>')              // Replace @ followed by any character until a space
+          .replace(/#{1}([a-zA-Z-_]+)/g, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space
+          .replace(/@([a-zA-Z-_]+)/g, '<strong>@﻿$1</strong>')              // Replace @ followed by any character until a space
           .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')            // Replace ! followed by any character until a space
           //.replace(/\[(\+?[0-9()-]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
           //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
@@ -186,20 +186,21 @@ function createButtons() {
   $('.board-header-btns.mod-left').append($buttonNumbers);
 }
 
-function refreshTrelloX() {
+function boardChange() {
   if (document.URL.includes('/b/') && document.URL !== lastURL) {
     console.log('TrelloX: Board changed');
     lastURL = document.URL;
     installTrelloX();
-  } else {
-    console.log('TrelloX: Refreshing');
-    replaceTags();
-    replaceNumbers(showNumbers());
-    replaceCardDetailsView();
-    //refreshLinks();
-    // Failsafe to display Board if animate has failed
-    $('#board').delay(10).animate({ opacity: 1 }, 1);
   }
+}
+
+function refreshTrelloX() {
+  console.log('TrelloX: Refreshing');
+  replaceTags();
+  replaceNumbers(showNumbers());
+  //refreshLinks();
+  // Failsafe to display Board if animate has failed
+  $('#board').delay(10).animate({ opacity: 1 }, 1);
 }
 
 function installTrelloX() {
@@ -214,7 +215,7 @@ function installTrelloX() {
 $(window).on('load', function() {
   // Set up observation for Board changes
   var observer = new MutationSummary({
-    callback: refreshTrelloX,
+    callback: boardChange,
     queries: [{ element: '.list-card-title' }]
   });
   
