@@ -1,6 +1,7 @@
 /* # @ ! Tag formatting */
 code { font-size: 12px; color: #4d4d4d; }
 .card-short-id { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
+.window-header-inline-content .card-short-id { float: left; color: #838c91; font: 14px Helvetica Neue,Arial,Helvetica,sans-serif; font-weight: bold; }
 .card-tag { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
 .badge { color: #a3acb1; }
 .badge-icon { color: #b3bcc1; }

@@ -165,12 +165,12 @@ function replaceNumbers(state) {
 }
 
 function replaceCardDetailsView(){
-  document.querySelectorAll('.js-current-list', '#board').forEach (function(currentListDivElement) {
+  document.querySelectorAll('.window-header-inline-content', '#board').forEach (function(currentListDivElement) {
     if (!currentListDivElement.querySelector('.card-short-id', '#board')) {
       // Use the url to determine what number the card is
       var cardNumber = document.URL.substr(document.URL.lastIndexOf('/') + 1, document.URL.indexOf('-') - document.URL.lastIndexOf('/') - 1);
 
-      currentListDivElement.innerHTML = "#" + cardNumber + " " + currentListDivElement.innerHTML;
+      currentListDivElement.innerHTML = "<span class='card-short-id'>#" + cardNumber + "</span>" + currentListDivElement.innerHTML;
     }
   });
 }
@@ -198,8 +198,8 @@ function boardChange() {
 function refreshTrelloX() {
   console.log('TrelloX: Refreshing');
   replaceTags();
-  replaceNumbers(showNumbers());
   replaceCardDetailsView();
+  replaceNumbers(showNumbers());
   //refreshLinks();
   // Failsafe to display Board if animate has failed
   $('#board').delay(10).animate({ opacity: 1 }, 1);
