@@ -49,13 +49,15 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-05-16 version 1.0.49
+- 
+
 ### 2018-05-16 version 1.0.48
 Release Candidate 2 of v1.0
 - Collapse Lists are now sync'd between browser sessions
 - Fixed collapsed Lists not always being remembering their state
 - Fixed performance issue with # and @ tags redrawing repeatedly
-- Card number is now displayed on Card Detail View
-- Card numbers in Card Details now respects Numbers: button state
+- Card number is now displayed on Card Detail View if Numbers is on
 - Transparency is now removed when a Card is edited to no longer be a header or separator Card
 
 ### 2018-05-09 version 1.0.47
