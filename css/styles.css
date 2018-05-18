@@ -86,7 +86,7 @@ code { font-size: 12px; color: #4d4d4d; }
   display: none;
 }
 /* Now show just the title bars */
-.list-wrapper.collapsed .list-header, .list-wrapper.collapsed .collapse-toggle {
+.list-wrapper.collapsed .list-header, .list-wrapper.collapsed .collapse-icon {
   display: block;
   min-height: 230px;
 }
@@ -109,7 +109,7 @@ code { font-size: 12px; color: #4d4d4d; }
 }
 
 /* Collapse icon common formatting */
-.collapse-toggle {
+.collapse-icon {
   float: left;
   cursor: pointer;
   height: 20px;
@@ -118,7 +118,7 @@ code { font-size: 12px; color: #4d4d4d; }
   position: relative;
 }
 /* Down collapse icon formatting */
-.collapse-toggle:after {
+.collapse-icon:after {
   display: block;
   content: '';
   border-top: 5px solid #999;
@@ -129,7 +129,7 @@ code { font-size: 12px; color: #4d4d4d; }
   left: 5px;
 }
 /* Right collapse icon formatting */
-.list-wrapper.collapsed .collapse-toggle:after {
+.list-wrapper.collapsed .collapse-icon:after {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 5px solid #999;

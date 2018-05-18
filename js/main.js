@@ -3,45 +3,56 @@ var lastURL = document.URL;
 var chrome;
 
 function collapseLists() {
-  // Handle collapsing/uncollapsing of lists, and dragging cards over collapsed lists  
-  if (!document.querySelector('.collapse-toggle', '#board')) {
-
-    // Get the unique Board ID from the URL
-    var boardID = document.URL.substring(document.URL.indexOf('/b/') + 3, document.URL.indexOf('/b/') + 11);
-
-    // Get all Lists on this Board
-    document.querySelectorAll('.list-header-name', '#board').forEach(function (list) {
+  // Handle collapsing/uncollapsing of lists, and dragging cards over collapsed lists
+  
+  // If there are no collapsed Lists...
+  if (!document.querySelector('.collapse-icon', '#board')) {
     
-      // Encode List title for unique ID
-      var listName = boardID + ':' + encodeURI(list.textContent);
+    // Use URL to find the boardID
+    var
+      afterFirstDelimiter = document.URL.indexOf('/b/') + 3,
+      beforeLastDelimiter = document.URL.lastIndexOf('/'),
+      boardID = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
 
-      // Get isClosed value from chrome extension storage
-      chrome.storage.local.get(listName, function (isClosed) {
-        // If this list was closed, add the 'collapsed' class
-        if (isClosed[listName]) {
-          list.parentNode.parentNode.parentNode.classList.add('collapsed');
+    // For each List on the Board
+    document.querySelectorAll('.list-header-name', '#board').forEach(function (thisList) {
+    
+      // Create a safe listID from boardID + List Name
+      var listName = boardID + '-' + encodeURI(thisList.textContent);
+      // Get listClosed value from chrome extension storage
+      chrome.storage.sync.get(listName, function (listClosed) {
+
+        // If this List is closed, collapse it
+        if (listClosed[listName]) {
+          thisList.parentNode.parentNode.parentNode.classList.add('collapsed');
         }
-        // Create collapse icon
-        var toggle = document.createElement('div');
-        toggle.className = 'collapse-toggle';
-        // Click handler for collapse icon
-        toggle.addEventListener('click', function (event) {
+
+        // Create a collapse icon
+        var collapseIcon = document.createElement('div');
+        collapseIcon.className = 'collapse-icon';
+        // Add a click handler for the icon
+        collapseIcon.addEventListener('click', function (event) {
           // Get column name from event target
-          var thisList = boardID + ':' + encodeURI(event.target.nextSibling.textContent);
-          // Set isClosed value in chrome storage to inverse value
-          chrome.storage.local.set({[thisList]: isClosed[listName] ? null : true}, function() {
+          //var listName = boardID + '-' + encodeURI(event.target.nextSibling.textContent);
+
+          // Toggle the listClosed value on click
+          console.log(listClosed[listName]);
+          chrome.storage.sync.set({[listName]: listClosed[listName] ? false : true}, function () {
             // Toggle the 'collapsed' class on successful save
+            console.log(listClosed[listName]);
             event.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
           });
+
         });
-        list.parentNode.parentNode.parentNode.setAttribute('draggable', true);
+        thisList.parentNode.parentNode.parentNode.setAttribute('draggable', true);
         // Insert collapse icon
-        list.parentNode.insertBefore(toggle, list);
+        thisList.parentNode.insertBefore(collapseIcon, thisList);
       });
     });
-    // Open List after a short delay if a Card is dragged over it
+
+    // Open List after a short delay when a Card dragged over it
     // Create a new event since a Content Script can't access JS on the parent page.
-    var isClosed, openList;
+    var listClosed, openList;
     // Make all Cards draggable. Put Cards back immediately on unsuccessful drop
     $('.list-card', '#board').draggable({revert: true, revertDuration: 0 });
     // Make all Lists droppable
@@ -53,23 +64,23 @@ function collapseLists() {
         if (event.target.classList.contains('collapsed')) {
           openList = setTimeout(() => {
             event.target.classList.remove('collapsed');
-            isClosed = true;
-          }, 250);
+            listClosed = true;
+          }, 200);
         } else {
-          isClosed = false;
+          listClosed = false;
         }
       },
       // When leaving a previously closed List, clear the timeout and re-close it
       out: (event, ui) => {
         clearTimeout(openList);
-        if (isClosed) {
+        if (listClosed) {
           event.target.classList.add('collapsed');
         }
       },
       // When dropping the Card on that List, clear the timeout and re-close it
       drop: (event, ui) => {
         clearTimeout(openList);
-        if (isClosed) {
+        if (listClosed) {
           event.target.classList.add('collapsed');
         }
       }
@@ -167,8 +178,10 @@ function replaceNumbers(state) {
 function replaceCardDetailsView(){
   document.querySelectorAll('.window-header-inline-content', '#board').forEach (function(currentListDivElement) {
     if (!currentListDivElement.querySelector('.card-short-id', '#board')) {
-      // Use the url to determine what number the card is
-      var cardNumber = document.URL.substr(document.URL.lastIndexOf('/') + 1, document.URL.indexOf('-') - document.URL.lastIndexOf('/') - 1);
+      // Use the URL to determine Card number
+      var afterFirstDelimiter = document.URL.lastIndexOf('/') + 1,
+        beforeLastDelimiter = document.URL.indexOf('-'),
+        cardNumber = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
 
       currentListDivElement.innerHTML = "<span class='card-short-id'>#" + cardNumber + "</span>" + currentListDivElement.innerHTML;
     }
