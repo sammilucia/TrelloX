@@ -105,10 +105,10 @@ function replaceTags() {
         card.classList.remove('clear');                                   // Remove text transparency
         card.innerHTML = card.innerHTML
           .replace(/\\{1}/, '</br>')                                      // Replace new lines first
-          .replace(/#{1}([a-zA-Z-_]+)/g, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space
-          .replace(/@([a-zA-Z-_]+)/g, '<strong>@﻿$1</strong>')            // Replace @ followed by any character until a space
-          .replace(/!([a-zA-Z0-9-_!:.]+)/g, '<code>$1</code>')            // Replace ! followed by any character until a space
-          //.replace(/\[(\+?[0-9()-]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
+          .replace(/#{1}([a-z-_]+)/gi, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space
+          .replace(/@([a-z-_]+)/gi, '<strong>@﻿$1</strong>')              // Replace @ followed by any character until a space
+          .replace(/!([a-z0-9-_!:.]+)/gi, '<code>$1</code>')              // Replace ! followed by any character until a space
+          //.replace(/\[(\+?[0-9() -]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
           //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
       }
     }
@@ -167,10 +167,10 @@ function replaceNumbers(state) {
 
   if (state) {
     localStorage.setItem('trelloXNumbers', "true");
-    $button.text('Numbers: On');
+    $button.text('Numbers On');
   } else {
     localStorage.setItem('trelloXNumbers', "false");
-    $button.text('Numbers: Off');
+    $button.text('Numbers Off');
   }
   refreshNumbers();
 }
@@ -189,15 +189,15 @@ function replaceCardDetailsView(){
 }
 
 function createButtons() {
-  var $buttonNumbers = $('<span class="board-header-btn-divider"></span><a class="board-header-btn trellox-numbers-btn" href="#">' +
+  var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
   '<span class="board-header-btn-icon icon-sm icon-number"></span>' +
-  '<span class="board-header-btn-text" title="Show or hide card numbers.">Numbers: On</span>' +
+  '<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers On</span>' +
   '</a>');
   $buttonNumbers.on('click', function() {
     replaceNumbers(!showNumbers());
   });
 
-  $('.board-header-btns.mod-left').append($buttonNumbers);
+  $('.board-header-btns.mod-right').prepend($buttonNumbers);
 }
 
 function boardChange() {
@@ -228,15 +228,16 @@ function installTrelloX() {
 }
 
 $(window).on('load', function() {
-  // Set up observation for Board changes
+  // Watch for Board changes
   var observer = new MutationSummary({
     callback: boardChange,
     queries: [{ element: '.list-card-title' }]
   });
   
+  // Install TrelloX on first page load
   installTrelloX();
 
-  // Set up observation for Card changes
+  // Watch for potential Card changes
   $('body').on('mouseup keyup', function() {
     setTimeout(function() {
       refreshTrelloX();

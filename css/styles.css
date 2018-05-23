@@ -100,6 +100,7 @@ code { font-size: 12px; color: #4d4d4d; }
 .list-wrapper.collapsed .list-header-name {
   width: 204px;
   display: block;
+  height: 24px;
   transform: rotate(90deg);
   transform-origin: top left;
   top: 29px;
