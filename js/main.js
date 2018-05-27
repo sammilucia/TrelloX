@@ -94,7 +94,6 @@ function replaceTags() {
 
     if (card.innerText.substring(0,2) === '##' || card.innerHTML.includes('</h3>')) { // If Card is a header Card
       card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
-      card.parentNode.parentNode.classList.add('clear');                  // Make background transparent
     } else {
       if (card.innerText === '---' || card.innerText.includes('☰')) {    // If Card is a separator Card
         card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')            // Replace '---' with gripper symbol '☰'

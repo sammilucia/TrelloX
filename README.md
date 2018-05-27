@@ -52,6 +52,7 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 ### 2018-05-16 version 1.0.49
 - Fixed height of collapsed Card Title text boxes when editing them
 - Moved Numbers button to right hand side to accommodate change in Trello
+- Removed transparency from header Cards
 
 ### 2018-05-16 version 1.0.48
 Release Candidate 2 of v1.0
