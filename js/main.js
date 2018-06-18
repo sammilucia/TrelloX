@@ -335,6 +335,58 @@ function cardChange(summaries) {
 	}
 }
 
+function listChange(summaries) {
+	// TODO - Handle when a new list is created for collapse icon to be added
+	/*// Use URL to find the boardID
+	var		afterFirstDelimiter = document.URL.indexOf('/b/') + 3,
+			beforeLastDelimiter = document.URL.lastIndexOf('/'),
+			boardID = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
+
+	
+
+	// First get our chrome data
+	chrome.storage.sync.get('trellox', function (listClosed) {
+		let closedListData = listClosed.trellox;
+
+
+		// No storage at all, create empty object
+		if (typeof closedListData === 'undefined') {
+			closedListData = {};
+		}
+
+		// Create a collapse icon
+		var collapseIcon = document.createElement('div');
+		collapseIcon.className = 'collapse-icon'; // Add a css class
+
+		// Add a click handler for the icon
+		collapseIcon.addEventListener('click', function (event) {
+			// if we have an empty object, it means the list hasn't been handled before
+			if (Object.keys(closedListData).length === 0) {
+				console.log('Have empty object, set listClosed to true')
+				closedListData[listName] = true;
+			}
+			else {
+				console.log('Have result, fetching value');
+				// If no value, set to true, else get inverse of current value
+				closedListData[listName] = (typeof closedListData[listName] === 'undefined') ? true : !closedListData[listName];
+			}
+
+			// Set storage data
+			chrome.storage.sync.set({'trellox': closedListData}, function () {
+				if (chrome.runtime.error || chrome.runtime.lastError) {
+					console.log('Runtime error:', chrome.runtime.error);
+					console.log('Runtime last error:', chrome.runtime.lastError);
+				}
+				else {
+					// Toggle the 'collapsed' class on successful save
+					console.log('Successfully saved:', closedListData);
+					event.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
+				}
+			});
+		});
+	});*/
+}
+
 function boardChange(summaries) {
 	console.log('Board change summary', summaries[0]);
 
