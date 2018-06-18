@@ -412,6 +412,9 @@ function boardChange(summaries) {
 				if (localStorage.getItem('trelloXNumbers')) {
 					$('.card-short-id').removeClass('hide');
 				}
+
+				// Refresh draggable card
+				$('.list-card', '#board').draggable({revert: true, revertDuration: 0 });
 			}
 		});
 	}
