@@ -20,7 +20,7 @@
     //"default_popup": "popup.html"
   },
   "content_scripts": [{
-    "matches": ["https://trello.com/b/*"],
+    "matches": ["https://trello.com/*"],
     "css": ["css/styles.css"],
     "js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
   }],
