@@ -49,6 +49,11 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-06-21 version 1.0.50
+- Fixed shadow on separator cards (Trello changed CSS shadow method)
+- Saving collapsed list states now works reliably
+- Dragging a previously dragged card no longer expanded a collapsed list
+
 ### 2018-05-16 version 1.0.49
 - Fixed height of collapsed Card Title text boxes when editing them
 - Moved Numbers button to right hand side to accommodate change in Trello
