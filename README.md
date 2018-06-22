@@ -50,9 +50,9 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 
 ## History
 ### 2018-06-21 version 1.0.50
-- Fixed shadow on separator cards (Trello changed CSS shadow method)
-- Saving collapsed list states now works reliably
-- Dragging a previously dragged card no longer expanded a collapsed list
+- Several styling fixes to address underlying changes to Trello
+- Fixed sometimes collapsed List didn't stay collapsed on reload
+- Fixed dragging a previously dragged Card didn't open collapsed Lists
 
 ### 2018-05-16 version 1.0.49
 - Fixed height of collapsed Card Title text boxes when editing them
