@@ -100,9 +100,8 @@ function createButtons() {
   // Wait in case .board-header is redrawn...
   if (buttonDrawCount === 1) {
     setTimeout( function() {
-      console.log('Redraw Numbers button...');
       createButtons();
-    }, 1000); 
+    }, 200); 
   }
 }
 
