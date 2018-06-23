@@ -13,6 +13,13 @@ var listCardObserver = new MutationSummary({
 	queries: [{ element: '.list-card[href]' }]
 });
 
+// Watch for when a card is opened
+var cardOpenedObserver = new MutationSummary({
+	callback: cardOpen,
+	rootNode: $('window-overlay')[0],
+	queries: [{ attribute: 'style' }]
+});
+
 // Entry point into TrelloX extension
 $(document).ready( function() {
 	// Install TrelloX on page load
@@ -25,7 +32,7 @@ $(document).ready( function() {
 			// This can happen when a user refresh a card
 	  		if (lastURL.includes('/c') && document.URL.includes('/b')) {
 	  			console.log('Card was closed');
-	  			installTrelloX();
+	  			//installTrelloX();
 
 	  			// Update lastUrl
 	  			lastUrl = document.URL;
@@ -38,15 +45,13 @@ $(document).ready( function() {
 function installTrelloX() {
 	console.log('TrelloX: Installing');
 	// Run installer functions
-	console.log('Create buttons for board');
-	createButtons();
 	console.log('Add card numbers');
 	addCardNumbers();
 	console.log('Create collapsable lists');
 	collapseLists();
 
-	// Reveal Lists once they're collapsed
-	$('#board').delay(10).animate({ opacity: 1 }, 1);
+	//console.log('Create buttons for board');
+	createButtons();
 	
 	// Call refresh
 	refreshTrelloX();
@@ -63,24 +68,38 @@ function refreshTrelloX() {
 	//refreshLinks();
 	
 	// Failsafe to display Board if animate has failed
-	$('#board').delay(10).animate({ opacity: 1 }, 1);
+	//$('#board').delay(10).animate({ opacity: 1 }, 1);
+
+	// Force set CSS opacity property
+	$('#board').css('opacity', '100');
 }
 
 // Create TrelloX buttons
 function createButtons() {
 	// This refers to the "Numbers: On/Off" button in the top RHS of the screen
-	var $buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
+	var buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
 	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers On</span>' +
 	'</a>');
 
-	// Add an event handler to toggle displaying the numbers on cards
-	$buttonNumbers.on('click', function() {
-		replaceNumbers(!showNumbers());
-	});
+	if ($('.board-header-btns.mod-right').length === 0) {
+		// Give it some time...
+		setTimeout( function() {
+			createButtons();
+		}, 150);
+	}
+	else {
+		// Add an event handler to toggle displaying the numbers on cards
+		buttonNumbers.on('click', function() {
+			replaceNumbers(!showNumbers());
+		});
 
-	// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
-	$('.board-header-btns.mod-right').prepend($buttonNumbers);
+		console.log('Add button to board header now');
+		console.log('Board header is:', $('.board-header-btns.mod-right'));
+
+		// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
+		$('.board-header-btns.mod-right').prepend(buttonNumbers);
+	}
 }
 
 // Sets everything to allow the handling of list collapsing/uncollapsing
@@ -215,8 +234,8 @@ function addCardNumbers(reattempt) {
 
 		// wait a bit then try again.  If still nothing, then we just simply assume the user has no cards at all
 		setTimeout( function() {
-				addCardNumbers(true);
-			}, 150);
+			addCardNumbers(true);
+		}, 150);
 	}
 
 	cards.each( function(index) {
@@ -322,7 +341,8 @@ function cardChange(summaries) {
 			if (listCard.className.includes('list-card js-member-droppable')) {
 				// Use the URL to determine Card number
 				var 	afterFirstDelimiter = $(listCard).attr('href').lastIndexOf('/') + 1,
-						cardNumber = $(listCard).attr('href').slice(afterFirstDelimiter, afterFirstDelimiter + 1);
+						beforeSecondDelimiter = $(listCard).attr('href').indexOf('-')
+						cardNumber = $(listCard).attr('href').slice(afterFirstDelimiter, beforeSecondDelimiter);
 
 				console.log('Card Number is:', cardNumber);
 				// Get the section of html we want to add the card # to
@@ -418,6 +438,9 @@ function boardChange(summaries) {
 			}
 		});
 	}
+
+	// Force board opacity
+	$('#board').css('opacity', '100');
 }
 
 function handleCardClose(summaries) {
@@ -458,7 +481,18 @@ function handleCardClose(summaries) {
   });
 }*/
 
-/*function replaceCardDetailsView(){
+function cardOpen(summaries) {
+	console.log('Checking card status');
+	console.log('Summary is:', summaries[0]);
+
+	// Run replaceCardViewDetails()
+	if (summaries[0].added.length > 0) {
+		console.log('Replace card detail view');
+		replaceCardDetailsView();
+	}
+}
+
+function replaceCardDetailsView() {
 	document.querySelectorAll('.window-header-inline-content', '#board').forEach (function(currentListDivElement) {
 		if (!currentListDivElement.querySelector('.card-short-id', '#board')) {
 			// Use the URL to determine Card number
@@ -469,4 +503,4 @@ function handleCardClose(summaries) {
 			currentListDivElement.innerHTML = "<span class='card-short-id'>#" + cardNumber + "</span>" + currentListDivElement.innerHTML;
 		}
 	});
-}*/
+}
