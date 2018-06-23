@@ -68,10 +68,7 @@ function refreshTrelloX() {
 	//refreshLinks();
 	
 	// Failsafe to display Board if animate has failed
-	//$('#board').delay(10).animate({ opacity: 1 }, 1);
-
-	// Force set CSS opacity property
-	$('#board').css('opacity', '100');
+	$('#board').delay(10).animate({ opacity: 1 }, 1);
 }
 
 // Create TrelloX buttons
@@ -440,7 +437,7 @@ function boardChange(summaries) {
 	}
 
 	// Force board opacity
-	$('#board').css('opacity', '100');
+	$('#board').delay(10).animate({ opacity: 1 }, 1);
 }
 
 function handleCardClose(summaries) {

@@ -49,10 +49,15 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-06-23 version 1.0.51
+Release Candidate 3 of v1.0
+- Fixed: Card titles are no longer resizable
+
 ### 2018-06-21 version 1.0.50
 - Several styling fixes to address underlying changes to Trello
-- Fixed sometimes collapsed List didn't stay collapsed on reload
-- Fixed dragging a previously dragged Card didn't open collapsed Lists
+- Fixed: Sometimes collapsed List didn't stay collapsed on reload
+- Fixed: Dragging a previously dragged Card didn't open collapsed Lists
+- Fixed: Adding a new Card with Numbers On now numbers the new Card
 
 ### 2018-05-16 version 1.0.49
 - Fixed height of collapsed Card Title text boxes when editing them
