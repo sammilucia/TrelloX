@@ -31,7 +31,7 @@ $(document).ready( function() {
 			// Checks to see if a card was closed, in order to refresh the UI correctly.
 			// This can happen when a user refresh a card
 	  		if (lastURL.includes('/c') && document.URL.includes('/b')) {
-	  			console.log('Card was closed');
+	  			//console.log('Card was closed');
 	  			//installTrelloX();
 
 	  			// Update lastUrl
@@ -43,11 +43,11 @@ $(document).ready( function() {
 
 // Installer function for TrelloX extension
 function installTrelloX() {
-	console.log('TrelloX: Installing');
+	//console.log('TrelloX: Installing');
 	// Run installer functions
-	console.log('Add card numbers');
+	//console.log('Add card numbers');
 	addCardNumbers();
-	console.log('Create collapsable lists');
+	//console.log('Create collapsable lists');
 	collapseLists();
 
 	//console.log('Create buttons for board');
@@ -58,8 +58,8 @@ function installTrelloX() {
 }
 
 function refreshTrelloX() {
-	console.log('TrelloX: Refreshing');
-	console.log('Replace Tags');
+	//console.log('TrelloX: Refreshing');
+	//console.log('Replace Tags');
 	replaceTags();
 	
 	//console.log('Replace Card Details View');
@@ -73,30 +73,37 @@ function refreshTrelloX() {
 
 // Create TrelloX buttons
 function createButtons() {
+  // We want to run this function exactly twice...
+  var buttonDrawCount = 0;
 	// This refers to the "Numbers: On/Off" button in the top RHS of the screen
 	var buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
 	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers On</span>' +
 	'</a>');
 
-	if ($('.board-header-btns.mod-right').length === 0) {
-		// Give it some time...
-		setTimeout( function() {
-			createButtons();
-		}, 150);
-	}
-	else {
-		// Add an event handler to toggle displaying the numbers on cards
-		buttonNumbers.on('click', function() {
-			replaceNumbers(!showNumbers());
-		});
+  if ($('.trellox-numbers-btn').length === 0 ) {
+    // Add an event handler to toggle displaying the numbers on cards
+    buttonNumbers.on('click', function() {
+      replaceNumbers(!showNumbers());
+    });
 
-		console.log('Add button to board header now');
-		console.log('Board header is:', $('.board-header-btns.mod-right'));
+    console.log('Add button to board header now');
+    console.log('Board header is:', $('.board-header-btns.mod-right'));
 
-		// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
-		$('.board-header-btns.mod-right').prepend(buttonNumbers);
-	}
+    // Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
+    $(buttonNumbers).insertBefore('.sub-btn');
+    if (buttonDrawCount === 0) {
+      buttonDrawCount = 1;
+    }
+  }
+  
+  // Wait in case .board-header is redrawn...
+  if (buttonDrawCount === 1) {
+    setTimeout( function() {
+      console.log('Redraw Numbers button...');
+      createButtons();
+    }, 1000); 
+  }
 }
 
 // Sets everything to allow the handling of list collapsing/uncollapsing
@@ -104,14 +111,14 @@ function createButtons() {
 function collapseLists() {
 	// If there are no collapsed Lists...
 	if (!document.querySelector('.collapse-icon', '#board')) {
-		console.log('No collapsed lists, let us generate');
+		//console.log('No collapsed lists, let us generate');
 
 		// Use URL to find the boardID
 		var		afterFirstDelimiter = document.URL.indexOf('/b/') + 3,
 				beforeLastDelimiter = document.URL.lastIndexOf('/'),
 				boardID = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
 
-		console.log('Board ID is:', boardID);
+		//console.log('Board ID is:', boardID);
 		var listIndex = 0,
 			willClose = false;
 
@@ -220,14 +227,14 @@ function addCardNumbers(reattempt) {
 	// Remove old references to card #
 	$('.card-short-id').remove();
 
-	console.log('Running add card members');
+	//console.log('Running add card members');
 
 	let cards = $('.list-card.js-member-droppable.ui-draggable');
 
-	console.log('Cards are:', cards);
+	//console.log('Cards are:', cards);
 
 	if (cards.length === 0 && !reattempt) {
-		console.log('No cards found on first try, attempt again in 150ms');
+		//console.log('No cards found on first try, attempt again in 150ms');
 
 		// wait a bit then try again.  If still nothing, then we just simply assume the user has no cards at all
 		setTimeout( function() {
@@ -236,21 +243,21 @@ function addCardNumbers(reattempt) {
 	}
 
 	cards.each( function(index) {
-		console.log('In card numbers loop:', this);
+		//console.log('In card numbers loop:', this);
 		if (typeof $(this).attr('href') !== 'undefined') {
 			// Use the URL to determine Card number
 			var 	afterFirstDelimiter = $(this).attr('href').lastIndexOf('/') + 1,
 					beforeLastDelimiter = $(this).attr('href').indexOf('-'),
 					cardNumber = $(this).attr('href').slice(afterFirstDelimiter, beforeLastDelimiter);
 
-			console.log('Card Number is:', cardNumber);
+			//console.log('Card Number is:', cardNumber);
 			// Get the section of html we want to add the card # to
 			let numberHolder = $(this).find('.list-card-title.js-card-name');
 			// Add the card number span
 			$(numberHolder).append("<span class='card-short-id'>#" + cardNumber + "</span>");
 		}
 		else if (!reattempt) {
-			console.log('Re-attempt, no href found');
+			//console.log('Re-attempt, no href found');
 
 			setTimeout( function() {
 				addCardNumbers(true);
@@ -304,11 +311,11 @@ function replaceNumbers(state) {
 
 function showNumbers() {
 	if (localStorage.getItem('trelloXNumbers') === null) {
-		console.log('trelloXNumbers is null');
+		//console.log('trelloXNumbers is null');
 		return true;
 	}
 	else {
-		console.log('localStorage trelloxNum equal true?:', localStorage.getItem('trelloXNumbers') === 'true');
+		//console.log('localStorage trelloxNum equal true?:', localStorage.getItem('trelloXNumbers') === 'true');
 		return (localStorage.getItem('trelloXNumbers') === 'true');
 	}
 }
@@ -316,11 +323,11 @@ function showNumbers() {
 function refreshNumbers(state) {
 	// Add Card #numbers
 	if (state) {
-		console.log('Remove class .hide');
+		//console.log('Remove class .hide');
 		$('.card-short-id').removeClass('hide');
 	} 
 	else {
-		console.log('Add class .hide');
+		//console.log('Add class .hide');
 		$('.card-short-id').addClass('hide');
 	}
 }
@@ -341,10 +348,10 @@ function cardChange(summaries) {
 						beforeSecondDelimiter = $(listCard).attr('href').indexOf('-')
 						cardNumber = $(listCard).attr('href').slice(afterFirstDelimiter, beforeSecondDelimiter);
 
-				console.log('Card Number is:', cardNumber);
+				//console.log('Card Number is:', cardNumber);
 				// Get the section of html we want to add the card # to
 				let numberHolder = $(listCard).find('.list-card-title.js-card-name');
-				console.log('numberHolder is:', numberHolder);
+				//console.log('numberHolder is:', numberHolder);
 				// Add the card number span
 				$(numberHolder).append("<span class='card-short-id'>#" + cardNumber + "</span>");
 			}
@@ -405,13 +412,13 @@ function listChange(summaries) {
 }
 
 function boardChange(summaries) {
-	console.log('Board change summary', summaries[0]);
+	//console.log('Board change summary', summaries[0]);
 
-	console.log('last url is:', lastURL);
-	console.log('Document url is:', document.URL);
+	//console.log('last url is:', lastURL);
+	//console.log('Document url is:', document.URL);
 	// If we're still on a url that is a /b/ (board) url, and it's different to the last url...
 	if (document.URL.includes('/b/') && document.URL !== lastURL) {
-		console.log('TrelloX: Board changed');
+		//console.log('TrelloX: Board changed');
 		lastURL = document.URL;
 
 		// Run installer function
@@ -436,12 +443,12 @@ function boardChange(summaries) {
 		});
 	}
 
-	// Force board opacity
+	// Reveal TrelloX board
 	$('#board').delay(10).animate({ opacity: 1 }, 1);
 }
 
 function handleCardClose(summaries) {
-	console.log('handle card close summary:', summaries[0]);
+	//console.log('handle card close summary:', summaries[0]);
 }
 
 /*function refreshLinks() { 
@@ -479,12 +486,12 @@ function handleCardClose(summaries) {
 }*/
 
 function cardOpen(summaries) {
-	console.log('Checking card status');
-	console.log('Summary is:', summaries[0]);
+	//console.log('Checking card status');
+	//console.log('Summary is:', summaries[0]);
 
 	// Run replaceCardViewDetails()
 	if (summaries[0].added.length > 0) {
-		console.log('Replace card detail view');
+		//console.log('Replace card detail view');
 		replaceCardDetailsView();
 	}
 }
