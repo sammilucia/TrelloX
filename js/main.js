@@ -28,12 +28,15 @@ $(document).ready( function() {
 	// Watch for potential Card changes
 	$('body').on('mouseup keyup', function() {
 		setTimeout(function() {
+      // Update formatting
+      refreshTrelloX();
+
 			// Checks to see if a card was closed, in order to refresh the UI correctly.
 			// This can happen when a user refresh a card
 	  		if (lastURL.includes('/c') && document.URL.includes('/b')) {
 	  			//console.log('Card was closed');
 	  			//installTrelloX();
-
+          
 	  			// Update lastUrl
 	  			lastUrl = document.URL;
 	  		}
