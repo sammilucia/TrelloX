@@ -354,8 +354,11 @@ function cardChange(summaries) {
 				// Get the section of html we want to add the card # to
 				let numberHolder = $(listCard).find('.list-card-title.js-card-name');
 				//console.log('numberHolder is:', numberHolder);
+				var isHiddenNumber = (localStorage.getItem('trelloXNumbers') !== 'true') ? 'hide' : '';
 				// Add the card number span
-				$(numberHolder).append("<span class='card-short-id'>#" + cardNumber + "</span>");
+				$(numberHolder).append("<span class='card-short-id " + isHiddenNumber + "'>#" + cardNumber + "</span>");
+
+
 			}
 		});
 	}
