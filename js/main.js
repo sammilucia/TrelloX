@@ -28,18 +28,18 @@ $(document).ready( function() {
 	// Watch for potential Card changes
 	$('body').on('mouseup keyup', function() {
 		setTimeout(function() {
-      // Update formatting
-      refreshTrelloX();
+	  // Update formatting
+	  refreshTrelloX();
 
 			// Checks to see if a card was closed, in order to refresh the UI correctly.
 			// This can happen when a user refresh a card
-	  		if (lastURL.includes('/c') && document.URL.includes('/b')) {
-	  			//console.log('Card was closed');
-	  			//installTrelloX();
-          
-	  			// Update lastUrl
-	  			lastUrl = document.URL;
-	  		}
+			if (lastURL.includes('/c') && document.URL.includes('/b')) {
+				//console.log('Card was closed');
+				//installTrelloX();
+		  
+				// Update lastUrl
+				lastUrl = document.URL;
+			}
 		}, 20);
 	})
 });
@@ -76,35 +76,37 @@ function refreshTrelloX() {
 
 // Create TrelloX buttons
 function createButtons() {
-  // We want to run this function exactly twice...
-  var buttonDrawCount = 0;
+	// We want to run this function exactly twice...
+	var buttonDrawCount = 0;
+	var isHiddenNumbers = (localStorage.getItem('trelloXNumbers') === 'true') ? 'On' : 'Off';
+
 	// This refers to the "Numbers: On/Off" button in the top RHS of the screen
 	var buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
-	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers On</span>' +
+	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers ' + isHiddenNumbers + '</span>' +
 	'</a>');
 
   if ($('.trellox-numbers-btn').length === 0 ) {
-    // Add an event handler to toggle displaying the numbers on cards
-    buttonNumbers.on('click', function() {
-      replaceNumbers(!showNumbers());
-    });
+	// Add an event handler to toggle displaying the numbers on cards
+	buttonNumbers.on('click', function() {
+	  replaceNumbers(!showNumbers());
+	});
 
-    console.log('Add button to board header now');
-    console.log('Board header is:', $('.board-header-btns.mod-right'));
+	console.log('Add button to board header now');
+	console.log('Board header is:', $('.board-header-btns.mod-right'));
 
-    // Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
-    $(buttonNumbers).insertBefore('.sub-btn');
-    if (buttonDrawCount === 0) {
-      buttonDrawCount = 1;
-    }
+	// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
+	$(buttonNumbers).insertBefore('.sub-btn');
+	if (buttonDrawCount === 0) {
+	  buttonDrawCount = 1;
+	}
   }
   
   // Wait in case .board-header is redrawn...
   if (buttonDrawCount === 1) {
-    setTimeout( function() {
-      createButtons();
-    }, 200); 
+	setTimeout( function() {
+	  createButtons();
+	}, 200); 
   }
 }
 
@@ -254,9 +256,11 @@ function addCardNumbers(reattempt) {
 
 			//console.log('Card Number is:', cardNumber);
 			// Get the section of html we want to add the card # to
-			let numberHolder = $(this).find('.list-card-title.js-card-name');
+			var numberHolder = $(this).find('.list-card-title.js-card-name');
+			var isHiddenNumber = (localStorage.getItem('trelloXNumbers') !== 'true') ? 'hide' : '';
 			// Add the card number span
-			$(numberHolder).append("<span class='card-short-id'>#" + cardNumber + "</span>");
+			//$(numberHolder).append("<span class='card-short-id'>#" + cardNumber + "</span>");
+			$(numberHolder).append("<span class='card-short-id " + isHiddenNumber + "'>#" + cardNumber + "</span>");
 		}
 		else if (!reattempt) {
 			//console.log('Re-attempt, no href found');
@@ -352,7 +356,7 @@ function cardChange(summaries) {
 
 				//console.log('Card Number is:', cardNumber);
 				// Get the section of html we want to add the card # to
-				let numberHolder = $(listCard).find('.list-card-title.js-card-name');
+				var numberHolder = $(listCard).find('.list-card-title.js-card-name');
 				//console.log('numberHolder is:', numberHolder);
 				var isHiddenNumber = (localStorage.getItem('trelloXNumbers') !== 'true') ? 'hide' : '';
 				// Add the card number span
