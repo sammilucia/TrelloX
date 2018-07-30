@@ -49,10 +49,15 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-07-30 version 1.0
+Initial Release
+
 ### 2018-06-23 version 1.0.51
 Release Candidate 3 of v1.0
 - Fixed: Card titles are no longer resizable
 - Fixed: Numbers Button was being overdrawn
+- Fixed: Numbers on/off is now remembered on page reload
+- Fixed: Numbers button required 2 clicks to disable
 
 ### 2018-06-21 version 1.0.50
 - Several styling fixes to address underlying changes to Trello
