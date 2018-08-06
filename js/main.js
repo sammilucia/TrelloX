@@ -46,29 +46,19 @@ $(document).ready( function() {
 
 // Installer function for TrelloX extension
 function installTrelloX() {
-	//console.log('TrelloX: Installing');
-	// Run installer functions
-	//console.log('Add card numbers');
+    
+	// Update Lists to TrelloX format
 	addCardNumbers();
-	//console.log('Create collapsable lists');
 	collapseLists();
-
-	//console.log('Create buttons for board');
 	createButtons();
 	
-	// Call refresh
+	// Update Cards to TrelloX format
 	refreshTrelloX();
 }
 
 function refreshTrelloX() {
-	//console.log('TrelloX: Refreshing');
-	//console.log('Replace Tags');
+    
 	replaceTags();
-	
-	//console.log('Replace Card Details View');
-	//replaceCardDetailsView();
-	//replaceNumbers(showNumbers());
-	//refreshLinks();
 	
 	// Failsafe to display Board if animate has failed
 	$('#board').delay(10).animate({ opacity: 1 }, 1);
@@ -89,7 +79,7 @@ function createButtons() {
   if ($('.trellox-numbers-btn').length === 0 ) {
 	// Add an event handler to toggle displaying the numbers on cards
 	buttonNumbers.on('click', function() {
-	  replaceNumbers(!showNumbers());
+	  replaceNumbers(!getNumbersState());
 	});
 
 	console.log('Add button to board header now');
@@ -319,7 +309,8 @@ function replaceNumbers(state) {
 	refreshNumbers(state);
 }
 
-function showNumbers() {
+function getNumbersState() {
+    // If Numbers button hasn't been used before, assume Card Numbers are Off
 	if (localStorage.getItem('trelloXNumbers') === null) {
 		//console.log('trelloXNumbers is null');
 		return true;
@@ -327,7 +318,7 @@ function showNumbers() {
 	else {
 		//console.log('localStorage trelloxNum equal true?:', localStorage.getItem('trelloXNumbers') === 'true');
 		return (localStorage.getItem('trelloXNumbers') === 'true');
-	}
+    }
 }
 
 function refreshNumbers(state) {
@@ -425,10 +416,7 @@ function listChange(summaries) {
 }
 
 function boardChange(summaries) {
-	//console.log('Board change summary', summaries[0]);
 
-	//console.log('last url is:', lastURL);
-	//console.log('Document url is:', document.URL);
 	// If we're still on a url that is a /b/ (board) url, and it's different to the last url...
 	if (document.URL.includes('/b/') && document.URL !== lastURL) {
 		//console.log('TrelloX: Board changed');
@@ -440,17 +428,17 @@ function boardChange(summaries) {
 
 	let card;
 
-	// Handle when a card moves across to a new location, refresh number state
+	// Handle when a Card moves across to a new location, and refresh number state
 	if (summaries[0].added.length > 0) {
 		summaries[0].added.forEach(function(card) {
-			// Target the className of the span inside the card
+			// Target the className of the span inside the Card
 			if (card.innerHTML.includes('card-short-id hide')) {
 				// Check if we should show it or not
-				if (localStorage.getItem('trelloXNumbers')) {
+				/*if (!localStorage.getItem('trelloXNumbers')) {
 					$('.card-short-id').removeClass('hide');
-				}
+				}*/
 
-				// Refresh draggable card
+				// Refresh draggable Card
 				$('.list-card', '#board').draggable({revert: true, revertDuration: 0 });
 			}
 		});
