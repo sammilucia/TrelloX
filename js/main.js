@@ -278,20 +278,24 @@ function replaceTags() {
 		if (card.innerText.substring(0,2) === '##' || card.innerHTML.includes('</h3>')) { // If Card is a header Card
 			card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
 		} 
+        else if (card.innerText.substring(0,2) === 'NA') {
+        	card.parentNode.parentNode.classList.add('subtask');                // Make subtask
+		} 
 		else {
 			if (card.innerText === '---' || card.innerText.includes('☰')) {    // If Card is a separator Card
-				card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')            // Replace '---' with gripper symbol '☰'
-				card.parentNode.parentNode.classList.add('clear');                // Make background transparent
-				card.classList.add('clear');                                      // Make text transparent
+				card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')          // Replace '---' with gripper symbol '☰'
+				card.parentNode.parentNode.classList.add('clear');              // Make background transparent
+				card.classList.add('clear');                                    // Make text transparent
 			} 
-			else {                                                            // For all other cards...
-				card.parentNode.parentNode.classList.remove('clear');             // Remove background transparency
-				card.classList.remove('clear');                                   // Remove text transparency
+			else {                                                              // For all other cards...
+				card.parentNode.parentNode.classList.remove('clear');           // Remove background transparency
+				card.classList.remove('clear');                                 // Remove text transparency
+				card.parentNode.parentNode.classList.remove('subtask');         // Remove subtask
 				card.innerHTML = card.innerHTML
 				.replace(/\\{1}/, '</br>')                                      // Replace new lines first
 				.replace(/#{1}([a-z-_]+)/gi, '<span class="card-tag">#﻿$1</span>') // Replace # followed by any character until a space
 				.replace(/@([a-z-_]+)/gi, '<strong>@﻿$1</strong>')              // Replace @ followed by any character until a space
-				.replace(/!([a-z0-9-_!:.]+)/gi, '<code>$1</code>');              // Replace ! followed by any character until a space
+				.replace(/!([a-z0-9-_!:.]+)/gi, '<code>$1</code>');             // Replace ! followed by any character until a space
 				//.replace(/\[(\+?[0-9() -]{5,20})\]/g, '<a class="card-link" target="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
 				//.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
 			}

@@ -50,7 +50,13 @@ code { font-size: 12px; color: #4d4d4d; }
   margin-bottom: 1px;
   padding-left: 45%;
 }
-
+.list-card.subtask {
+  background: none;
+  max-width: 236px;
+  left: 20px !important;
+  opacity: 0.6;
+  box-shadow: none;
+}
 /* Format Card links */
 .list-card .card-link {
   display: block;
