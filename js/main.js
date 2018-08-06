@@ -240,7 +240,7 @@ function addCardNumbers(reattempt) {
 	if (cards.length === 0 && !reattempt) {
 		//console.log('No cards found on first try, attempt again in 150ms');
 
-		// wait a bit then try again.  If still nothing, then we just simply assume the user has no cards at all
+		// Wait a bit then try again. If still nothing, assume the user has no Cards at all
 		setTimeout( function() {
 			addCardNumbers(true);
 		}, 150);
