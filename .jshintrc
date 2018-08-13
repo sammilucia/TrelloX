@@ -1,0 +1,11 @@
+{
+    "esversion": 6,
+    "browser": true,
+    "jquery": true,
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "MutationSummary": false,
+        "chrome": false
+    }
+}

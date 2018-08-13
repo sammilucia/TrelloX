@@ -38,10 +38,10 @@ $(document).ready( function() {
 				//installTrelloX();
 		  
 				// Update lastUrl
-				lastUrl = document.URL;
+				window.lastUrl = document.URL;
 			}
 		}, 20);
-	})
+	});
 });
 
 // Installer function for TrelloX extension
@@ -82,8 +82,8 @@ function createButtons() {
 	  replaceNumbers(!getNumbersState());
 	});
 
-	console.log('Add button to board header now');
-	console.log('Board header is:', $('.board-header-btns.mod-right'));
+	//console.log('Add button to board header now');
+	//console.log('Board header is:', $('.board-header-btns.mod-right'));
 
 	// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
 	$(buttonNumbers).insertBefore('.sub-btn');
@@ -148,11 +148,11 @@ function collapseLists() {
 				collapseIcon.addEventListener('click', function (event) {
 					// if we have an empty object, it means the list hasn't been handled before
 					if (Object.keys(closedListData).length === 0) {
-						console.log('Have empty object, set listClosed to true')
+						//console.log('Have empty object, set listClosed to true');
 						closedListData[listName] = true;
 					}
 					else {
-						console.log('Have result, fetching value');
+						//console.log('Have result, fetching value');
 						// If no value, set to true, else get inverse of current value
 						closedListData[listName] = (typeof closedListData[listName] === 'undefined') ? true : !closedListData[listName];
 					}
@@ -160,12 +160,12 @@ function collapseLists() {
 					// Set storage data
 					chrome.storage.sync.set({'trellox': closedListData}, function () {
 						if (chrome.runtime.error || chrome.runtime.lastError) {
-							console.log('Runtime error:', chrome.runtime.error);
-							console.log('Runtime last error:', chrome.runtime.lastError);
+							//console.log('Runtime error:', chrome.runtime.error);
+							//console.log('Runtime last error:', chrome.runtime.lastError);
 						}
 						else {
 							// Toggle the 'collapsed' class on successful save
-							console.log('Successfully saved:', closedListData);
+							//console.log('Successfully saved:', closedListData);
 							event.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
 						}
 					});
@@ -266,14 +266,14 @@ function replaceTags() {
 	// Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
 	document.querySelectorAll('.list-card-title', '#board').forEach (function(card) {
 		if (card.innerText.substring(0,2) === '##' || card.innerHTML.includes('</h3>')) { // If Card is a header Card
-			card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>') // Format title as a <h3>
+			card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>'); // Format title as a <h3>
 		} 
         else if (card.innerText.substring(0,3) === 'NA ') {
         	card.parentNode.parentNode.classList.add('subtask');                // Make subtask
 		} 
 		else {
 			if (card.innerText === '---' || card.innerText.includes('☰')) {    // If Card is a separator Card
-				card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰')          // Replace '---' with gripper symbol '☰'
+				card.innerHTML = card.innerHTML.replace(/\-{3}/, '☰');          // Replace '---' with gripper symbol '☰'
 				card.parentNode.parentNode.classList.add('clear');              // Make background transparent
 				card.classList.add('clear');                                    // Make text transparent
 			} 
@@ -346,7 +346,7 @@ function cardChange(summaries) {
 			if (listCard.className.includes('list-card js-member-droppable')) {
 				// Use the URL to determine Card number
 				var 	afterFirstDelimiter = $(listCard).attr('href').lastIndexOf('/') + 1,
-						beforeSecondDelimiter = $(listCard).attr('href').indexOf('-')
+						beforeSecondDelimiter = $(listCard).attr('href').indexOf('-'),
 						cardNumber = $(listCard).attr('href').slice(afterFirstDelimiter, beforeSecondDelimiter);
 
 				//console.log('Card Number is:', cardNumber);

@@ -49,8 +49,11 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
-### 2018-07-30 version 1.0
+### 2018-08-13 version 1.0
 Initial Release
+- Added JSHint
+- Code cleanup, disabled debug/console
+- Known Issue: Adding a new Card with Numbers: On, Card is not numbered
 
 ### 2018-06-23 version 1.0.51
 Release Candidate 3 of v1.0
