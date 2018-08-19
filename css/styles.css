@@ -8,149 +8,157 @@ code { font-size: 12px; color: #4d4d4d; }
 
 /* Hide all lists until TrelloX is installed */
 #board { 
-  opacity: 0;
+	opacity: 0;
 }
 
 /* Need to add '.new' to the below three and toggle between them */
 /* Move Card details right to accommodate new Labels */
 .list-card-details {
-  width: calc( 100% - 20px );
-  padding-left: 16px !important;
+	width: calc( 100% - 20px );
+	padding-left: 16px !important;
 }
 /* Fix Labels to the left of Cards */
 .list-card-labels {
-  margin: 0 !important;
-  position: absolute !important;
-  left: 0;
-  top: 0;
-  height: 100%;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+	margin: 0 !important;
+	position: absolute !important;
+	left: 0;
+	top: 0;
+	height: 100%;
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+.list-card.subtask .list-card-labels {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 3px;
 }
 /* Reshape Labels */
 .card-label.mod-card-front {
-  margin: 0 !important;
-  min-width: 0 !important;
-  font-size: 0 !important;
-  height: 100% !important;
-  width: 6px !important;
-  border-radius: 0 !important;
-  z-index: -1;
+	margin: 0 !important;
+	min-width: 0 !important;
+	font-size: 0 !important;
+	height: 100% !important;
+	width: 6px !important;
+	border-radius: 0 !important;
+	z-index: -1;
 }
 
 /* Format Cards transparent */
 .list-card.clear {
-  background: none;
-  box-shadow: none;
+	background: none;
+	box-shadow: none;
+}
+.list-card.clear .list-card-operation {
+	padding: 0 4px;
 }
 .list-card-title.clear {
-  color: #bbb;
-  text-shadow: 0 1px #fff;
-  margin-top: -3px;
-  margin-bottom: 1px;
-  padding-left: 45%;
+	color: #bbb;
+	text-shadow: 0 1px #fff;
+	margin-top: -3px;
+	margin-bottom: 1px;
+	padding-left: 45%;
 }
 .list-card.subtask {
-  background: none;
-  max-width: 245px;
-  margin-left: auto;
-  opacity: 0.7;
-  box-shadow: none;
+	background: none;
+	max-width: 245px;
+	margin-left: auto;
+	opacity: 0.6;
+	box-shadow: none;
+	margin-top: -8px;
 }
 /* Format Card links */
 .list-card .card-link {
-  display: block;
-  color: #369;
-  text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 190px;
+	display: block;
+	color: #369;
+	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 190px;
 }
 .list-card .card-link-hover {
-  opacity: 0;
-  text-decoration: underline;
-  color: #369;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 190px;
+	opacity: 0;
+	text-decoration: underline;
+	color: #369;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 190px;
 }
 
 /* Fix resize of Numbers button on toggle */
 .trellox-numbers-btn {
-  min-width: 96px;
+	min-width: 96px;
 }
 
 /* Define width of collapsed Lists */
 .list-wrapper.collapsed {
-  width: 38px;
+	width: 38px;
 }
 /* Hide all collapsed Lists */
 .list-wrapper.collapsed .list * {
-  display: none;
+	display: none;
 }
 /* Now show just the title bars */
 .list-wrapper.collapsed .list-header, .list-wrapper.collapsed .collapse-icon {
-  display: block;
-  min-height: 230px;
+	display: block;
+	min-height: 230px;
 }
 
 /* Remove textarea resize handles */
 textarea.mod-list-name {
-  resize: none !important;
-  height: 24px !important;
+	resize: none !important;
+	height: 24px !important;
 }
 
 /* Reduce with of title text to accommodate collapse icon */
 .list-wrapper .list-header-name {
-  width: calc(100% - 22px);
+	width: calc(100% - 22px);
 }
 
 /* Collapsed List header formatting */
 .list-wrapper.collapsed .list-header-name {
-  width: 204px;
-  display: block;
-  height: 24px;
-  transform: rotate(90deg);
-  transform-origin: top left;
-  top: 29px;
-  left: 4px;
-  position: relative;
-  -webkit-text-stroke:.025em rgba(51,51,51,0.7);
+	width: 204px;
+	display: block;
+	height: 24px;
+	transform: rotate(90deg);
+	transform-origin: top left;
+	top: 29px;
+	left: 4px;
+	position: relative;
+	-webkit-text-stroke:.025em rgba(51,51,51,0.7);
 }
 
 /* Collapse icon common formatting */
 .collapse-icon {
-  float: left;
-  cursor: pointer;
-  height: 20px;
-  width: 20px;
-  text-align: center;
-  position: relative;
+	float: left;
+	cursor: pointer;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	position: relative;
 }
 /* Down collapse icon formatting */
 .collapse-icon:after {
-  display: block;
-  content: '';
-  border-top: 5px solid #999;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  position: absolute;
-  top: 8px;
-  left: 5px;
+	display: block;
+	content: '';
+	border-top: 5px solid #999;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	position: absolute;
+	top: 8px;
+	left: 5px;
 }
 /* Right collapse icon formatting */
 .list-wrapper.collapsed .collapse-icon:after {
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 5px solid #999;
-  top: 5px;
-  left: 8px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid #999;
+	top: 5px;
+	left: 8px;
 }
 
 /* Lighten in-Card icons - (not working yet, appears to refresh dynamically) *//
 .badge-icon .icon-sm {
-  color: #ddd;
+	color: #ddd;
 }
