@@ -268,8 +268,9 @@ function replaceTags() {
 		if (card.innerText.substring(0,2) === '##' || card.innerHTML.includes('</h3>')) { // If Card is a header Card
 			card.innerHTML = card.innerHTML.replace(/#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>'); // Format title as a <h3>
 		} 
-		else if (card.innerText.substring(0,1) === '+') {
+		else if (card.innerText.substring(0,1) === '+' || card.innerText.substring(0,1) === '﻿') {
 			card.parentNode.parentNode.classList.add('subtask');				// Make subtask
+			//card.innerText = card.innerText.replace(/^\+/, '﻿');				// Hide '+' symbol
 		} 
 		else {
 			if (card.innerText === '---' || card.innerText.includes('☰')) {		// If Card is a separator Card

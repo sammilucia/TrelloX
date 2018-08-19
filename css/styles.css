@@ -29,7 +29,7 @@ code { font-size: 12px; color: #4d4d4d; }
 }
 .list-card.subtask .list-card-labels {
 	border-top-left-radius: 0px;
-	border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 2px;
 }
 /* Reshape Labels */
 .card-label.mod-card-front {
