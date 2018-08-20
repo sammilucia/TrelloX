@@ -31,8 +31,7 @@ $(document).ready( function() {
 			// Update formatting
 			refreshTrelloX();
 
-			// Checks to see if a card was closed, in order to refresh the UI correctly.
-			// This can happen when a user refresh a card
+			// When a Card is closed, assume it's been edited and refresh the UI
 			if (lastURL.includes('/c') && document.URL.includes('/b')) {
 				//console.log('Card was closed');
 				//installTrelloX();
@@ -48,7 +47,6 @@ $(document).ready( function() {
 function installTrelloX() {
 	
 	// Update Lists to TrelloX format
-	addCardNumbers();
 	collapseLists();
 	createButtons();
 	
@@ -59,6 +57,7 @@ function installTrelloX() {
 function refreshTrelloX() {
 	
 	replaceTags();
+	addCardNumbers();
 	
 	// Failsafe to display Board if animate has failed
 	$('#board').delay(10).animate({ opacity: 1 }, 1);
@@ -432,10 +431,6 @@ function boardChange(summaries) {
 		summaries[0].added.forEach(function(card) {
 			// Target the className of the span inside the Card
 			if (card.innerHTML.includes('card-short-id hide')) {
-				// Check if we should show it or not
-				/*if (!localStorage.getItem('trelloXNumbers')) {
-					$('.card-short-id').removeClass('hide');
-				}*/
 
 				// Refresh draggable Card
 				$('.list-card', '#board').draggable({revert: true, revertDuration: 0 });
