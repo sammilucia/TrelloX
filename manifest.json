@@ -1,29 +1,27 @@
 {
-  "manifest_version": 2,
-  "name": "TrelloX",
-  "version": "1.0",
-  "description": "Trello with focus.",
-  "homepage_url": "https://trellox.io",
+	"manifest_version": 2,
+	"name": "TrelloX",
+	"version": "1.0",
+	"description": "Trello with focus.",
+	"homepage_url": "https://trellox.io",
 
-  "icons": {
-    "16": "img/icon16.png",
-    "48": "img/icon48.png",
-    "128": "img/icon128.png"
-  },
-  "browser_action": {
-    "default_icon": {
-      "16": "img/icon16.png",
-      "24": "img/icon24.png",
-      "32": "img/icon32.png"
-    },
-    "default_title": "TrelloX. Trello with focus."
-    //"default_popup": "popup.html"
-  },
-  "content_scripts": [{
-    "matches": ["https://trello.com/*"],
-    "css": ["css/styles.css"],
-    "js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
-  }],
-  "permissions": ["storage", "webNavigation", "*://trello.com/*"]
-  //"update_url": "https://clients2.google.com/service/update2/crx"
+	"icons": {
+		"16": "img/icon16.png",
+		"48": "img/icon48.png",
+		"128": "img/icon128.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"16": "img/icon16.png",
+			"24": "img/icon24.png",
+			"32": "img/icon32.png"
+		},
+		"default_title": "TrelloX. Trello with focus."
+	},
+	"content_scripts": [{
+		"matches": ["https://trello.com/*"],
+		"css": ["css/styles.css"],
+		"js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
+	}],
+	"permissions": ["storage", "webNavigation", "*://trello.com/*"]
 }
