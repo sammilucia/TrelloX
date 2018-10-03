@@ -49,6 +49,9 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2018-10-03 version 1.1 beta
+- Added a button to hide Subtasks
+
 ### 2018-08-13 version 1.0
 Initial Release
 - Added JSHint

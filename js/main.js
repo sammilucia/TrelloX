@@ -57,7 +57,7 @@ function installTrelloX() {
 function refreshTrelloX() {
 	
 	replaceTags();
-	addCardNumbers();
+	addCardButtons();
 	
 	// Failsafe to display Board if animate has failed
 	$('#board').delay(10).animate({ opacity: 1 }, 1);
@@ -67,9 +67,16 @@ function refreshTrelloX() {
 function createButtons() {
 	// We want to run this function exactly twice...
 	let		buttonDrawCount = 0,
-			isHiddenNumbers = (localStorage.getItem('trelloXNumbers') === 'true') ? 'On' : 'Off';
-
-	// This refers to the "Numbers: On/Off" button in the top RHS of the screen
+			isHiddenNumbers = (localStorage.getItem('trelloXNumbers') === 'true') ? 'On' : 'Off',
+			isHiddenSubtasks = (localStorage.getItem('trelloXSubtasks') === 'true') ? 'On' : 'Off';
+		
+	// Draw the "Subtasks: On/Off" button in the top RHS of the screen
+	let buttonSubtasks = $('<a class="board-header-btn trellox-subtasks-btn" href="#">' +
+	'<span class="board-header-btn-icon icon-sm icon-add"></span>' +
+	'<span class="board-header-btn-text u-text-underline" title="Show or hide subtask cards.">Subtasks ' + isHiddenSubtasks + '</span>' +
+	'</a>');
+	
+	// Draw the "Numbers: On/Off" button in the top RHS of the screen
 	let buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
 	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers ' + isHiddenNumbers + '</span>' +
@@ -77,6 +84,10 @@ function createButtons() {
 
 	if ($('.trellox-numbers-btn').length === 0 ) {
 		// Add an event handler to toggle displaying the numbers on cards
+		buttonSubtasks.on('click', function() {
+			replaceSubtasks(!getSubtasksState());
+		});
+		
 		buttonNumbers.on('click', function() {
 			replaceNumbers(!getNumbersState());
 		});
@@ -85,17 +96,15 @@ function createButtons() {
 		//console.log('Board header is:', $('.board-header-btns.mod-right'));
 
 		// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
+		$(buttonSubtasks).insertBefore('.sub-btn');
+		if (buttonDrawCount === 0) {
+			buttonDrawCount = 1;
+		}
+		
 		$(buttonNumbers).insertBefore('.sub-btn');
 		if (buttonDrawCount === 0) {
 			buttonDrawCount = 1;
 		}
-	}
-	
-	// Wait in case .board-header is redrawn...
-	if (buttonDrawCount === 1) {
-		setTimeout( function() {
-			createButtons();
-		}, 200); 
 	}
 }
 
@@ -216,7 +225,7 @@ function collapseLists() {
 	}
 }
 
-function addCardNumbers(reattempt) {
+function addCardButtons(reattempt) {
 	// Remove old references to card #
 	$('.card-short-id').remove();
 
@@ -231,7 +240,7 @@ function addCardNumbers(reattempt) {
 
 		// Wait a bit then try again. If still nothing, assume the user has no Cards at all
 		setTimeout( function() {
-			addCardNumbers(true);
+			addCardButtons(true);
 		}, 150);
 	}
 
@@ -255,7 +264,7 @@ function addCardNumbers(reattempt) {
 			//console.log('Re-attempt, no href found');
 
 			setTimeout( function() {
-				addCardNumbers(true);
+				addCardButtons(true);
 			}, 100);
 		}
 	});
@@ -330,6 +339,45 @@ function refreshNumbers(state) {
 	else {
 		//console.log('Add class .hide');
 		$('.card-short-id').addClass('hide');
+	}
+}
+
+function replaceSubtasks(state) {
+	let $button = $('.trellox-subtasks-btn > .board-header-btn-text');
+
+	if (state) {
+		localStorage.setItem('trelloXSubtasks', 'true');
+		$button.text('Subtasks On');
+	} 
+	else {
+		localStorage.setItem('trelloXSubtasks', 'false');
+		$button.text('Subtasks Off');
+	}
+
+	refreshSubtasks(state);
+}
+
+function getSubtasksState() {
+	// If Subtasks button hasn't been used before, assume Card Subtasks are Off
+	if (localStorage.getItem('trelloXSubtasks') === null) {
+		//console.log('trelloXSubtasks is null');
+		return true;
+	}
+	else {
+		//console.log('localStorage trelloxNum equal true?:', localStorage.getItem('trelloXSubtasks') === 'true');
+		return (localStorage.getItem('trelloXSubtasks') === 'true');
+	}
+}
+
+function refreshSubtasks(state) {
+	// Add Card #Subtasks
+	if (state) {
+		//console.log('Remove class .hide');
+		$('.subtask').removeClass('hide');
+	} 
+	else {
+		//console.log('Add class .hide');
+		$('.subtask').addClass('hide');
 	}
 }
 
