@@ -3,9 +3,9 @@
     "browser": true,
     "jquery": true,
     "undef": true,
+    "unused": true,
 	"-W100": true,
-    //"unused": true,
-	//"varstmt": true,
+	"varstmt": true,
     "globals": {
         "MutationSummary": false,
         "chrome": false

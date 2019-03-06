@@ -49,6 +49,9 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2019-03-06 version 1.2 beta
+- Fixed slowdown when updating Card description/Comments
+
 ### 2018-10-03 version 1.1 beta
 - Added a button to hide Subtasks
 

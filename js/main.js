@@ -1,20 +1,20 @@
 // Set up global variables
-var lastURL = document.URL;
+let lastURL = document.URL;
 
 // Watch for Board changes
-const boardObserver = new MutationSummary({
+const boardObserver = new MutationSummary({ // jshint ignore:line
 	callback: boardChange, // function to run on observing change
 	queries: [{ element: '.list-card-title' }]
 });
 
 // Watch for new list-card changes
-const listCardObserver = new MutationSummary({
+const listCardObserver = new MutationSummary({ // jshint ignore:line
 	callback: cardChange,
 	queries: [{ element: '.list-card[href]' }]
 });
 
 // Watch for when a card is opened
-const cardOpenedObserver = new MutationSummary({
+const cardOpenedObserver = new MutationSummary({ // jshint ignore:line
 	callback: cardOpen,
 	rootNode: $('window-overlay')[0],
 	queries: [{ attribute: 'style' }]
@@ -29,7 +29,9 @@ $(document).ready( function() {
 	$('body').on('mouseup keyup', function() {
 		setTimeout(function() {
 			// Update formatting
-			refreshTrelloX();
+			if (document.URL.includes('/b')) {
+                refreshTrelloX();
+            }
 
 			// When a Card is closed, assume it's been edited and refresh the UI
 			if (lastURL.includes('/c') && document.URL.includes('/b')) {
