@@ -49,6 +49,17 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2019-03-12 version 1.3 beta
+This is a maintenance release, focusing on performance and robustness
+- Added framework to connect TrelloX to the Trello API (for future)
+- Further performance increases of common functions should make TrelloX feel more lightweight
+- Fixed: TrelloX should now always install correctly after a page refresh (please let me know)
+- Fixed: New Cards now get a Number if Numbers:On
+- Fixed: All Cards now display Numbers on page refresh if Numbers:On
+- Fixed: A Card now keeps its Number after being dragged
+- Fixed: Subtasks are now hidden on page refresh if Subtasks:Off
+- Fixed: Card Numbers are no longer repeatedly redrawn
+
 ### 2019-03-06 version 1.2 beta
 - Fixed slowdown when updating Card description/Comments
 

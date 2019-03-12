@@ -8,6 +8,8 @@
 	"varstmt": true,
     "globals": {
         "MutationSummary": false,
-        "chrome": false
+        "chrome": false,
+        "console": false,
+        "Trello": false
     }
 }
