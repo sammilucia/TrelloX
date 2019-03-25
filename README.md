@@ -49,6 +49,9 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2019-03-20 version 1.4 beta
+- Fixed: Workaround due to Trello update
+
 ### 2019-03-12 version 1.3 beta
 This is a maintenance release, focusing on performance and robustness
 - Added framework to connect TrelloX to the Trello API (for future)

@@ -25,15 +25,17 @@ onWindowReady();
 // Entry point into TrelloX extension
 function onWindowReady() {
     if (!$('.board-menu-section-header').size()) {
-      window.requestAnimationFrame(onWindowReady);
+            console.log("TrelloX: Waiting...");
+            window.requestAnimationFrame(onWindowReady);
     } else {
         //Set Trello API Key for client.js
         //Trello.setKey('9c290b09647746a80b636a8fd31aeec1');
 
         // Install TrelloX on page load
         setTimeout( function() {
+            console.log("TrelloX: Waiting...");
             installTrelloX();
-        },100);
+        },2000);
 
         // Watch for potential Card changes
         $('body').on('mouseup keyup', function() {
@@ -55,6 +57,7 @@ function onWindowReady() {
 
 // Installer function for TrelloX extension
 function installTrelloX() {
+    console.log("TrelloX: Installing...");
 	
     // Create toggle buttons in header
 	createButtons();
@@ -473,6 +476,10 @@ function boardChange(summaries) {
 		//console.log('TrelloX: Board changed');
 		lastURL = document.URL;
 
+        // Workaround for Trello dropping data connection on DOM change
+        console.log("TrelloX: Forcing page reload...");
+        location.reload();
+        
 		// Run installer function
 		onWindowReady();
 	}
