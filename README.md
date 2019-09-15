@@ -1,6 +1,6 @@
 # TrelloX - Trello with focus.
 
-TrelloX is open source and currently looking for developers.
+TrelloX is open source and currently looking for contributors.
 
 https://trellox.io
 
