@@ -1,7 +1,11 @@
 /* # @ ! Tag formatting */
+body, button, html, input, select, textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 code { font-size: 12px; color: #4d4d4d; }
 .card-short-id { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
-.window-header-inline-content .card-short-id { float: left; color: #838c91; font: 14px Helvetica Neue,Arial,Helvetica,sans-serif; font-weight: bold; }
+.window-header-inline-content .card-short-id { float: left; color: #838c91; font: 14px; font-weight: bold; }
 .card-tag { margin-right: 3px; margin-left:4px; color: #a3acb1; font-size: 12px; float: right; }
 .badge { color: #a3acb1; }
 .badge-icon { color: #b3bcc1; }
@@ -13,6 +17,9 @@ code { font-size: 12px; color: #4d4d4d; }
 
 /* Need to add '.new' to the below three and toggle between them */
 /* Move Card details right to accommodate new Labels */
+.list-card {
+    margin-bottom: 7px !important;
+}
 .list-card-details {
 	width: calc( 100% - 20px );
 	padding-left: 16px !important;

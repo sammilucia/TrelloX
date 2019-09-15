@@ -89,13 +89,13 @@ function createButtons() {
 	// Draw the "Subtasks: On/Off" button in the top RHS of the screen
 	let buttonSubtasks = $('<a class="board-header-btn trellox-subtasks-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-add"></span>' +
-	'<span class="board-header-btn-text u-text-underline" title="Show or hide subtask cards.">Subtasks ' + isHiddenSubtasks + '</span>' +
+	'<span class="board-header-btn-text" title="Show or hide subtask cards.">Subtasks ' + isHiddenSubtasks + '</span>' +
 	'</a>');
 	
 	// Draw the "Numbers: On/Off" button in the top RHS of the screen
 	let buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
-	'<span class="board-header-btn-text u-text-underline" title="Show or hide card numbers.">Numbers ' + isHiddenNumbers + '</span>' +
+	'<span class="board-header-btn-text" title="Show or hide card numbers.">Numbers ' + isHiddenNumbers + '</span>' +
 	'</a>');
 
 	if ($('.trellox-numbers-btn').length === 0 ) {
