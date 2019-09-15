@@ -1,5 +1,7 @@
 # TrelloX - Trello with focus.
 
+TrelloX is open source and currently looking for developers.
+
 https://trellox.io
 
 A Chrome extension to give Trello a more up-to-date user experience, reducing clutter and increasing focus.
