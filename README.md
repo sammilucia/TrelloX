@@ -49,6 +49,14 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2020-02-01 version 1.7 beta
+- Fixed position inconsistencies between Chrome versions
+
+### 2019-10-29 version 1.6 beta
+- Sped up initial injection
+- Fixed non-responsive problem after initialising on large Boards
+- Foxed buttons disappearing
+
 ### 2019-03-20 version 1.5 beta
 - Changed Trello's new fonts back to Helvetica Neue / Helvetica / Arial
 - Removed underline from TrelloX toggle buttons

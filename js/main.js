@@ -20,17 +20,10 @@ const cardOpenedObserver = new MutationSummary({ // jshint ignore:line
 	queries: [{ attribute: 'style' }]
 });
 
-onWindowReady();
-
 // Entry point into TrelloX extension
-function onWindowReady() {
-    if (!$('.board-menu-section-header').size()) {
-            console.log("TrelloX: Waiting...");
-            window.requestAnimationFrame(onWindowReady);
-    } else {
-        //Set Trello API Key for client.js
-        //Trello.setKey('9c290b09647746a80b636a8fd31aeec1');
-
+$(document).ready(function() {
+    var matches = window.location.href.match(/\/(.{8})\//);
+    if (matches && matches.length > 1) boardId = matches[1];
         // Install TrelloX on page load
         setTimeout( function() {
             console.log("TrelloX: Waiting...");
@@ -42,37 +35,39 @@ function onWindowReady() {
             setTimeout(function() {
                 // If we're not editing a Card, update formatting
                 if (document.URL.includes('/b')) {
-                    updateCards();
+                    updateTrelloX();
                 }
                 // When a Card is closed
                 if (lastURL.includes('/c') && document.URL.includes('/b')) {
-                    
+
                     // Update lastUrl
                     window.lastUrl = document.URL;
                 }
             },20);
         });
-    }
-}
+
+
+
+});
 
 // Installer function for TrelloX extension
 function installTrelloX() {
     console.log("TrelloX: Installing...");
-	
-    // Create toggle buttons in header
-	createButtons();
-    
+
     // Hide Lists that were previously hidden
     hideLists();
-	
+
 	// Update Cards with TrelloX formatting
-	updateCards();
-    
+	updateTrelloX();
+
     // Reveal the Board once TrelloX is drawn
 	$('#board').delay(10).animate({ opacity: 1 }, 100);
 }
 
-function updateCards() {
+function updateTrelloX() {
+    // Create toggle buttons in header
+	createButtons();
+
 	updateCardTags();
     replaceSubtasks(getSubtasksHidingState());
 	addCardNumbers();
@@ -81,17 +76,18 @@ function updateCards() {
 
 // Create TrelloX buttons
 function createButtons() {
+
 	// We want to run this function exactly twice...
 	let		buttonDrawCount = 0,
 			isHiddenNumbers = (localStorage.getItem('trelloXNumbers') === 'true') ? 'On' : 'Off',
 			isHiddenSubtasks = (localStorage.getItem('trelloXSubtasks') === 'true') ? 'On' : 'Off';
-		
+
 	// Draw the "Subtasks: On/Off" button in the top RHS of the screen
 	let buttonSubtasks = $('<a class="board-header-btn trellox-subtasks-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-add"></span>' +
 	'<span class="board-header-btn-text" title="Show or hide subtask cards.">Subtasks ' + isHiddenSubtasks + '</span>' +
 	'</a>');
-	
+
 	// Draw the "Numbers: On/Off" button in the top RHS of the screen
 	let buttonNumbers = $('<a class="board-header-btn trellox-numbers-btn" href="#">' +
 	'<span class="board-header-btn-icon icon-sm icon-number"></span>' +
@@ -103,7 +99,7 @@ function createButtons() {
 		buttonSubtasks.on('click', function() {
 			replaceSubtasks(!getSubtasksHidingState());
 		});
-		
+
 		buttonNumbers.on('click', function() {
 			replaceNumbers(!getNumbersShowingState());
 		});
@@ -116,7 +112,7 @@ function createButtons() {
 		if (buttonDrawCount === 0) {
 			buttonDrawCount = 1;
 		}
-		
+
 		$(buttonNumbers).insertBefore('.sub-btn');
 		if (buttonDrawCount === 0) {
 			buttonDrawCount = 1;
@@ -194,7 +190,7 @@ function hideLists() {
 						}
 					});
 				});
-				
+
 				thisList.parentNode.parentNode.parentNode.setAttribute('draggable', true);
 				// Insert collapse icon
 				thisList.parentNode.insertBefore(collapseIcon, thisList);
@@ -217,7 +213,7 @@ function hideLists() {
 						event.target.classList.remove('collapsed');
 						listClosed = true;
 					}, 200);
-				} 
+				}
 				else {
 					listClosed = false;
 				}
@@ -225,7 +221,7 @@ function hideLists() {
 			// When leaving a previously closed List, clear the timeout and re-close it
 			out: (event) => {
 				clearTimeout(openList);
-				
+
 				if (listClosed) {
 					event.target.classList.add('collapsed');
 				}
@@ -248,10 +244,10 @@ function addCardNumbers() {
 	cards.each( function() {
         // If all new Cards have fully loaded
         if( $( this ).attr( 'href' ) !== undefined ) {
-            
+
             // If the Card doesn't yet have a Number
             if( $( this ).find( 'span.card-short-id' ).length === 0 ) {
-            
+
                 // Find the Card's Number from its URL
                 let cardURL = $( this ).attr( 'href' ),
                     afterFirstDelimiter = cardURL.lastIndexOf( '/' ) + 1,
@@ -266,11 +262,12 @@ function addCardNumbers() {
                     // Then add the Card Number as either hidden or shown
                     $( numberHolder ).append( '<span class="card-short-id ' + isHiddenNumber + '">#' + cardNumber + '</span>' );
             }
-        } else {
-            // Otherwise wait until all new Cards have loaded
-            setTimeout( function() {
-                addCardNumbers();
-            },100);
+        //} else {
+            // CAUSING MASSIVE PERFORMANCE HIT
+        //    // Otherwise wait until all new Cards have loaded
+        //    setTimeout( function() {
+        //        addCardNumbers();
+        //    },1000);
         }
         //}
 	});
@@ -279,20 +276,20 @@ function addCardNumbers() {
 function updateCardTags() {
 	// Add #tag, @mention, !hh:mm, header, and newline formatting to all Cards
     let cards = document.querySelectorAll( '.list-card-title', '#board' );
-    
+
     for( let i = 0,j = cards.length;i < j;i++ ) {
 		if ( cards.item(i).innerText.substring(0,2) === '##' || cards.item(i).innerHTML.includes( '</h3>' )) { // If Card is a header Card
 			 cards.item(i).innerHTML = cards.item(i).innerHTML.replace( /#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>' ); // Format title as a <h3>
-		} 
+		}
 		else if ( cards.item(i).innerText.substring(0,1) === '+' || cards.item(i).innerText.substring(0,1) === '﻿' ) {
                   cards.item(i).parentNode.parentNode.classList.add( 'subtask' );			// Make subtask
-		} 
+		}
 		else {
 			if ( cards.item(i).innerText === '---' || cards.item(i).innerText.includes( '☰' ) ) { // If Card is a separator Card, replace '---' with hamburger
 				 cards.item(i).innerHTML = cards.item(i).innerHTML.replace( /\-{3}/, '☰' );	// Replace '---' with gripper symbol '☰'
 				 cards.item(i).parentNode.parentNode.classList.add( 'clear' );				// Make background transparent
 				 cards.item(i).classList.add( 'clear' );									// Make text transparent
-			} 
+			}
 			else {																// For all other cards...
 				 cards.item(i).parentNode.parentNode.classList.remove( 'clear' );			// Remove background transparency
 				 cards.item(i).classList.remove( 'clear' );									// Remove text transparency
@@ -317,7 +314,7 @@ function replaceNumbers(state) {
 	if (state) {
 		localStorage.setItem('trelloXNumbers', 'true');
 		$button.text('Numbers On');
-	} 
+	}
 	else {
 		localStorage.setItem('trelloXNumbers', 'false');
 		$button.text('Numbers Off');
@@ -340,7 +337,7 @@ function getNumbersShowingState() {
 
 function getSubtasksHidingState() {
     // Return if Subtask hiding is On or Off
-    
+
 	if( localStorage.getItem( 'trelloXSubtasks' ) === null ) {
 		// If Subtasks haven't been used before, assume Subtask hiding is Off
 		return true;
@@ -356,7 +353,7 @@ function replaceSubtasks(state) {
 	if (state) {
 		localStorage.setItem('trelloXSubtasks', 'true');
 		$button.text('Subtasks On');
-	} 
+	}
 	else {
 		localStorage.setItem('trelloXSubtasks', 'false');
 		$button.text('Subtasks Off');
@@ -370,7 +367,7 @@ function refreshNumbers(state) {
 	if (state) {
 		//console.log('Remove class .hide');
 		$('.card-short-id').removeClass('hide');
-	} 
+	}
 	else {
 		//console.log('Add class .hide');
 		$('.card-short-id').addClass('hide');
@@ -382,7 +379,7 @@ function refreshSubtasks(state) {
 	if (state) {
 		//console.log('Remove class .hide');
 		$('.subtask').removeClass('hide');
-	} 
+	}
 	else {
 		//console.log('Add class .hide');
 		$('.subtask').addClass('hide');
@@ -424,7 +421,7 @@ function listChange() {
 			beforeLastDelimiter = document.URL.lastIndexOf('/'),
 			boardID = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
 
-	
+
 
 	// First get our chrome data
 	chrome.storage.sync.get('trellox', function (listClosed) {
@@ -479,9 +476,9 @@ function boardChange(summaries) {
         // Workaround for Trello dropping data connection on DOM change
         console.log("TrelloX: Forcing page reload...");
         location.reload();
-        
+
 		// Run installer function
-		onWindowReady();
+		installTrelloX();
 	}
 
     /////***********************************************************
@@ -511,7 +508,7 @@ function handleCardClose() {
 	//console.log('handle card close summary:', summaries[0]);
 }
 
-/*function refreshLinks() { 
+/*function refreshLinks() {
 	// Make Card links clickable
 	$(".card-link").on("mouseover", function() {
 		let		rect = this.getBoundingClientRect(),

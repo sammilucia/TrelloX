@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "TrelloX",
-	"version": "1.5",
+	"version": "1.7",
 	"description": "Trello with focus.",
 	"homepage_url": "https://trellox.io",
 
@@ -21,7 +21,7 @@
 	"content_scripts": [{
 		"matches": ["*://trello.com/*"],
 		"css": ["css/styles.css"],
-		"js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js", "js/client.js"]
+		"js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
 	}],
-	"permissions": ["storage", "webNavigation", "background", "*://trello.com/*"]
+	"permissions": ["storage", "*://trello.com/*"]
 }
