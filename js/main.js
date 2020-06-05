@@ -278,30 +278,31 @@ function updateCardTags() {
     let cards = document.querySelectorAll( '.list-card-title', '#board' );
 
     for( let i = 0,j = cards.length;i < j;i++ ) {
-		if ( cards.item(i).innerText.substring(0,2) === '##' || cards.item(i).innerHTML.includes( '</h3>' )) { // If Card is a header Card
-			 cards.item(i).innerHTML = cards.item(i).innerHTML.replace( /#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>' ); // Format title as a <h3>
-		}
-		else if ( cards.item(i).innerText.substring(0,1) === '+' || cards.item(i).innerText.substring(0,1) === '﻿' ) {
-                  cards.item(i).parentNode.parentNode.classList.add( 'subtask' );			// Make subtask
-		}
-		else {
-			if ( cards.item(i).innerText === '---' || cards.item(i).innerText.includes( '☰' ) ) { // If Card is a separator Card, replace '---' with hamburger
-				 cards.item(i).innerHTML = cards.item(i).innerHTML.replace( /\-{3}/, '☰' );	// Replace '---' with gripper symbol '☰'
-				 cards.item(i).parentNode.parentNode.classList.add( 'clear' );				// Make background transparent
-				 cards.item(i).classList.add( 'clear' );									// Make text transparent
+			if ( cards.item(i).innerText.substring(0,2) === '##' ) { //}|| cards.item(i).innerHTML.includes( '</h3>' )) { 	// If Card Title starts with '##'
+				 cards.item(i).innerHTML = '<h3 style="margin: 0;">' + cards.item(i).innerText.substring(2,) + '</h3>'; 			// Format it as a Header Card
+				 // cards.item(i).innerHTML.replace( /#{2}(.+)/, '<h3 style="margin: 0;">$1</h3>' );
 			}
-			else {																// For all other cards...
-				 cards.item(i).parentNode.parentNode.classList.remove( 'clear' );			// Remove background transparency
-				 cards.item(i).classList.remove( 'clear' );									// Remove text transparency
-				 cards.item(i).parentNode.parentNode.classList.remove( 'subtask' );			// Remove subtask
-				 cards.item(i).innerHTML = cards.item(i).innerHTML
-				 .replace( /\\{1}/, '</br>' )										// Replace new lines first
-				 .replace( /#{1}([a-z-_]+)/gi, '<span class="card-tag">#﻿$1</span>' ) // Replace # followed by any character until a space
-				 .replace( /@([a-z-_]+)/gi, '<strong>@﻿$1</strong>' )				// Replace @ followed by any character until a space
-				 .replace( /!([a-z0-9-_!:.]+)/gi, '<code>$1</code>' );				// Replace ! followed by any character until a space
-                 //.replace( /\[([+:\/.\-%?=#_&@0-9a-z]+)\]/gi, '<a href="$1">$1</>' ); // Replace [] with hyperlink
-				 //.replace(/\[(\+?[0-9() -]{5,20})\]/g, '<a class="card-link" tasrget="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
-				 //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
+			else if ( cards.item(i).innerText.substring(0,1) === '+' ) { 												  // If Card Title starts with '+'
+	      cards.item(i).parentNode.parentNode.classList.add( 'subtask' );											// Convert to Subtask Card
+			}
+			else {
+				if ( cards.item(i).innerText === '' || cards.item(i).innerText.includes( '☰' ) ) { 	// If Card is a Trello or TrelloX Separator Card...
+					 cards.item(i).innerHTML = ( '☰' );																								// Replace Trello's default blank separator with gripper symbol '☰'
+					 cards.item(i).parentNode.parentNode.classList.add( 'clear' );										// Make background transparent
+					 cards.item(i).classList.add( 'clear' );																					// Make text transparent
+				}
+				else {																// For all other cards...
+					 cards.item(i).parentNode.parentNode.classList.remove( 'clear' );			// Remove background transparency
+					 cards.item(i).classList.remove( 'clear' );									// Remove text transparency
+					 //cards.item(i).parentNode.parentNode.classList.remove( 'subtask' );			// Remove subtask
+					 cards.item(i).innerHTML = cards.item(i).innerHTML
+					 .replace( /\\{1}/, '</br>' )										// Replace new lines first
+					 .replace( /#{1}([a-z-_]+)/gi, '<span class="card-tag">#﻿$1</span>' ) // Replace # followed by any character until a space
+					 .replace( /@([a-z-_]+)/gi, '<strong>@﻿$1</strong>' )				// Replace @ followed by any character until a space
+					 .replace( /!([a-z0-9-_!:.]+)/gi, '<code>$1</code>' );				// Replace ! followed by any character until a space
+	                 //.replace( /\[([+:\/.\-%?=#_&@0-9a-z]+)\]/gi, '<a href="$1">$1</>' ); // Replace [] with hyperlink
+					 //.replace(/\[(\+?[0-9() -]{5,20})\]/g, '<a class="card-link" tasrget="_blank" href="tel:$1">$1</a>')// Make phone numbers clickable
+					 //.replace(/\[https?:\/\/([\S]+)\]/g, '<a class="card-link" target="_blank" href="//$1">$1</a>')// Make HTTP(S) links clickable
 			}
 		}
 	}
@@ -339,7 +340,7 @@ function getSubtasksHidingState() {
     // Return if Subtask hiding is On or Off
 
 	if( localStorage.getItem( 'trelloXSubtasks' ) === null ) {
-		// If Subtasks haven't been used before, assume Subtask hiding is Off
+		// If Subtasks haven't been used before, turn Subtasks ar On
 		return true;
 	}
 	else {

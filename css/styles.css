@@ -70,6 +70,11 @@ code { font-size: 12px; color: #4d4d4d; }
 	color: #9b9b9b;
 	text-shadow: none;
 }
+/* Removes default Trello spacer line */
+._3Zo5oGEJ9Enqr7:before {
+  border-top: none !important;
+}
+
 .list-card.subtask {
 	color: #4d4941;
 	background: none;
@@ -175,4 +180,47 @@ textarea.mod-list-name {
 /* Lighten in-Card icons - (not working yet, appears to refresh dynamically) *//
 .badge-icon .icon-sm {
 	color: #ddd;
+}
+
+.quiet, .quiet a {
+  color: #a3acb1 !important;
+}
+
+.action-comment {
+  background: none !important;
+  box-shadow: none !important;
+  margin: 0px !important;
+}
+
+.phenom.is-editing .action-comment {
+  background-color: #fff !important;
+  box-shadow: 0 4px 8px -2px rgba(9,30,66,.25), 0 0 0 1px rgba(9,30,66,.08) !important;
+}
+
+
+.action-comment .current-comment {
+  padding: 4px 0px 0px 0px !important;
+}
+
+.meta-add-reaction .reactions-add .reactions-add-icon,
+.js-edit-action,
+.js-confirm-delete-action {
+  color: #a3acb1 !important;
+}
+
+.phenom-reactions {
+  margin-right: 0px !important;
+  margin-left: 405px !important;
+  display: none !important;
+  margin-bottom: 1px !important;
+  margin-top: -24.5px;
+  line-height: 20px !important!
+}
+
+.phenom:hover .phenom-reactions {
+    display: flex !important;
+}
+
+.phenom-meta {
+  min-width: 0px !important;
 }
