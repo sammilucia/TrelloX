@@ -22,11 +22,10 @@ const cardOpenedObserver = new MutationSummary({ // jshint ignore:line
 
 // Entry point into TrelloX extension
 $(document).ready(function() {
-    var matches = window.location.href.match(/\/(.{8})\//);
+    let matches = window.location.href.match(/\/(.{8})\//);
     if (matches && matches.length > 1) boardId = matches[1];
         // Install TrelloX on page load
         setTimeout( function() {
-            console.log("TrelloX: Waiting...");
             installTrelloX();
         },2000);
 
@@ -43,7 +42,7 @@ $(document).ready(function() {
                     // Update lastUrl
                     window.lastUrl = document.URL;
                 }
-            },20);
+            },2000);
         });
 
 
@@ -52,33 +51,32 @@ $(document).ready(function() {
 
 // Installer function for TrelloX extension
 function installTrelloX() {
-    console.log("TrelloX: Installing...");
 
-    // Hide Lists that were previously hidden
-    hideLists();
+  // Hide Lists that were previously hidden
+  hideLists();
 
 	// Update Cards with TrelloX formatting
 	updateTrelloX();
 
-    // Reveal the Board once TrelloX is drawn
+  // Reveal the Board once TrelloX is drawn
 	$('#board').delay(10).animate({ opacity: 1 }, 100);
 }
 
 function updateTrelloX() {
-    // Create toggle buttons in header
+  // Create toggle buttons in header
 	createButtons();
 
 	updateCardTags();
-    replaceSubtasks(getSubtasksHidingState());
+  replaceSubtasks(getSubtasksHidingState());
 	addCardNumbers();
-    replaceNumbers(getNumbersShowingState());
+  replaceNumbers(getNumbersShowingState());
 }
 
 // Create TrelloX buttons
 function createButtons() {
 
 	// We want to run this function exactly twice...
-	let		buttonDrawCount = 0,
+	let buttonDrawCount = 0,
 			isHiddenNumbers = (localStorage.getItem('trelloXNumbers') === 'true') ? 'On' : 'Off',
 			isHiddenSubtasks = (localStorage.getItem('trelloXSubtasks') === 'true') ? 'On' : 'Off';
 
@@ -96,27 +94,15 @@ function createButtons() {
 
 	if ($('.trellox-numbers-btn').length === 0 ) {
 		// Add an event handler to toggle displaying the numbers on cards
-		buttonSubtasks.on('click', function() {
-			replaceSubtasks(!getSubtasksHidingState());
-		});
-
-		buttonNumbers.on('click', function() {
-			replaceNumbers(!getNumbersShowingState());
-		});
-
-		//console.log('Add button to board header now');
-		//console.log('Board header is:', $('.board-header-btns.mod-right'));
+		buttonSubtasks.on( 'click', () => replaceSubtasks( !getSubtasksHidingState() ) );
+		buttonNumbers.on( 'click', () => replaceNumbers( !getNumbersShowingState() ) );
 
 		// Prepend this to the board-header-btns.mod-right body (it appears on LHS due to prepend)
 		$(buttonSubtasks).insertBefore('.sub-btn');
-		if (buttonDrawCount === 0) {
-			buttonDrawCount = 1;
-		}
-
 		$(buttonNumbers).insertBefore('.sub-btn');
+
 		if (buttonDrawCount === 0) {
-			buttonDrawCount = 1;
-		}
+			buttonDrawCount = 1; }
 	}
 }
 
@@ -125,26 +111,18 @@ function createButtons() {
 function hideLists() {
 	// If there are no collapsed Lists...
 	if (!document.querySelector('.collapse-icon', '#board')) {
-		//console.log('No collapsed lists, let us generate');
 
 		// Use URL to find the boardID
 		let	afterFirstDelimiter = document.URL.indexOf('/b/') + 3,
 			beforeLastDelimiter = document.URL.lastIndexOf('/'),
 			boardID = document.URL.substring(afterFirstDelimiter, beforeLastDelimiter);
 
-		//console.log('Board ID is:', boardID);
 		let listIndex = 0;
 			//willClose = false;
 
 		// First get our chrome data
 		chrome.storage.sync.get('trellox', function (listClosed) {
-			let closedListData = listClosed.trellox;
-
-
-			// No storage at all, create empty object
-			if (typeof closedListData === 'undefined') {
-				closedListData = {};
-			}
+			let closedListData = listClosed.trellox ?? {};
 
 			// For each list in board
 			document.querySelectorAll('.list-header-name', '#board').forEach(function (thisList) {
@@ -168,11 +146,9 @@ function hideLists() {
 				collapseIcon.addEventListener('click', function (event) {
 					// if we have an empty object, it means the list hasn't been handled before
 					if (Object.keys(closedListData).length === 0) {
-						//console.log('Have empty object, set listClosed to true');
 						closedListData[listName] = true;
 					}
 					else {
-						//console.log('Have result, fetching value');
 						// If no value, set to true, else get inverse of current value
 						closedListData[listName] = (typeof closedListData[listName] === 'undefined') ? true : !closedListData[listName];
 					}
@@ -180,12 +156,9 @@ function hideLists() {
 					// Set storage data
 					chrome.storage.sync.set({'trellox': closedListData}, function () {
 						if (chrome.runtime.error || chrome.runtime.lastError) {
-							//console.log('Runtime error:', chrome.runtime.error);
-							//console.log('Runtime last error:', chrome.runtime.lastError);
 						}
 						else {
 							// Toggle the 'collapsed' class on successful save
-							//console.log('Successfully saved:', closedListData);
 							event.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
 						}
 					});
@@ -366,11 +339,9 @@ function replaceSubtasks(state) {
 function refreshNumbers(state) {
 	// Add Card #numbers
 	if (state) {
-		//console.log('Remove class .hide');
 		$('.card-short-id').removeClass('hide');
 	}
 	else {
-		//console.log('Add class .hide');
 		$('.card-short-id').addClass('hide');
 	}
 }
@@ -378,11 +349,9 @@ function refreshNumbers(state) {
 function refreshSubtasks(state) {
 	// Add Card #Subtasks
 	if (state) {
-		//console.log('Remove class .hide');
 		$('.subtask').removeClass('hide');
 	}
 	else {
-		//console.log('Add class .hide');
 		$('.subtask').addClass('hide');
 	}
 }
@@ -401,10 +370,8 @@ function cardChange(summaries) {
 						beforeSecondDelimiter = $(listCard).attr('href').indexOf('-'),
 						cardNumber = $(listCard).attr('href').slice(afterFirstDelimiter, beforeSecondDelimiter);
 
-				//console.log('Card Number is:', cardNumber);
 				// Get the section of html we want to add the card # to
 				let numberHolder = $(listCard).find('.list-card-title.js-card-name');
-				//console.log('numberHolder is:', numberHolder);
 				let isHiddenNumber = (localStorage.getItem('trelloXNumbers') !== 'true') ? 'hide' : '';
 				// Add the card number span
 				$(numberHolder).append("<span class='card-short-id " + isHiddenNumber + "'>#" + cardNumber + "</span>");
@@ -442,11 +409,9 @@ function listChange() {
 		collapseIcon.addEventListener('click', function (event) {
 			// if we have an empty object, it means the list hasn't been handled before
 			if (Object.keys(closedListData).length === 0) {
-				console.log('Have empty object, set listClosed to true')
 				closedListData[listName] = true;
 			}
 			else {
-				console.log('Have result, fetching value');
 				// If no value, set to true, else get inverse of current value
 				closedListData[listName] = (typeof closedListData[listName] === 'undefined') ? true : !closedListData[listName];
 			}
@@ -454,12 +419,9 @@ function listChange() {
 			// Set storage data
 			chrome.storage.sync.set({'trellox': closedListData}, function () {
 				if (chrome.runtime.error || chrome.runtime.lastError) {
-					console.log('Runtime error:', chrome.runtime.error);
-					console.log('Runtime last error:', chrome.runtime.lastError);
 				}
 				else {
 					// Toggle the 'collapsed' class on successful save
-					console.log('Successfully saved:', closedListData);
 					event.target.parentNode.parentNode.parentNode.classList.toggle('collapsed');
 				}
 			});
@@ -471,11 +433,9 @@ function boardChange(summaries) {
 
 	// If we're still on a url that is a /b/ (board) url, and it's different to the last url...
 	if (document.URL.includes('/b/') && document.URL !== lastURL) {
-		//console.log('TrelloX: Board changed');
 		lastURL = document.URL;
 
         // Workaround for Trello dropping data connection on DOM change
-        console.log("TrelloX: Forcing page reload...");
         location.reload();
 
 		// Run installer function
@@ -506,7 +466,6 @@ function boardChange(summaries) {
 }
 
 function handleCardClose() {
-	//console.log('handle card close summary:', summaries[0]);
 }
 
 /*function refreshLinks() {
@@ -544,12 +503,9 @@ function handleCardClose() {
 }*/
 
 function cardOpen(summaries) {
-	//console.log('Checking card status');
-	//console.log('Summary is:', summaries[0]);
 
 	// Run replaceCardViewDetails()
 	if (summaries[0].added.length > 0) {
-		//console.log('Replace card detail view');
 		replaceCardDetailsView();
 	}
 }

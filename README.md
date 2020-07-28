@@ -49,6 +49,12 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2020-02-01 version 1.7.2 beta
+- This is the start of the a code tidy-up and performance improvements
+
+### 2020-02-01 version 1.7.1 beta
+- Restored TrelloX style Separator Cards (now Trello has implemented their own)
+
 ### 2020-02-01 version 1.7 beta
 - Fixed position inconsistencies between Chrome versions
 
