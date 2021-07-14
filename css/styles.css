@@ -10,11 +10,6 @@ code { font-size: 12px; color: #4d4d4d; }
 .badge { color: #a3acb1; }
 .badge-icon { color: #b3bcc1; }
 
-/* Hide all lists until TrelloX is installed */
-#board {
-	opacity: 0;
-}
-
 /* Need to add '.new' to the below three and toggle between them */
 /* Move Card details right to accommodate new Labels */
 .list-card {

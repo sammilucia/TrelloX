@@ -49,6 +49,10 @@ A Chrome extension to give Trello a more up-to-date user experience, reducing cl
 2. Elegant and fast
 
 ## History
+### 2020-02-01 version 1.8.0 beta
+- Removed dependency on mutation-summary
+- Reworked how TrelloX installs to make it much more performant
+
 ### 2020-02-01 version 1.7.2 beta
 - This is the start of the a code tidy-up and performance improvements
 

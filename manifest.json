@@ -1,27 +1,40 @@
 {
 	"manifest_version": 2,
+
 	"name": "TrelloX",
-	"version": "1.7.2",
+
 	"description": "Trello with focus.",
+
+	"author": "Samantha Glocker",
+
+	"version": "1.8",
+
 	"homepage_url": "https://trellox.io",
 
-	"icons": {
-		"16": "img/icon16.png",
-		"48": "img/icon48.png",
-		"128": "img/icon128.png"
+	"icons":
+	{
+		"16":	"img/icon16.png",
+		"48":	"img/icon48.png",
+		"128":	"img/icon128.png"
 	},
-	"browser_action": {
-		"default_icon": {
+
+	"browser_action":
+	{
+		"default_icon":
+		{
 			"16": "img/icon16.png",
 			"24": "img/icon24.png",
 			"32": "img/icon32.png"
 		},
 		"default_title": "TrelloX. Trello with focus."
 	},
-	"content_scripts": [{
-		"matches": ["*://trello.com/*"],
-		"css": ["css/styles.css"],
-		"js": ["js/jquery.js", "js/jquery-ui.js", "js/mutation-summary.js", "js/main.js"]
+
+	"content_scripts":
+	[{
+		"matches":	["*://trello.com/*"],
+		"css": 		["css/styles.css"],
+		"js": 		["js/jquery.js", "js/jquery-ui.js", "js/main.js"]
 	}],
+
 	"permissions": ["storage", "*://trello.com/*"]
 }
